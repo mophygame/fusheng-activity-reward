@@ -28,10 +28,11 @@ jobs:
 
       - name: Prepare static site
         run: |
-          mkdir -p _site/src _site/assets
+          mkdir -p _site/src _site/assets _site/data
           cp index.html styles.css _site/
           cp -R src/. _site/src/
           cp -R assets/. _site/assets/
+          cp -R data/. _site/data/
           touch _site/.nojekyll
 
       - name: Configure Pages
