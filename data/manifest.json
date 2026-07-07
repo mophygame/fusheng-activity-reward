@@ -1,0 +1,7 @@
+{
+  "routes": "./data/routes.json",
+  "chapters": {
+    "prologue": "./data/chapters/prologue.json"
+  },
+  "startChapter": "prologue"
+}

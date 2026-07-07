@@ -7,52 +7,29 @@ const GAME_STATE = Object.freeze({
   CHAPTER: "chapter",
 });
 
-const prologueDialogue = [
-  { speaker: "旁白", character: null, text: "雨下得正急。你循著一盞將熄的燈，推開了巷尾那扇從未見過的門。" },
-  { speaker: "書肆主人 · 眠", character: "mian", text: "姑娘，夜半入店，可是來尋一本忘了名字的書？" },
-  { speaker: "你", character: null, text: "我只是避雨。這裡……賣的都是書卷嗎？" },
-  { speaker: "書肆主人 · 沐", character: "mu", text: "眠，你別嚇著客人。既然進了門，便是與這些書有緣。" },
-  { speaker: "書肆主人 · 眠", character: "mian", text: "尋常書卷記人間事；我們這裡的，記的是人間未了之事。" },
-  { speaker: "你", character: null, text: "未了之事……也包括已經忘記的人嗎？" },
-  { speaker: "書肆主人 · 沐", character: "mu", text: "五卷命書，五位故人。有人等你一世，也有人等了不只一世。" },
-  { speaker: "書肆主人 · 眠", character: "mian", text: "選吧。只是書卷一開，前塵便再也不能只當作一場夢了。" },
-];
+class StoryLoader {
+  static async load(manifestPath = "./data/manifest.json") {
+    const manifest = await this.fetchJson(manifestPath);
+    const routes = await this.fetchJson(manifest.routes);
+    const chapterEntries = await Promise.all(
+      Object.entries(manifest.chapters).map(async ([id, path]) => [id, await this.fetchJson(path)]),
+    );
 
-const returnedDialogue = [
-  { speaker: "旁白", character: null, scene: "shop", text: "最後一卷在你指下闔起，五道墨色印記同時泛起微光，而後歸於沉寂。" },
-  { speaker: "書肆主人 · 沐", character: "mu", scene: "shop", text: "五卷皆閱，看來你已經見過那些等在前塵裡的人了。" },
-  { speaker: "書肆主人 · 眠", character: "mian", scene: "shop", text: "不過，若只看他們的故事，仍不足以明白一切從何而起。" },
-  { speaker: "書肆主人 · 沐", character: "mu", scene: "shop", text: "你可想知道，大封王朝真正的歷史？" },
-];
+    const chapters = Object.fromEntries(chapterEntries);
+    return {
+      manifest,
+      routes,
+      chapters,
+      currentChapter: chapters[manifest.startChapter],
+    };
+  }
 
-const laterDialogue = [
-  { speaker: "書肆主人 · 眠", character: "mian", scene: "shop", text: "無妨。歷史不會離去，它只會在書頁深處，等你願意回頭。" },
-  { speaker: "旁白", character: null, scene: "shop", text: "右上方的命書印記微微發亮。你隨時可以重開五卷，也可以再次詢問大封舊史。" },
-];
-
-const historyIntroDialogue = [
-  { speaker: "書肆主人 · 沐", character: "mu", scene: "shop", text: "既然你願意問，我們便從五卷命書共同遺漏的那一年說起。" },
-  { speaker: "書肆主人 · 眠", character: "mian", scene: "shop", text: "大封建國一百二十七年，史冊只留下盛世二字，卻抹去了赤京城裡的一場血雨。" },
-  { speaker: "書肆主人 · 沐", character: "mu", scene: "shop", text: "接下來所見，並非夢境。那是命書替你保存至今的歷史殘影。" },
-  { speaker: "書肆主人 · 眠", character: "mian", scene: "shop", text: "莫要移開目光。故事，便從那扇宮門開啟之時開始。" },
-];
-
-const chapterDialogue = [
-  { speaker: "旁白", character: null, scene: "city", text: "大封建國一百二十七年，北境風雪未歇，赤京城內卻已暗潮洶湧。" },
-  { speaker: "書肆主人 · 沐", character: "mu", scene: "city", text: "史書說，那一年天下太平。可寫史的人，從來不會記下每一個被犧牲的名字。" },
-  { speaker: "書肆主人 · 眠", character: "mian", scene: "shop", text: "五卷命書，正是在那場被抹去的舊事裡彼此交會。" },
-  { speaker: "你", character: null, scene: "city", text: "所以我看見的前世，不只是五段彼此無關的故事？" },
-  { speaker: "書肆主人 · 沐", character: "mu", scene: "city", text: "不。它們共同指向一場宮變、一紙密詔，還有一個不該被歷史忘記的人。" },
-  { speaker: "旁白", character: null, scene: "city", text: "第一章 · 山雨欲來。遠處宮門緩緩開啟，你聽見命運重新落筆的聲音。" },
-];
-
-const routes = [
-  { id: "zhaoxue", glyph: "燈", title: "火闌珊", name: "魏諍", era: "前世 · 帝業遺錄", role: "黃奕澤", modernRole: "雜貨店老闆", ancientRole: "封文帝", seal: "燈", portraitTone: "#27313d", tone: "linear-gradient(145deg, #27313d, #12171e)", line: "贈爾之鈴鐺，一步一響，一步一嚮。", background: "朕這一生，為江山、為百姓，可當朕第一眼見到妳時，才恍然，原來朕想要的是與妳白頭偕老，執子之手。\r\n\r\n「若來世，不復相見」\r\n是朕用盡力氣給妳最後的祝福。", letter: "信件內容。", wish: "吾願以吾名起誓，換汝一生平安。" },
-  { id: "fenxin", glyph: "晝", title: "行夜已", name: "上官映雪", era: "前世 · 玉階殘雪", role: "褚晏時", modernRole: "街頭藝術家", ancientRole: "上官皇后", seal: "晝", portraitTone: "#592a21", tone: "linear-gradient(145deg, #4a211d, #160e0d)", line: "他曾以一城風雪，換你平安離去。今生再見，卻唯獨不記得你。", background: "裴燼掌管龐大的家族企業，行事強勢，從不容許任何事脫離掌控。前世他坐擁天下，卻在權力與你之間做錯了選擇；今生所有看似偶然的相遇，其實都是他精心安排的重逢。", letter: "信件內容。", wish: "願以江山為聘，只換卿回眸。" },
-  { id: "tingyue", glyph: "餘", title: "罪成判", name: "魏猙", era: "前世 · 懿德秘錄", role: "白霽", modernRole: "百貨公司美妝頂級銷售", ancientRole: "懿德殿掌事太監", seal: "餘", portraitTone: "#294644", tone: "linear-gradient(145deg, #263d3b, #101918)", line: "你我這一生，禍福相倚，事事不由己，若還有來世，吾希望吾還是在後院讀著洛神賦的魏猙。", background: "前世與今生，我所追求的是隨心所欲，能與相愛之人相守、鬥蛐蛐、觀戲曲。\r\n可造化弄人，竟讓我成了這般連自己都認不出的鬼樣子。\r\n這一世，我的死不是遺憾，而是我終於能為自己選擇一次，選擇留在那個被稱為藝術之都的起源。", letter: "信件內容。", wish: "逝於我此生所熱愛的美裡。" },
-  { id: "wuxiang", glyph: "燼", title: "然後星", name: "霍驍", era: "前世 · 烽煙紀略", role: "祁烈", modernRole: "武打演員替身", ancientRole: "玄甲將軍", seal: "燼", portraitTone: "#403047", tone: "linear-gradient(145deg, #33263d, #151019)", line: "他替天下人算盡命數，卻把你的名字，藏在無人能解的卦中。", background: "謝無妄擅長看穿謊言，卻從不談自己的過去。他以理性分析所有命運般的巧合，只有面對你時，冷靜的判斷總會出現裂縫。前世他竄改天命救你，也因此被抹去了姓名。", letter: "信件內容", wish: "願逆天命，護卿一世無憂。" },
-  { id: "shanhe", glyph: "絮", title: "果如執", name: "疾風", era: "前世 · 鐵騎殘卷", role: "馬唯冀", modernRole: "馬術教練", ancientRole: "寶馬", seal: "絮", portraitTone: "#38494d", tone: "linear-gradient(145deg, #334044, #101718)", line: "本馬這一生，斬昏君，平邊疆，馳騁沙場戰八方\r\n也算半個皇帝\r\n但居然折在這死戀愛腦狗皇帝手上\r\n我就問！殉情就殉情，拖著我幹啥？\r\n得，怕是黃泉路你倆嘮嗑會腳酸是吧？", background: "本馬呼籲\r\n騎馬不徇情，要死自己死\r\n請遵守交通規則\r\n\r\n他馬的\r\n咦ㄩ～～～（馬叫聲）", letter: "信件內容", wish: "願與卿遵守交通規則。" },
-];
+  static async fetchJson(path) {
+    const response = await fetch(path, { cache: "no-cache" });
+    if (!response.ok) throw new Error(`Cannot load ${path}`);
+    return response.json();
+  }
+}
 
 class AudioDirector {
   constructor() {
@@ -157,8 +134,12 @@ class AudioDirector {
 class OtomeGame {
   constructor() {
     this.state = GAME_STATE.TITLE;
+    this.story = null;
+    this.currentChapter = null;
+    this.routes = [];
+    this.scripts = {};
     this.dialogueIndex = 0;
-    this.dialogueScript = prologueDialogue;
+    this.dialogueScript = [];
     this.onDialogueComplete = () => this.showScrollSelect();
     this.lastSpeaker = "mian";
     this.selectedRoute = null;
@@ -169,6 +150,7 @@ class OtomeGame {
 
     this.el = {
       scene: document.querySelector("#scene"),
+      sceneBg: document.querySelector(".scene-bg"),
       title: document.querySelector("#title-screen"),
       story: document.querySelector("#story-screen"),
       enter: document.querySelector("#enter-button"),
@@ -176,6 +158,7 @@ class OtomeGame {
       music: document.querySelector("#music-toggle"),
       books: document.querySelector("#books-toggle"),
       shopkeepers: document.querySelector("#shopkeepers"),
+      characterStage: document.querySelector("#character-stage"),
       chapter: document.querySelector("#chapter-card"),
       panel: document.querySelector("#dialogue-panel"),
       speaker: document.querySelector("#speaker-name"),
@@ -218,12 +201,30 @@ class OtomeGame {
     };
   }
 
-  start() {
+  async start() {
+    try {
+      this.story = await StoryLoader.load();
+      this.currentChapter = this.story.currentChapter;
+      this.routes = this.story.routes;
+      this.scripts = this.currentChapter.scripts;
+      this.dialogueScript = this.scripts.intro;
+    } catch (error) {
+      console.error("劇情資料載入失敗", error);
+      this.showLoadError();
+      return;
+    }
+
     this.createEmbers();
     this.createScrolls();
     this.bindEvents();
     this.el.books.hidden = true;
     this.updateReadingProgress();
+  }
+
+  showLoadError() {
+    this.el.enter.disabled = true;
+    this.el.enter.querySelector("span").textContent = "資料未載入";
+    this.el.enter.querySelector("small").textContent = "請用 npm start 或 GitHub Pages 開啟";
   }
 
   loadViewedRoutes() {
@@ -240,7 +241,7 @@ class OtomeGame {
     this.el.next.addEventListener("click", () => this.nextDialogue());
     this.el.askHistory.addEventListener("click", () => {
       this.el.askHistory.hidden = true;
-      this.startDialogue(historyIntroDialogue, () => this.playHistoryVideo());
+      this.startDialogue(this.scripts.historyIntro, () => this.playHistoryVideo());
     });
     this.el.panel.addEventListener("click", (event) => {
       if (!event.target.closest("button")) this.nextDialogue();
@@ -276,11 +277,11 @@ class OtomeGame {
     });
     this.el.enterHistory.addEventListener("click", () => {
       this.el.historyChoice.hidden = true;
-      this.startDialogue(historyIntroDialogue, () => this.playHistoryVideo());
+      this.startDialogue(this.scripts.historyIntro, () => this.playHistoryVideo());
     });
     this.el.laterHistory.addEventListener("click", () => {
       this.el.historyChoice.hidden = true;
-      this.startDialogue(laterDialogue, () => this.showHistoryPrompt());
+      this.startDialogue(this.scripts.booksReturnedAgain, () => this.showHistoryPrompt());
     });
     this.el.historyVideo.addEventListener("ended", () => this.finishHistoryVideo());
     [this.el.portraitModern, this.el.portraitAncient].forEach((image) => {
@@ -310,7 +311,7 @@ class OtomeGame {
   }
 
   createScrolls() {
-    routes.forEach((route, index) => {
+    this.routes.forEach((route, index) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "scroll-card";
@@ -353,6 +354,7 @@ class OtomeGame {
     const line = this.dialogueScript[this.dialogueIndex];
     this.el.askHistory.hidden = true;
     this.el.next.hidden = false;
+    this.applyLineDirectives(line);
     this.applyDialogueScene(line.scene);
     if (line.character) this.lastSpeaker = line.character;
     this.el.scene.classList.toggle("speaker-mu", line.character === "mu");
@@ -360,6 +362,8 @@ class OtomeGame {
     this.el.scene.classList.toggle("speaker-neutral", !line.character);
     this.el.scene.classList.toggle("last-speaker-mu", this.lastSpeaker === "mu");
     this.el.scene.classList.toggle("last-speaker-mian", this.lastSpeaker === "mian");
+    this.applySpeakerPosition(line);
+    this.renderStoryCharacters(line);
     this.el.speaker.textContent = line.speaker;
     this.el.progress.textContent = `${String(this.dialogueIndex + 1).padStart(2, "0")} / ${String(this.dialogueScript.length).padStart(2, "0")}`;
     this.typeText(line.text);
@@ -397,6 +401,7 @@ class OtomeGame {
   }
 
   startDialogue(script, onComplete) {
+    if (!script?.length) return;
     this.state = GAME_STATE.DIALOGUE;
     this.dialogueScript = script;
     this.dialogueIndex = 0;
@@ -416,6 +421,89 @@ class OtomeGame {
     if (!scene) return;
     this.el.scene.classList.toggle("scene-chapter-city", scene === "city");
     this.el.scene.classList.toggle("scene-chapter-shop", scene === "shop");
+
+    const sceneData = this.currentChapter?.scenes?.[scene];
+    if (sceneData?.background) {
+      this.el.sceneBg.style.backgroundImage = `url("${sceneData.background}")`;
+    }
+  }
+
+  applyLineDirectives(line) {
+    this.clearMomentEffects();
+
+    if (line.background) {
+      this.el.sceneBg.style.backgroundImage = `url("${line.background}")`;
+    }
+
+    (line.effects || []).forEach((effect) => {
+      const type = typeof effect === "string" ? effect : effect.type;
+      if (type) this.el.scene.classList.add(`effect-${type}`);
+    });
+
+    const shake = line.camera?.shake;
+    if (shake) {
+      this.el.scene.classList.add(`shake-${shake}`);
+      window.setTimeout(() => this.el.scene.classList.remove(`shake-${shake}`), 520);
+    }
+  }
+
+  clearMomentEffects() {
+    this.el.scene.classList.remove(
+      "effect-rain",
+      "effect-flash",
+      "shake-soft",
+      "shake-medium",
+      "shake-strong",
+      "speaker-position-left",
+      "speaker-position-right",
+      "speaker-position-center",
+    );
+  }
+
+  applySpeakerPosition(line) {
+    const position = line.position || "center";
+    this.el.scene.classList.add(`speaker-position-${position}`);
+  }
+
+  renderStoryCharacters(line) {
+    const actors = line.actors || line.characters || (line.portrait ? [{
+      id: line.character,
+      name: line.speaker,
+      portrait: line.portrait,
+      position: line.position || "center",
+      speaking: true,
+    }] : []);
+
+    if (!actors.length) {
+      this.el.characterStage.hidden = true;
+      this.el.characterStage.querySelectorAll(".story-character").forEach((node) => {
+        node.hidden = true;
+      });
+      return;
+    }
+
+    this.el.characterStage.hidden = false;
+    this.el.characterStage.querySelectorAll(".story-character").forEach((node) => {
+      node.hidden = true;
+      node.classList.remove("is-speaking");
+    });
+
+    actors.forEach((actor) => {
+      const id = actor.id || actor.name || "character";
+      let image = this.el.characterStage.querySelector(`[data-character-id="${id}"]`);
+      if (!image) {
+        image = document.createElement("img");
+        image.className = "story-character";
+        image.dataset.characterId = id;
+        this.el.characterStage.appendChild(image);
+      }
+
+      image.src = actor.src || actor.portrait;
+      image.alt = actor.name || id;
+      image.hidden = false;
+      image.className = `story-character story-character-${actor.position || "center"}`;
+      image.classList.toggle("is-speaking", actor.speaking !== false);
+    });
   }
 
   showScrollSelect() {
@@ -482,23 +570,23 @@ class OtomeGame {
   }
 
   updateReadingProgress() {
-    routes.forEach((route) => {
+    this.routes.forEach((route) => {
       const card = this.el.grid.querySelector(`[data-route-id="${route.id}"]`);
       card?.classList.toggle("is-viewed", this.viewedRoutes.has(route.id));
     });
-    this.el.shelveBooks.hidden = this.viewedRoutes.size < routes.length;
+    this.el.shelveBooks.hidden = this.viewedRoutes.size < this.routes.length;
   }
 
   shelveBooks() {
-    if (this.viewedRoutes.size < routes.length) return;
+    if (this.viewedRoutes.size < this.routes.length) return;
     if (this.booksUnlocked) {
-      this.startDialogue(laterDialogue, () => this.showHistoryPrompt());
+      this.startDialogue(this.scripts.booksReturnedAgain, () => this.showHistoryPrompt());
       return;
     }
     this.booksUnlocked = true;
     localStorage.setItem("booksUnlocked", "true");
     this.el.books.hidden = false;
-    this.startDialogue(returnedDialogue, () => this.showHistoryPrompt());
+    this.startDialogue(this.scripts.booksReturned, () => this.showHistoryPrompt());
   }
 
   showHistoryChoice() {
@@ -535,7 +623,7 @@ class OtomeGame {
     this.el.historyVideo.pause();
     this.el.historyVideoScreen.hidden = true;
     this.audio.resumeMusic();
-    this.startDialogue(chapterDialogue, () => {
+    this.startDialogue(this.scripts.chapterStart, () => {
       this.state = GAME_STATE.CHAPTER;
       this.el.panel.hidden = false;
     });

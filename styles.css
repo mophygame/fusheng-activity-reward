@@ -89,6 +89,42 @@ button:focus-visible {
     linear-gradient(90deg, rgba(0, 0, 0, 0.45), transparent 28%, transparent 70%, rgba(0, 0, 0, 0.4));
 }
 
+.effect-rain .vignette::after,
+.effect-flash .vignette::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.effect-rain .vignette::after {
+  opacity: 0.42;
+  background-image: repeating-linear-gradient(
+    105deg,
+    rgba(226, 236, 255, 0.22) 0 1px,
+    transparent 1px 12px
+  );
+  background-size: 140px 140px;
+  animation: rain-fall 0.42s linear infinite;
+}
+
+.effect-flash .vignette::before {
+  background: rgba(255, 246, 214, 0.72);
+  animation: flash-out 0.48s ease-out both;
+}
+
+.shake-soft {
+  animation: scene-shake-soft 0.45s ease both;
+}
+
+.shake-medium {
+  animation: scene-shake-medium 0.5s ease both;
+}
+
+.shake-strong {
+  animation: scene-shake-strong 0.52s ease both;
+}
+
 .game-hud {
   position: absolute;
   z-index: 20;
@@ -441,6 +477,47 @@ button:focus-visible {
   letter-spacing: 0.28em;
   line-height: 1.6;
   writing-mode: vertical-rl;
+}
+
+.character-stage {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.story-character {
+  position: absolute;
+  bottom: 14vh;
+  width: min(38vw, 430px);
+  max-height: 76vh;
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 0.38;
+  filter: brightness(0.78) drop-shadow(0 18px 26px rgba(0, 0, 0, 0.82));
+  transition: opacity 0.45s ease, filter 0.45s ease, transform 0.45s ease;
+}
+
+.story-character-left {
+  left: max(2vw, 18px);
+  transform: translateX(-14px) scale(0.98);
+}
+
+.story-character-right {
+  right: max(2vw, 18px);
+  transform: translateX(14px) scale(0.98);
+}
+
+.story-character-center {
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+}
+
+.story-character.is-speaking {
+  z-index: 2;
+  opacity: 1;
+  filter: brightness(1.05) drop-shadow(0 18px 28px rgba(0, 0, 0, 0.86));
 }
 
 .shopkeeper-mian p {
@@ -1322,6 +1399,41 @@ button:focus-visible {
   to { transform: scale(1.12); }
 }
 
+@keyframes rain-fall {
+  from { background-position: 0 0; }
+  to { background-position: -44px 140px; }
+}
+
+@keyframes flash-out {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes scene-shake-soft {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  28% { transform: translate3d(-3px, 1px, 0); }
+  58% { transform: translate3d(3px, -1px, 0); }
+  78% { transform: translate3d(-1px, 0, 0); }
+}
+
+@keyframes scene-shake-medium {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  18% { transform: translate3d(-6px, 2px, 0); }
+  38% { transform: translate3d(6px, -2px, 0); }
+  62% { transform: translate3d(-4px, 1px, 0); }
+  82% { transform: translate3d(3px, 0, 0); }
+}
+
+@keyframes scene-shake-strong {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  14% { transform: translate3d(-10px, 4px, 0); }
+  30% { transform: translate3d(10px, -4px, 0); }
+  48% { transform: translate3d(-8px, 3px, 0); }
+  68% { transform: translate3d(6px, -2px, 0); }
+  86% { transform: translate3d(-3px, 1px, 0); }
+}
+
 @keyframes float-ember {
   0% { opacity: 0; transform: translate3d(0, 0, 0); }
   12% { opacity: 0.8; }
@@ -1417,6 +1529,20 @@ button:focus-visible {
 
   .scroll-select-active .shopkeeper {
     display: none;
+  }
+
+  .story-character {
+    right: auto;
+    bottom: 23vh;
+    left: 50%;
+    width: min(92vw, 430px);
+    opacity: 0 !important;
+    transform: translateX(-50%) scale(0.96) !important;
+  }
+
+  .story-character.is-speaking {
+    opacity: 1 !important;
+    transform: translateX(-50%) scale(1.03) !important;
   }
 
   .shopkeeper p {
