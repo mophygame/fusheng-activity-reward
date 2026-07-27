@@ -7,37 +7,40 @@
     <meta name="description" content="沐眠之地恭喜你破關《燈晝餘燼》" />
     <title>燈晝餘燼</title>
     <link rel="preload" href="./assets/images/title-city.webp" as="image" />
-    <link rel="preload" href="./assets/images/title.webp" as="image" />
-    <link rel="preload" href="./assets/images/subtitle.webp" as="image" />
+    <link rel="preload" href="./assets/images/enter/bg_loading.webp" as="image" />
+    <link rel="preload" href="./assets/images/enter/title.webp" as="image" />
+    <link rel="preload" href="./assets/images/enter/btn.webp" as="image" />
+    <link rel="preload" href="./assets/images/enter/btn_hover.webp" as="image" />
+    <link rel="preload" href="./assets/images/enter/icon_user.webp" as="image" />
     <link rel="preload" href="./assets/images/bookstoreowner_mu.webp" as="image" />
     <link rel="preload" href="./assets/images/bookstoreowner_mian.webp" as="image" />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./src/keepsake-game.css" />
+    <link rel="stylesheet" href="./style/taskgame/taskgame.css" />
+    <link rel="stylesheet" href="./style/taskgame/skylantern.css" />
+    <link rel="stylesheet" href="./style/taskgame/touhu.css" />
+    <link rel="stylesheet" href="./style/taskgame/memorial.css" />
+    <link rel="stylesheet" href="./style/still/still.css" />
   </head>
   <body>
     <main id="game" aria-live="polite">
       <div id="scene" class="scene scene-title">
         <div class="scene-bg" aria-hidden="true"></div>
         <div class="vignette" aria-hidden="true"></div>
+        <div id="story-effects" class="story-effects" aria-hidden="true"></div>
+        <div id="story-items" class="story-items" aria-hidden="true"></div>
         <div id="embers" class="embers" aria-hidden="true"></div>
 
         <header class="game-hud">
-          <button id="sound-toggle" class="icon-button" type="button" aria-label="切換音效">
-            <span class="sound-on">聲</span>
-            <span class="sound-off">靜</span>
-          </button>
-          <button id="music-toggle" class="icon-button music-toggle" type="button" aria-label="關閉背景音樂">
-            <span class="music-on">樂</span>
-            <span class="music-off">停</span>
-          </button>
-          <button id="books-toggle" class="icon-button books-toggle" type="button" aria-label="查看書卷" hidden>
-            <span>命書</span>
+          <button id="keepsake-toggle" class="icon-button keepsake-toggle" type="button" aria-label="重玩信物配對" hidden>
+            <span>信物</span>
           </button>
         </header>
 
         <section id="title-screen" class="screen title-screen">
           <p class="eyebrow">以史為鏡，可以知興替</p>
           <h1 class="game-title">
-            <img src="./assets/images/title.webp" alt="浮生卷" />
+            <img src="./assets/images/enter/title2.webp" alt="燈書餘燼" />
           </h1>
           <div class="title-rule">
             <img src="./assets/images/subtitle.webp" alt="如沐墨眠 x Touchie" />
@@ -47,7 +50,166 @@
             <span>入 卷</span>
             <small>ENTER THE STORY</small>
           </button>
+          <img class="enter-user-icon" src="./assets/images/enter/icon_user.webp" alt="" aria-hidden="true" />
           <p class="headphone-note">建議開啟聲音，獲得完整體驗</p>
+        </section>
+
+        <section id="home-screen" class="screen home-screen" hidden>
+          <div class="home-topbar">
+            <div class="profile-card">
+              <div class="profile-avatar" aria-hidden="true">
+                <img src="./assets/images/index/player_avatar.png" alt="" />
+              </div>
+              <div class="profile-info">
+                <strong id="player-nickname">破關者暱稱</strong>
+                <p>等級 <span id="player-level">1</span></p>
+                <i id="player-progress" class="profile-progress" aria-label="升級進度"><b></b></i>
+              </div>
+            </div>
+            <div class="home-resources">
+              <div class="lantern-pill" aria-label="燈盞數量">
+                <img class="lantern-hud-icon" src="./assets/images/index/icon_light.webp" alt="" aria-hidden="true" />
+                <strong id="lantern-count">0</strong>
+              </div>
+              <button id="login-reward-button" class="reward-button" type="button">
+                <img src="./assets/images/index/icon_signin_reward.webp" alt="" aria-hidden="true" />
+                <span>登入獎勵</span>
+              </button>
+              <button id="music-toggle" class="icon-button music-toggle" type="button" aria-label="關閉背景音樂">
+                <img src="./assets/images/index/icon_music.webp" alt="" aria-hidden="true" />
+                <span class="music-label">關閉音樂</span>
+              </button>
+            </div>
+          </div>
+
+          <nav class="home-actions" aria-label="主功能">
+            <div class="home-actions-left">
+              <button id="home-minigame-button" class="home-action-button" type="button" aria-label="古代遊戲，小遊戲挑戰">
+                <img src="./assets/images/btn_taskgame.webp" alt="古代遊戲，小遊戲挑戰" />
+              </button>
+              <button id="home-books-button" class="home-action-button" type="button" aria-label="命書情箋，角色情書與介紹">
+                <img src="./assets/images/btn_letter.webp" alt="命書情箋，角色情書與介紹" />
+              </button>
+            </div>
+            <div class="home-actions-right">
+              <button id="home-story-button" class="home-action-button is-primary" type="button" aria-label="大封故事，劇情故事線">
+                <img src="./assets/images/btn_storyline.webp" alt="大封故事，劇情故事線" />
+              </button>
+              <button id="home-gallery-button" class="home-action-button" type="button" aria-label="燈絮記憶，精美 CP 欣賞">
+                <img src="./assets/images/btn_still.webp" alt="燈絮記憶，精美 CP 欣賞" />
+              </button>
+            </div>
+          </nav>
+          <div class="home-swipe-hint" aria-label="主功能輪播控制">
+            <button class="home-swipe-arrow is-prev" type="button" aria-label="上一個功能">‹</button>
+            <div class="home-swipe-status">
+              <span>左右滑動選擇</span>
+              <div class="home-swipe-dots" aria-hidden="true">
+                <i class="is-active"></i><i></i><i></i><i></i>
+              </div>
+            </div>
+            <button class="home-swipe-arrow is-next" type="button" aria-label="下一個功能">›</button>
+          </div>
+
+          <div id="login-reward-calendar" class="home-modal login-calendar-modal" hidden>
+            <section class="login-calendar-card" role="dialog" aria-modal="true" aria-labelledby="login-calendar-title">
+              <button id="close-login-calendar-button" class="home-modal-close" type="button" aria-label="關閉登入獎勵月曆">×</button>
+              <header class="login-calendar-header">
+                <img src="./assets/images/index/icon_signin_reward.webp" alt="" aria-hidden="true" />
+                <div><p>每日燈火</p><h2 id="login-calendar-title"></h2></div>
+              </header>
+              <div id="login-calendar-days" class="login-calendar-days" aria-label="本月登入獎勵"></div>
+              <footer class="login-calendar-footer">
+                <p>每日可領 5～10 盞；每個星期日獎勵提升 1.5～3 倍。逾期不可補領。</p>
+                <button id="claim-calendar-reward-button" type="button">領取今日獎勵</button>
+              </footer>
+            </section>
+          </div>
+
+          <div id="story-menu" class="home-modal" hidden>
+            <div class="home-modal-card story-map-card">
+              <button id="close-story-menu-button" class="home-modal-close" type="button" aria-label="關閉故事主線">×</button>
+              <header class="story-map-heading">
+                <p class="modal-kicker">浮生卷 · 故事主線</p>
+                <h2>大封舊事</h2>
+                <p>循命書殘跡，閱盡一場被史冊遺忘的前塵。</p>
+              </header>
+              <div class="story-map-progress" aria-live="polite">
+                <span>閱卷進度</span><strong id="story-progress-text">0 / 6</strong>
+                <i><b id="story-progress-bar"></b></i>
+              </div>
+              <div id="chapter-list" class="chapter-list" aria-label="故事章節">
+                <svg id="chapter-route" class="chapter-route" aria-hidden="true" focusable="false">
+                  <path class="chapter-route-glow"></path>
+                  <path class="chapter-route-line"></path>
+                </svg>
+                <div id="chapter-horse" class="chapter-horse" aria-hidden="true"></div>
+                <button class="chapter-entry" type="button" data-chapter-id="prologue">
+                  <span class="chapter-node"><i>序</i></span><span class="chapter-number">序章</span>
+                  <b>不見書肆</b><small>五卷命書，前塵初啟</small><em class="chapter-status">可閱讀</em>
+                </button>
+                <button class="chapter-entry" type="button" data-chapter-id="chapter1">
+                  <span class="chapter-node"><i>壹</i></span><span class="chapter-number">第一章</span>
+                  <b>狀元與子羽</b><small>眠祈相逢，天下將變</small><em class="chapter-status">未解鎖</em>
+                </button>
+                <button class="chapter-entry" type="button" data-chapter-id="chapter2">
+                  <span class="chapter-node"><i>貳</i></span><span class="chapter-number">第二章</span>
+                  <b>庶子子貍</b><small>求而不得，以身入局</small><em class="chapter-status">未解鎖</em>
+                </button>
+                <button class="chapter-entry" type="button" data-chapter-id="chapter3">
+                  <span class="chapter-node"><i>參</i></span><span class="chapter-number">第三章</span>
+                  <b>鳳印如枷</b><small>母儀天下，深宮孤寂</small><em class="chapter-status">未解鎖</em>
+                </button>
+                <button class="chapter-entry" type="button" data-chapter-id="chapter4">
+                  <span class="chapter-node"><i>肆</i></span><span class="chapter-number">第四章</span>
+                  <b>玄甲藏心</b><small>一生守護，未敢言情</small><em class="chapter-status">未解鎖</em>
+                </button>
+                <button class="chapter-entry" type="button" data-chapter-id="chapter5">
+                  <span class="chapter-node"><i>終</i></span><span class="chapter-number">第五章</span>
+                  <b>大封之末</b><small>花燈夜盡，命書落卷</small><em class="chapter-status">未解鎖</em>
+                </button>
+              </div>
+              <p class="story-map-hint">完成目前章節，即可解鎖下一篇；已讀章節可隨時重溫。</p>
+            </div>
+          </div>
+
+          <div id="minigame-menu" class="home-modal" hidden>
+            <div class="home-modal-card">
+              <button id="close-minigame-menu-button" class="home-modal-close" type="button" aria-label="關閉小遊戲">×</button>
+              <p class="modal-kicker">小遊戲</p>
+              <h2>選擇遊戲</h2>
+              <div class="minigame-list">
+                <button id="start-keepsake-game-button" class="minigame-entry" type="button">
+                  <span>已開放</span>
+                  <b>五信歸命</b>
+                  <small>將五件現代信物，交還給命定之人。</small>
+                </button>
+                <button class="minigame-entry is-locked" type="button" disabled>
+                  <span>未開放</span>
+                  <b>燈影問答</b>
+                  <small>以大封舊史作答，答對可得燈盞。</small>
+                </button>
+                <button class="minigame-entry is-locked" type="button" disabled>
+                  <span>未開放</span>
+                  <b>殘卷拼合</b>
+                  <small>拼回散落的書頁，找出被抹去的線索。</small>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="gallery-shop" class="home-modal" hidden>
+            <div class="still-gallery" role="dialog" aria-modal="true" aria-labelledby="still-gallery-title">
+              <button id="close-gallery-button" class="still-close" type="button" aria-label="關閉劇照收藏">×</button>
+              <header class="still-header">
+                <h2 id="still-gallery-title"><span>劇</span> 照 收 藏</h2>
+                <p>解鎖劇照，永久保存珍貴回憶</p>
+                <div class="still-balance" aria-label="目前燈盞數量"><i></i><span>持有</span><strong id="gallery-lantern-count">0</strong></div>
+              </header>
+              <div id="still-grid" class="still-grid" aria-live="polite"></div>
+              <footer class="still-footer"><span>每張劇照需消耗 50 盞燈解鎖，解鎖後永久保存。</span></footer>
+            </div>
+          </div>
         </section>
 
         <section id="story-screen" class="screen story-screen" hidden>
@@ -85,6 +247,7 @@
           </div>
 
           <div id="scroll-select" class="scroll-select" hidden>
+            <button id="close-books-button" class="overlay-close" type="button" hidden aria-label="關閉命書">×</button>
             <header>
               <p>擇一卷，赴一場前世之約</p>
               <h2>五 卷 命 書</h2>
@@ -159,6 +322,8 @@
               <source src="./assets/videos/enter_history.mp4" type="video/mp4" />
             </video>
           </div>
+
+          <div id="keepsake-game" hidden></div>
         </section>
 
         <div id="transition" class="transition" aria-hidden="true">
@@ -168,6 +333,13 @@
         </div>
       </div>
     </main>
+    <script defer src="./src/keepsake-game.js"></script>
+    <script defer src="./src/taskgame/taskgame.js"></script>
+    <script defer src="./src/taskgame/skylantern.js"></script>
+    <script defer src="./src/taskgame/touhu.js"></script>
+    <script defer src="./src/taskgame/memorial.js"></script>
+    <script defer src="./src/still/still.js"></script>
+    <script defer src="./src/letter/letter.js"></script>
     <script defer src="./src/game.js"></script>
   </body>
 </html>

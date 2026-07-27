@@ -1,0 +1,299 @@
+{
+  "id": "chapter1",
+  "title": "第一章 · 狀元與子羽",
+  "scenes": {
+    "academy": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
+    "guHome": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
+    "weiEstate": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
+    "weddingRoad": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
+    "palace": { "background": "./assets/images/storyline/bg_palace_hall.webp" },
+    "rainCourt": { "background": "./assets/images/storyline/bg_rain_palace.webp" },
+    "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
+  },
+  "scripts": {
+    "chapterStart": [
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "academy",
+        "text": "第一章，說的是眠祈書院裡，一位十五歲的狀元，與一位生來尊貴的少年。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "academy",
+        "items": [
+          { "src": "./assets/images/storyline/items/epistle.webp", "alt": "顧芨書簡", "position": "left", "size": "tall", "rotate": "-3deg" },
+          { "src": "./assets/images/storyline/items/top_scorers_list.webp", "alt": "狀元榜與狀元文書", "position": "right", "size": "tall", "rotate": "3deg" }
+        ],
+        "text": "顧芨家境清寒，卻在大封八年考中狀元。只是家中沒有足夠銀兩打點官場，他遲遲未能進京，也從不埋怨，仍舊日夜苦讀。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "academy",
+        "actors": [
+          { "id": "weizheng", "name": "魏諍 · 字子羽", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "同年，汝齊王嫡子魏諍來到眠祈書院。魏諍字子羽，出身貴門，性情張揚，卻飽讀詩書、精通兵略，本是可造的國之棟樑。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "academy",
+        "actors": [
+          { "id": "weizheng", "name": "魏諍 · 字子羽", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "子羽好奇尋常百姓為何讀書，便走進書院，也見到了傳聞中那位考中狀元、卻遲遲未進京的顧芨。起初，他只當顧芨是裝模作樣的文人。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "academy",
+        "text": "可他很快發現，顧芨會替老師教導書生，逐一解惑，也會分享自己應試的經歷，引導眾人讀書。子羽的輕視，漸漸成了好奇。"
+      },
+      {
+        "speaker": "魏諍 · 字子羽",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "right",
+        "scene": "academy",
+        "text": "喂，狀元。"
+      },
+      {
+        "speaker": "顧芨",
+        "character": null,
+        "scene": "academy",
+        "text": "子羽書生，是要討教今日的《長恨歌》嗎？"
+      },
+      {
+        "speaker": "魏諍 · 字子羽",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "right",
+        "scene": "academy",
+        "text": "我只是好奇，你為什麼要這樣做？"
+      },
+      {
+        "speaker": "顧芨",
+        "character": null,
+        "scene": "academy",
+        "text": "亂世之中，你我皆不由己。並非人人都如你，出世便註定有光明的未來。可唯有讀書高；吾等拿不起刀槍，卻可在出征時，貢獻一些關鍵才略。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "academy",
+        "actors": [
+          { "id": "weizheng", "name": "魏諍 · 字子羽", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "那一刻，子羽才明白，才略並非紙上空談。世人只教他出征與練兵，顧芨卻告訴他，出兵以前的謀策，才是讓眾人活下來的關鍵。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "academy",
+        "items": [
+          { "src": "./assets/images/storyline/items/maps_of_dams_and_frontier_passes.webp", "alt": "水壩與邊關討論圖卷", "position": "center", "size": "wide" }
+        ],
+        "text": "自此，顧芨與魏諍成了最要好的朋友。他們一同上下課，談水壩鑄造、邊關異族，也談旱災解法；不知不覺，兩人的情誼日益深厚。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "guHome",
+        "effects": ["dust", "screen-vignette"],
+        "items": [
+          { "src": "./assets/images/storyline/items/official_grain_requisition_sack.webp", "alt": "官府徵糧袋", "position": "right", "size": "wide" }
+        ],
+        "text": "大封十年，旱災連連，民不聊生，皇城卻在此時挨家挨戶徵糧。顧家已將半生積蓄用於打點顧芨進京，只留下家中所需的糧食。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "guHome",
+        "camera": { "shake": "soft" },
+        "items": [
+          { "src": "./assets/images/storyline/items/empty_grain_vat.webp", "alt": "被搬空後的空糧缸", "position": "center", "size": "wide" }
+        ],
+        "text": "偏偏在顧芨進京當日，徵糧官府來到門前。顧家無從反抗，只能眼睜睜看著糧食被搬空，僅剩當晚一餐。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "weiEstate",
+        "actors": [
+          { "id": "weizheng", "name": "魏諍 · 字子羽", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "遠在魏府的子羽正受著世襲爵位的追捧，心思卻飄向顧芨。他絲毫不知，此時的摯友已命懸一線。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "guHome",
+        "text": "三日後，顧芨的死訊傳到魏府。待子羽趕至顧家，顧家上下十餘口已活活餓死，其中也包括顧芨。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "guHome",
+        "actors": [
+          { "id": "weizheng", "name": "魏諍 · 字子羽", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "子羽抱著顧芨的屍首崩潰大哭。那哭聲既是惋惜，也是忿恨，更像是對這不公世道的質問。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "weiEstate",
+        "text": "安葬顧芨後，子羽失魂落魄地回到魏府，迎面而來的卻是皇城宣旨之人。"
+      },
+      {
+        "speaker": "皇城來人",
+        "character": null,
+        "scene": "weiEstate",
+        "items": [
+          { "src": "./assets/images/storyline/items/imperial_edict.webp", "alt": "封武帝賜婚聖旨", "position": "center", "size": "wide" }
+        ],
+        "text": "連連旱災，民不聊生。汝齊王之子魏諍，三日內與上官氏成婚，以為大封民生祈福，見紅如見喜。若三日未完婚，汝齊王一族，誅連九族。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "weiEstate",
+        "actors": [
+          { "id": "weizheng", "name": "魏諍 · 字子羽", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "剛親手送走摯友，竟又要以這般荒謬的理由成婚。子羽的愕然很快被憤怒取代。他強壓怒火接旨，轉身召集魏家親衛、死士與私兵。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "weiEstate",
+        "items": [
+          { "src": "./assets/images/storyline/items/longsword.webp", "alt": "握柄刻有錫字的兵器", "position": "center", "size": "tall" }
+        ],
+        "text": "第二日，一批上好兵戎送抵魏府，題作「顧芨所贈」。那批兵刃的隱密握柄處，都刻著一個「錫」字，只是子羽沒有發現。"
+      },
+      {
+        "speaker": "魏諍 · 字子羽",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "right",
+        "scene": "weiEstate",
+        "text": "顧芨，原來你早知道會有這麼一天嗎？那……我可不會讓你失望。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "weddingRoad",
+        "items": [
+          { "src": "./assets/images/storyline/items/wei's_edding_robe.webp", "alt": "魏家大婚喜袍", "position": "center", "size": "wide" }
+        ],
+        "text": "大婚當日，魏諍依旨迎娶上官映雪。迎親隊伍遊街至皇城門口時，他忽然撕裂身上喜袍，露出內裡盔甲。隊伍眾人也同時扯去外衣——迎親者全是魏家親衛假扮。"
+      },
+      {
+        "speaker": "魏諍 · 字子羽",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "center",
+        "scene": "weddingRoad",
+        "effects": ["sword-flash", "dust", "smoke"],
+        "camera": { "shake": "strong" },
+        "text": "昏君荒淫無道，連連旱災，民不聊生，卻不顧百姓。今日我魏子羽，反了！"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "weddingRoad",
+        "camera": { "shake": "medium" },
+        "text": "話音落下，潛伏皇城的魏家軍馬一湧而上。魏諍則直奔皇宮，闖入議政殿。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "palace",
+        "actors": [
+          { "id": "weizheng", "name": "魏諍 · 字子羽", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "封武帝仍平靜坐在龍椅上，彷彿殿外的反叛都與他無關。"
+      },
+      {
+        "speaker": "封武帝",
+        "character": null,
+        "scene": "palace",
+        "text": "子羽，你還是走到了這裡。"
+      },
+      {
+        "speaker": "魏諍 · 字子羽",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "right",
+        "scene": "palace",
+        "text": "皇叔，這百姓何其無辜？"
+      },
+      {
+        "speaker": "封武帝",
+        "character": null,
+        "scene": "palace",
+        "text": "子羽，待汝登臨天下，朕願汝心想事成。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "palace",
+        "effects": ["sword-flash", "blood-splash", "screen-vignette"],
+        "camera": { "shake": "medium" },
+        "items": [
+          { "src": "./assets/images/storyline/items/blood_stained_longsword.webp", "alt": "染血長劍", "position": "center", "size": "tall", "rotate": "8deg" }
+        ],
+        "text": "封武帝微微扯起嘴角，像是在向此生告別。下一瞬，魏諍的劍刺入他的胸口，了結了那昏庸的一生。"
+      },
+      {
+        "speaker": "魏諍 · 字子羽",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "center",
+        "scene": "rainCourt",
+        "effects": ["heavy-rain"],
+        "text": "昏君已死，天下太平！"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "rainCourt",
+        "effects": ["heavy-rain", "lightning", "blood-splash"],
+        "camera": { "shake": "soft" },
+        "text": "魏諍手持染血長劍走出殿外。喊聲落下，久旱的皇城竟驟降滂沱大雨，所有人跪地迎接這位天選的新帝。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "rainCourt",
+        "effects": ["heavy-rain", "fog"],
+        "text": "自此，民間流傳一句話：以帝血祭天，可換十年風調雨順。"
+      }
+    ]
+  }
+}

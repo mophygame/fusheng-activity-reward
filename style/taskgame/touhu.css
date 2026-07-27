@@ -1,0 +1,442 @@
+.touhu-modal { position: fixed; z-index: 82; inset: 0; display: grid; padding: 12px; background: #020305e8; place-items: center; backdrop-filter: blur(8px); }
+.touhu-game { position: relative; width: 90vw; height: min(94vh,94dvh); overflow: hidden; border: 1px solid #aa7d43; background: linear-gradient(#11100d,#080a0c); color: #ead09d; box-shadow: inset 0 0 0 5px #08090a,inset 0 0 0 6px #684b2a,0 28px 90px #000; }
+.touhu-game::before { position: absolute; z-index: 20; inset: 10px; border: 1px solid #9d743f88; pointer-events: none; content: ""; }
+.touhu-close { position: absolute; z-index: 30; top: 18px; right: 18px; width: 42px; height: 42px; border: 1px solid #c79b5e; border-radius: 50%; background: #11100ddd; color: #f0d29b; font-size: 27px; cursor: pointer; }
+.touhu-header { position: absolute; z-index: 8; top: 15px; left: 50%; text-align: center;  }.touhu-header p { margin: 0; color: #a99169; font-size: 11px; letter-spacing: .32em; }.touhu-header h2 { margin: 2px 0 0; font-size: clamp(24px,4vw,38px); font-weight: 500; letter-spacing: .35em; text-indent: .35em; }
+.touhu-status { position: absolute; z-index: 8; top: 82px; width: 100%; display: flex; justify-content: space-evenly; color: #d8bd8b; font-size: 13px; letter-spacing: .12em; }.touhu-status b { color: #ffd68a; font-size: 19px; }
+.touhu-field { position: absolute; top: 115px; right: 22px; bottom: 22px; left: 22px; overflow: hidden; border: 1px solid #6c512f; background-image: linear-gradient(#05080a1a,#0b090744),url("../../assets/images/taskgame/touhu/background.webp"); background-position: center; background-size: cover; touch-action: none; cursor: crosshair; }
+.touhu-field::after { position: absolute; z-index: 0; right: 0; bottom: 75px; left: 0; height: 50%; background: url("../../assets/images/taskgame/touhu/ground.webp") center bottom / cover no-repeat; content: ""; }
+.touhu-wind { position: absolute; z-index: 7; top: 18px; left: 18px; display: grid; min-width: 110px; padding: 8px 12px; border: 1px solid #70532f; background: #090b0ccc; }.touhu-wind span { font-size: 10px; letter-spacing: .2em; }.touhu-wind b { color: #ecc983; font-size: 13px; }.touhu-wind i { position: absolute; top: 10px; right: 10px; color: #dfaa56; font-style: normal; }
+.touhu-bottle-stage { position: absolute; z-index: 3; top: 14%; right: 0; left: 0; height: 38%; }.touhu-bottle-name { margin: 0; text-align: center; color: #bda77f; font-size: 12px; letter-spacing: .2em; }.touhu-bottle { position: absolute; bottom:-25%; left: 50%; width: clamp(70px,10vw,105px); height: clamp(120px,19vw,190px); border: 2px solid #9c6b37; border-radius: 18% 18% 42% 42% / 8% 8% 28% 28%; background: radial-gradient(circle at 35% 34%,#bf7b3b,#4f2a15 68%,#20130d); transform: translateX(-50%); transition: left .35s ease; box-shadow: inset -12px -14px 22px #130a06aa,0 13px 20px #0009; }.touhu-bottle::before { position: absolute; top: -12px; left: 50%; width: var(--mouth-width); height: 15px; border: 4px solid #c28a4d; border-radius: 50%; background: #080604; content: ""; transform: translateX(-50%); }.touhu-bottle::after { position: absolute; inset: 38% 24% 28%; border: 1px solid #d5a25a66; border-radius: 50%; content: "壺"; color: #d5a25a; display: grid; place-items: center; }.touhu-bottle.is-bottle-2 { border-radius: 8% 8% 28% 28%; }.touhu-bottle.is-bottle-3 { width: 74px; }.touhu-bottle.is-bottle-4 { background: radial-gradient(circle at 35% 34%,#7d775e,#292b28 70%); }.touhu-bottle.is-bottle-5 { background: radial-gradient(circle at 35% 34%,#584333,#17130f 70%); }.touhu-bottle.is-bottle-6 { width: 66px; filter: drop-shadow(0 0 10px #d49a4955); }.touhu-bottle.is-hit { animation: touhu-hit .45s ease; }
+.touhu-positions { position: absolute; z-index: 4; top: 46%; right: 8%; left: 8%; display: flex; align-items: center; justify-content: space-between; color: #b89b6e; font-size: 11px; letter-spacing: .14em; }.touhu-positions b { padding: 4px 10px; border: 1px solid #76542f; background: #0d0c09bb; color: #e3bd78; font-weight: 400; }
+.touhu-guide { position: absolute; z-index: 2; top: 52%; bottom: 14%; left: 50%; border-left: 1px dashed #d5aa6355; pointer-events: none; }
+.touhu-arrow { position: absolute; z-index: 6; top: 72%; left: 50%; width: 34px; height: 136px; padding: 0; border: 0; background: url("../../assets/images/taskgame/touhu/arrow.webp") center / contain no-repeat; cursor: pointer; transform: translate(-50%,-50%); }.touhu-arrow::before,.touhu-arrow i { display: none; }.touhu-arrow:hover { filter: brightness(1.25) drop-shadow(0 0 8px #e5ae5a); }
+.touhu-arrow-stock { position: absolute; z-index: 5; right: 5%; bottom: 90px; left: 5%; display: flex; height: 76px; align-items: flex-end; justify-content: center; gap: clamp(7px,2vw,24px); padding: 8px 10px; border-top: 1px solid #7f5a3066; background: linear-gradient(transparent,#080706a8); }.touhu-arrow-stock i { position: relative; width: 16px; height: 64px; flex: 0 0 16px; background: url("../../assets/images/taskgame/touhu/arrow_stock.webp") center / contain no-repeat; filter: drop-shadow(0 4px 3px #000); transform: rotate(8deg); transition: opacity .28s ease,filter .28s ease,transform .28s ease; }.touhu-arrow-stock i::before,.touhu-arrow-stock i::after { display: none; }.touhu-arrow-stock i.is-used { opacity: .1; filter: grayscale(1); transform: translateY(14px) rotate(8deg) scale(.78); }
+.touhu-rule-note { position: absolute; z-index: 5; right: 10px; bottom: 169px; left: 10px; margin: 0; color: #c3a878; font-size: 10px; letter-spacing: .1em; text-align: center; }.touhu-hint { position: absolute; z-index: 5; right: 10px; bottom: 106px; left: 10px; margin: 0; color: #a59070; font-size: 11px; letter-spacing: .1em; text-align: center; }.touhu-feedback { position: absolute; z-index: 8; top: 49%; left: 50%; width: clamp(180px,28vw,280px); aspect-ratio: 20 / 9; overflow: hidden; background-position: center; background-size: contain; background-repeat: no-repeat; color: transparent; font-size: 0; text-shadow: none; pointer-events: none; transform: translate(-50%,-50%); }.touhu-feedback.is-success { background-image: url("../../assets/images/taskgame/touhu/hit_text.webp"); animation: touhu-feedback-pop .55s ease-out both; }.touhu-feedback.is-miss { background-image: url("../../assets/images/taskgame/touhu/miss_text.webp"); animation: touhu-feedback-pop .55s ease-out both; }
+.touhu-ritual,.touhu-round-result,.touhu-result { position: absolute; z-index: 15; inset: 0; display: grid; grid-template-columns: minmax(180px,36%) minmax(0,1fr); align-items: center; gap: clamp(18px,4vw,60px); padding: clamp(28px,6vw,82px); background: radial-gradient(circle at 23% 58%,#3a261b77,transparent 31%),#050708f2; text-align: center; }.touhu-ritual[hidden],.touhu-round-result[hidden],.touhu-result[hidden] { display: none; }.touhu-ritual::before,.touhu-round-result::before { position: absolute; inset: 7%; border: 1px solid #8f6738; pointer-events: none; content: ""; box-shadow: inset 0 0 30px #b1792f14; }.touhu-host-figure { position: relative; z-index: 1; align-self: stretch; min-width: 0; margin: 0; }.touhu-host-image { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 18px 22px #000) saturate(.9); }.touhu-host-figure figcaption { position: absolute; right: 4%; bottom: 2%; left: 4%; display: grid; padding: 9px 12px; border: 1px solid #9d7448; background: #090a0be8; box-shadow: 0 7px 24px #000b; }.touhu-host-figure figcaption b { color: #f1d29a; font-size: clamp(17px,2vw,26px); font-weight: 500; letter-spacing: .18em; }.touhu-host-figure figcaption span { color: #9f8b69; font-size: 10px; letter-spacing: .16em; }.touhu-dialogue-panel { position: relative; z-index: 2; display: flex; width: min(100%,640px); align-items: center; flex-direction: column; justify-self: center; padding: clamp(22px,4vw,44px); border: 1px solid #76542f; background: linear-gradient(145deg,#15120ee8,#08090aee); box-shadow: inset 0 0 35px #c5842c0d,0 18px 45px #0008; }.touhu-ritual-role,.touhu-round-result p,.touhu-result p { margin: 0; color: #aa9878; letter-spacing: .25em; }.touhu-ritual h3,.touhu-round-result h3 { max-width: 520px; margin: 18px 0 26px; color: #efd29d; font-size: clamp(18px,2.4vw,28px); font-weight: 500; line-height: 1.8; }.touhu-host-line { position: relative; max-width: 540px; margin: 0 0 20px; padding: 16px 18px; border-block: 1px solid #7a5b3780; color: #efd09a; font-size: clamp(15px,1.8vw,20px); line-height: 1.75; }.touhu-host-line::before { content: "「"; }.touhu-host-line::after { content: "」"; }.touhu-ritual small { margin-top: 14px; color: #8f8068; }.touhu-ritual button,.touhu-round-result button,.touhu-result button { position: relative; z-index: 2; min-width: 190px; padding: 12px 20px; border: 1px solid #a9793f; background: linear-gradient(#49331f,#18110c); color: #efd19b; cursor: pointer; }.touhu-wine-order { max-width: 540px; margin-bottom: 24px; color: #cdb386; line-height: 1.8; }.touhu-result h3 { margin: 10px 0; color: #f0d29a; font-size: clamp(25px,3vw,34px); }.touhu-final-record { margin-bottom: 12px; }.touhu-result em { margin-bottom: 24px; color: #d9bb83; font-style: normal; }.touhu-result .touhu-dialogue-panel > div { display: grid; gap: 10px; }
+@keyframes touhu-hit { 35% { transform: translateX(-50%) rotate(4deg); } 70% { transform: translateX(-50%) rotate(-3deg); } }
+@keyframes touhu-feedback-pop { from { opacity: 0; transform: translate(-50%,-46%) scale(.78); } 65% { opacity: 1; transform: translate(-50%,-50%) scale(1.06); } to { opacity: 1; transform: translate(-50%,-50%) scale(1); } }
+
+/* 實際投壺、風向與命中特效素材 */
+.touhu-bottle,
+.touhu-bottle.is-bottle-1,
+.touhu-bottle.is-bottle-2,
+.touhu-bottle.is-bottle-3,
+.touhu-bottle.is-bottle-4,
+.touhu-bottle.is-bottle-5,
+.touhu-bottle.is-bottle-6,
+.touhu-bottle.is-bottle-7,
+.touhu-bottle.is-bottle-8,
+.touhu-bottle.is-bottle-9 {
+  width: 100%;
+  height: 80%;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+  filter: drop-shadow(0 14px 13px #000c);
+}
+
+.touhu-bottle.is-bottle-1 { background: url("../../assets/images/taskgame/touhu/bottle01.webp") center bottom / contain no-repeat; }
+.touhu-bottle.is-bottle-2 { background: url("../../assets/images/taskgame/touhu/bottle02.webp") center bottom / contain no-repeat; }
+.touhu-bottle.is-bottle-3 { background: url("../../assets/images/taskgame/touhu/bottle03.webp") center bottom / contain no-repeat; }
+.touhu-bottle.is-bottle-4 { background: url("../../assets/images/taskgame/touhu/bottle04.webp") center bottom / contain no-repeat; }
+.touhu-bottle.is-bottle-5 { background: url("../../assets/images/taskgame/touhu/bottle05.webp") center bottom / contain no-repeat; }
+.touhu-bottle.is-bottle-6 { background: url("../../assets/images/taskgame/touhu/bottle06.webp") center bottom / contain no-repeat; }
+.touhu-bottle.is-bottle-7 { background: url("../../assets/images/taskgame/touhu/bottle07.webp") center bottom / contain no-repeat; }
+.touhu-bottle.is-bottle-8 { background: url("../../assets/images/taskgame/touhu/bottle08.webp") center bottom / contain no-repeat; }
+.touhu-bottle.is-bottle-9 { background: url("../../assets/images/taskgame/touhu/bottle09.webp") center bottom / contain no-repeat; }
+
+.touhu-bottle::before,
+.touhu-bottle::after {
+  display: none;
+}
+
+.touhu-wind {
+  min-width: 158px;
+  min-height: 62px;
+  padding-right: 78px;
+}
+
+.touhu-wind .touhu-wind-arrow {
+  top: 4px;
+  right: 4px;
+  display: block;
+  width: 72px;
+  height: 54px;
+  background: url("../../assets/images/taskgame/touhu/wind_flag.webp") center / contain no-repeat;
+  transform-origin: center;
+  filter: drop-shadow(0 5px 5px #0009);
+}
+
+.touhu-wind-particles {
+  --wind-shift: 112vw;
+  --wind-mid: 54vw;
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.touhu-wind-particles.is-west {
+  --wind-shift: -112vw;
+  --wind-mid: -54vw;
+}
+
+.touhu-wind-leaf,
+.touhu-wind-dust {
+  position: absolute;
+  top: var(--leaf-top, 30%);
+  left: -8%;
+  display: block;
+  pointer-events: none;
+}
+
+.touhu-wind-particles.is-west .touhu-wind-leaf,
+.touhu-wind-particles.is-west .touhu-wind-dust {
+  right: -8%;
+  left: auto;
+}
+
+.touhu-wind-leaf {
+  width: clamp(18px, 2.6vw, 36px);
+  aspect-ratio: 1;
+  background-image: var(--leaf-image);
+  background-position: center;
+  background-size: contain;
+  opacity: .75;
+  animation: touhu-wind-drift var(--leaf-duration, 8s) linear var(--leaf-delay, 0s) infinite;
+}
+
+.touhu-wind-particles.is-calm .touhu-wind-leaf {
+  opacity: .34;
+}
+
+.touhu-wind-dust {
+  top: var(--dust-top, 72%);
+  width: clamp(70px, 12vw, 145px);
+  aspect-ratio: 3 / 2;
+  background: url("../../assets/images/taskgame/touhu/wind_dust.webp") center / contain no-repeat;
+  opacity: .42;
+  filter: blur(.25px);
+  animation: touhu-dust-drift var(--dust-duration, 6s) linear var(--dust-delay, 0s) infinite;
+}
+
+.touhu-shot-effect {
+  position: absolute;
+  z-index: 8;
+  top: 18%;
+  left: 50%;
+  display: block;
+  width: clamp(120px, 15vw, 190px);
+  aspect-ratio: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(.35);
+}
+
+.touhu-landed-arrow {
+  position: absolute;
+  z-index: 5;
+  top: calc(3% - 130px);
+  left: 50%;
+  display: block;
+  width: 24px;
+  height: 130px;
+  background: url("../../assets/images/taskgame/touhu/arrow.webp") center / contain no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) rotate(180deg) scale(.82);
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 5px 5px #000b);
+}
+
+.touhu-bottle.has-landed-arrow::after {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  display: block;
+  border: 0;
+  background: inherit;
+  pointer-events: none;
+  content: "";
+}
+
+.touhu-landed-arrow.is-visible {
+  opacity: 1;
+  animation: touhu-arrow-settle .58s ease-out both;
+}
+
+.touhu-arrow.is-embedded {
+  opacity: 0;
+}
+
+.touhu-arrow.is-grounded {
+  filter: drop-shadow(5px 8px 5px #000b);
+}
+
+.touhu-shot-effect.is-hit-effect {
+  background: url("../../assets/images/taskgame/touhu/hit_effect.webp") center / contain no-repeat;
+  animation: touhu-shot-flare .82s ease-out both;
+}
+
+.touhu-shot-effect.is-miss-effect {
+  background: url("../../assets/images/taskgame/touhu/miss_effect.webp") center / contain no-repeat;
+  animation: touhu-shot-spark .72s ease-out both;
+}
+
+@keyframes touhu-wind-drift {
+  from { transform: translate3d(0, 0, 0) rotate(0) scale(var(--leaf-scale, 1)); }
+  45% { transform: translate3d(var(--wind-mid), 34px, 0) rotate(280deg) scale(var(--leaf-scale, 1)); }
+  to { transform: translate3d(var(--wind-shift), 76px, 0) rotate(var(--leaf-spin)) scale(var(--leaf-scale, 1)); }
+}
+
+@keyframes touhu-dust-drift {
+  from { opacity: 0; transform: translate3d(0, 0, 0) scale(.65); }
+  18%, 72% { opacity: .46; }
+  to { opacity: 0; transform: translate3d(var(--wind-shift), -18px, 0) scale(1.15); }
+}
+
+@keyframes touhu-shot-flare {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.25) rotate(-8deg); }
+  24% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.3) rotate(8deg); }
+}
+
+@keyframes touhu-shot-spark {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.25) rotate(12deg); }
+  20% { opacity: .95; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.05) rotate(-9deg); }
+}
+
+@keyframes touhu-arrow-settle {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-18px) rotate(170deg) scale(.9); }
+  38% { opacity: 1; transform: translateX(-50%) translateY(2px) rotate(185deg) scale(.82); }
+  68% { transform: translateX(-50%) rotate(176deg) scale(.82); }
+  100% { opacity: 1; transform: translateX(-50%) rotate(180deg) scale(.82); }
+}
+
+/* 男主互動層：使用人物框與專用對話框素材 */
+.touhu-ritual,
+.touhu-round-result,
+.touhu-result {
+  grid-template-columns: minmax(220px, 31%) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(12px, 2.6vw, 38px);
+  padding: clamp(24px, 4vw, 54px);
+  background: linear-gradient(90deg, #030405e8, #070604d9), url("../../assets/images/taskgame/touhu/background.webp") center / cover;
+}
+
+.touhu-ritual::before,
+.touhu-round-result::before,
+.touhu-result::before {
+  display: none;
+}
+
+.touhu-host-figure {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  align-self: center;
+  justify-self: end;
+  overflow: hidden;
+  background: url("../../assets/images/taskgame/touhu/dialog_profile.webp") center / 100% 100% no-repeat;
+  filter: drop-shadow(0 16px 28px #000c);
+}
+
+.touhu-host-image {
+  position: absolute;
+  inset: 7% 7% 5%;
+  width: 86%;
+  height: 88%;
+  object-fit: contain;
+  object-position: center top;
+  /* 人物可放大取景，但下半身不得越過人物框的內側底線。 */
+  clip-path: inset(0 0 34% 0);
+  transform: scale(1.42);
+  transform-origin: center 12%;
+  filter: drop-shadow(0 14px 18px #000c) saturate(.92);
+}
+
+.touhu-host-figure figcaption {
+  top: 40%;
+  right: auto;
+  bottom: auto;
+  left: 4.5%;
+  display: flex;
+  width: 13%;
+  height: 34%;
+  min-width: 0;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 2px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  writing-mode: vertical-rl;
+}
+
+.touhu-host-figure figcaption b {
+  font-size: clamp(12px, 1.3vw, 18px);
+  letter-spacing: .14em;
+}
+
+.touhu-host-figure figcaption span {
+  color: #b79b69;
+  font-size: clamp(7px, .7vw, 9px);
+  letter-spacing: .08em;
+}
+
+.touhu-dialogue-panel {
+  width: 100%;
+  min-height: clamp(248px, 25vw, 330px);
+  justify-self: start;
+  padding: clamp(42px, 5vw, 70px) clamp(42px, 6vw, 84px);
+  border: 0;
+  background: url("../../assets/images/taskgame/touhu/dialog_desktop.webp") center / 100% 100% no-repeat;
+  box-shadow: none;
+}
+
+.touhu-ritual h3,
+.touhu-round-result h3 {
+  margin: 10px 0 16px;
+  font-size: clamp(17px, 2vw, 25px);
+  line-height: 1.65;
+}
+
+.touhu-host-line {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  font-size: clamp(14px, 1.5vw, 18px);
+  line-height: 1.55;
+}
+
+.touhu-wine-order {
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+
+.touhu-result h3 {
+  margin: 6px 0;
+}
+
+.touhu-result em {
+  margin-bottom: 12px;
+}
+
+.touhu-ritual button,
+.touhu-round-result button,
+.touhu-result button {
+  padding: 10px 18px;
+}
+
+
+@media (max-width: 600px) { .touhu-game { width: 94vw; height: 92dvh; }.touhu-field { right: 12px; left: 12px; }.touhu-status { right: 10%; left: 10%; flex-wrap: wrap; gap: 2px 12px; font-size: 10px; }.touhu-status b { font-size: 15px; }.touhu-bottle-stage { top: 17%; }.touhu-wind { top: 12px; left: 10px; transform: scale(.88); transform-origin: left top; }.touhu-arrow-stock { right: 2%; left: 2%; gap: clamp(5px,3.8vw,15px); }.touhu-arrow-stock i { height: 54px; }.touhu-rule-note { bottom: 161px; font-size: 9px; }.touhu-ritual,.touhu-round-result,.touhu-result { display: flex; padding: 26px 20px; }.touhu-host-figure { position: absolute; inset: 3% 0 0; opacity: .3; pointer-events: none; }.touhu-host-image { object-position: left bottom; }.touhu-host-figure figcaption { right: 8%; bottom: 4%; left: auto; min-width: 135px; }.touhu-dialogue-panel { max-height: 86%; overflow-y: auto; padding: 22px 16px; background: #0a0a0ce6; }.touhu-ritual h3,.touhu-round-result h3 { margin: 12px 0 18px; line-height: 1.65; }.touhu-host-line { margin-bottom: 14px; padding: 11px 8px; font-size: 14px; }.touhu-ritual button,.touhu-round-result button,.touhu-result button { min-width: 165px; }.touhu-ritual small { font-size: 10px; } }
+
+
+@media (max-width: 1024px) {
+  .touhu-ritual,
+  .touhu-round-result,
+  .touhu-result {
+    display: grid;
+    grid-template: minmax(0, 58%) minmax(0, 42%) / 1fr;
+    gap: 0;
+    padding: 10px 8px 14px;
+    background: linear-gradient(#030405dc, #050403e8), url("../../assets/images/taskgame/touhu/background.webp") center / cover;
+  }
+
+  .touhu-ritual[hidden],
+  .touhu-round-result[hidden],
+  .touhu-result[hidden] {
+    display: none;
+  }
+
+  .touhu-host-figure {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: 100%;
+    aspect-ratio: 2 / 3;
+    justify-self: center;
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .touhu-host-image {
+    inset: 5% 8% 3%;
+    width: 84%;
+    height: 92%;
+    object-position: center top;
+    transform: scale(1.38);
+  }
+
+  .touhu-host-figure figcaption {
+    top: 40%;
+    right: auto;
+    bottom: auto;
+    left: 4.5%;
+    width: 13%;
+    height: 34%;
+    min-width: 0;
+  }
+
+  .touhu-dialogue-panel {
+    width: min(88%, 560px);
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    justify-self: center;
+    overflow-y: auto;
+    padding: 10% 11% 11%;
+    background: url("../../assets/images/taskgame/touhu/dialog_mobile.webp") center / 100% 100% no-repeat;
+  }
+
+  .touhu-ritual h3,
+  .touhu-round-result h3 {
+    margin: 8px 0 12px;
+    font-size: clamp(14px, 4.5vw, 18px);
+    line-height: 1.55;
+  }
+
+  .touhu-host-line {
+    margin-bottom: 8px;
+    padding: 6px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .touhu-wine-order,
+  .touhu-final-record,
+  .touhu-result em {
+    margin-bottom: 8px;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .touhu-ritual button,
+  .touhu-round-result button,
+  .touhu-result button {
+    min-width: 150px;
+    padding: 8px 14px;
+  }
+
+  .touhu-ritual small {
+    margin-top: 8px;
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 600px) {
+  .touhu-dialogue-panel {
+    width: min(96%, 360px);
+  }
+}
+@media (max-width: 1850px) {
+  .touhu-bottle{
+    bottom:-44%;
+  }
+}
+@media (prefers-reduced-motion: reduce) { .touhu-bottle { animation: none !important; transition: none !important; }.touhu-wind-leaf,.touhu-wind-dust,.touhu-shot-effect { animation: none !important; } }

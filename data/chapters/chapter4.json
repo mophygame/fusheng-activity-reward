@@ -1,0 +1,166 @@
+{
+  "id": "chapter4",
+  "title": "第四章 · 玄甲藏心",
+  "scenes": {
+    "battlefield": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
+    "palace": { "background": "./assets/images/storyline/bg_palace_hall.webp" },
+    "laundryBureau": { "background": "./assets/images/storyline/bg_palace_corridor.webp" },
+    "imperialGarden": { "background": "./assets/images/storyline/bg_palace_exterior.webp" },
+    "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
+  },
+  "scripts": {
+    "chapterStart": [
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "battlefield",
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "第四章，說的是霍家世代滿門忠烈，偶得一子霍驍，字允執。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "battlefield",
+        "effects": ["smoke", "fire-sparks"],
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "霍驍驍勇善戰，深受軍中愛戴，年紀輕輕便受封玄甲將軍。可無人知曉，這位聲名赫赫的將軍，早已暗許一顆真心。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "laundryBureau",
+        "text": "大封十一年，新朝初定，魏諍依約立上官映雪為后；霍驍的心思，卻全繫在陰冷潮濕的浣衣局裡。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "battlefield",
+        "effects": ["smoke", "blood-splash", "screen-vignette"],
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "那幾個月，他替新朝清剿餘孽，玄甲上的血從未乾透，身上也添了一道又一道深可見骨的刀傷。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "battlefield",
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "他要軍功，要赫赫戰功，只為換得向魏諍討一個恩賞的資格。他想求娶青梅竹馬的{username}，替她洗去罪籍，讓她堂堂正正成為霍將軍府唯一的當家主母。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "battlefield",
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "他懷中始終貼身揣著一枚木製人偶。那是他在塞外風沙裡，藉著營火，一刀刀刻成的{username}模樣。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "palace",
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "left", "speaking": false },
+          { "id": "weizheng", "name": "魏諍", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "可命運總在人最滿懷希望時降下嘲弄。那日，霍驍剛踏入議政殿，還未來得及單膝跪下，魏諍已罕見地卸下君王威嚴，帶著少年般的狂喜迎上前來。"
+      },
+      {
+        "speaker": "魏諍",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "right",
+        "scene": "palace",
+        "text": "允執，朕今日偶然行經浣衣局，遇見了一名女子。只一眼，便覺萬年。"
+      },
+      {
+        "speaker": "魏諍",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "right",
+        "scene": "palace",
+        "text": "朕已決定赦免她的罪籍，納她為妃，給她這世間最無上的榮寵。她叫{username}。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "palace",
+        "effects": ["screen-vignette"],
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "每個字都很輕快，落在霍驍耳中卻如重錘。他高大的身軀僵在原地，喉間滾燙的懇求被生生凍結成冰。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "palace",
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "寬大袖口下，他死死攥拳，木偶邊緣深陷掌心血肉。可這點刺痛，遠不及心口撕裂的萬分之一。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "palace",
+        "text": "一邊是他誓死效忠、與之從血海打下江山的君王；一邊是刻入骨血、想用一生守護的青梅竹馬。兩相拉扯，幾乎將他的靈魂劈成兩半。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "palace",
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "霍驍嘴唇微顫，指甲掐出鮮血，最終卻什麼也沒能說出口。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "imperialGarden",
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "left", "speaking": false },
+          { "id": "weizheng", "name": "魏諍", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "幾日後，他在御花園遠處看見被接出浣衣局的{username}。她換上錦緞華服，站在魏諍身邊，唇角帶著一抹溫婉笑意。"
+      },
+      {
+        "speaker": "霍驍 · 字允執",
+        "character": "huoxiao",
+        "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp",
+        "position": "left",
+        "scene": "imperialGarden",
+        "text": "魏諍能給她天下、安穩，給她盛世榮華。我這個只懂殺人、滿手血腥的粗漢，又能給她什麼？"
+      },
+      {
+        "speaker": "霍驍 · 字允執",
+        "character": "huoxiao",
+        "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp",
+        "position": "left",
+        "scene": "imperialGarden",
+        "text": "只要她能平安喜樂，只要她不用再受苦，跟著誰……又有什麼關係？"
+      }
+    ]
+  }
+}

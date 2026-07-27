@@ -1,0 +1,250 @@
+{
+  "id": "chapter2",
+  "title": "第二章 · 庶子子貍",
+  "scenes": {
+    "weiBackyard": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
+    "shangguanEstate": { "background": "./assets/images/storyline/bg_palace_exterior.webp" },
+    "market": { "background": "./assets/images/storyline/bg_market_day.webp" },
+    "weddingRoad": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
+    "rainCourt": { "background": "./assets/images/storyline/bg_rain_palace.webp" },
+    "innerPalace": { "background": "./assets/images/storyline/bg_palace_corridor.webp" },
+    "genghuaHall": { "background": "./assets/images/storyline/bg_palace_corridor.webp" },
+    "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
+  },
+  "scripts": {
+    "chapterStart": [
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "weiBackyard",
+        "text": "第二章，要從魏府後院一個無人敢提的名字說起。魏府有一庶子，名魏猙，字子貍。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "weiBackyard",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "他的父親是汝齊王，母親原是通房宮女。一次酒後臨幸，魏猙就此出生。傳聞汝齊王偶見果子狸叼著食物穿過庭院，便為他取字子貍。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "weiBackyard",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "汝齊王不願酒後風流之事外傳，自小便將魏猙養在後院，不許他拋頭露面，只讓他習字、讀詩書，以備不時之需。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "weiBackyard",
+        "text": "因此，魏諍從未見過這位胞弟。魏猙的名字成了魏府禁忌，府中上下只敢稱他「魏家庶子」。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "weiBackyard",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "某日，上官氏嫡女上官映雪登門，在後院遇見正讀《洛陽賦》的魏猙。她覺得這少年很有趣，便開口要他到上官府做自己的陪讀。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shangguanEstate",
+        "text": "汝齊王本就不喜這庶子，既能用魏猙討好上官氏，便一口答應。自此，魏猙住進了上官府。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shangguanEstate",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "起初他極力反抗，一心想回魏家；可在上官映雪日復一日的相伴下，少年心底悄悄生出了悸動。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "market",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "兩人常偷溜到市集，買糖炒栗子、鬥蛐蛐、看戲曲、聽說書；被逮個正著時，也總是一同受罰。五年光陰就這樣過去，魏猙早已無可自拔地愛上她。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shangguanEstate",
+        "effects": ["dust", "screen-vignette"],
+        "text": "大封十年，旱災連連、民不聊生，王城卻歌舞昇平。封武帝忽然降旨，賜婚上官映雪與魏諍，命二人三日內完婚。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shangguanEstate",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "宣旨那刻，魏猙正捧著糖炒栗子回府。他看見上官映雪錯愕的神情，也看見上官氏一家的慶幸與歡喜。栗子散落滿地，身後的笑聲忽然都與他無關。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shangguanEstate",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "那一刻，魏猙第一次懂得何謂嫉妒。他回到廂房，不說話，也不再出門。直到成婚前一晚，上官映雪來到門外。"
+      },
+      {
+        "speaker": "上官映雪",
+        "character": "shangguan-yingxue",
+        "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp",
+        "position": "right",
+        "scene": "shangguanEstate",
+        "text": "阿貍，我這一生，萬事不得由己，而你還有機會，可以隨心所欲。與你伴讀的這五年，是我這一生中唯一能隨心所欲的時刻。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shangguanEstate",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "燭火忽明忽滅，魏猙看不清她的表情，卻仍認真望著她，彷彿要把此生的上官映雪刻入骨裡，成為永遠抹不去的痕跡。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "weddingRoad",
+        "text": "翌日，魏諍的迎親儀仗如期而至。上官映雪依旨拜別父母、坐上花轎；魏猙則一路隱沒在人群中，默默跟隨。"
+      },
+      {
+        "speaker": "魏諍 · 字子羽",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "center",
+        "scene": "weddingRoad",
+        "effects": ["sword-flash", "dust", "smoke"],
+        "camera": { "shake": "strong" },
+        "text": "皇帝不顧民生，日日歌舞，視百姓如草芥，日日欺壓百姓。我魏子羽，今日反了！"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "weddingRoad",
+        "camera": { "shake": "medium" },
+        "text": "魏氏死士與軍隊一擁而上，劍指王城，迎親隊伍瞬間被軍馬沖散。魏猙想衝上前救出映雪，卻被魏家死士誤作阻撓叛軍之人，狠狠制服在地。"
+      },
+      {
+        "speaker": "魏猙 · 字子貍",
+        "character": "weizeng",
+        "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp",
+        "position": "left",
+        "scene": "weddingRoad",
+        "text": "映雪娘子！阿貍在這！別怕！"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "weddingRoad",
+        "camera": { "shake": "medium" },
+        "text": "他的嘶喊被亂軍與馬蹄聲淹沒，視線也逐漸模糊。待他再抬起頭，上官映雪早已不知去向。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "rainCourt",
+        "effects": ["heavy-rain", "screen-vignette"],
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
+          { "id": "weizheng", "name": "魏諍 · 字子羽", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "魏猙拖著傷痕累累的身軀走到王城時，正看見魏諍高喊「昏君已死，天下太平」。舊帝已亡，嫡兄即將成為新帝。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "rainCourt",
+        "effects": ["heavy-rain", "fog"],
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "滂沱大雨忽然落下，萬人跪迎新帝。魏猙卻看見上官映雪跪在魏諍後方，恍若新后即位。他癡癡望著她，像出嫁前夜那樣，要把她的每一個模樣刻進骨子裡。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "rainCourt",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "他嫉妒魏諍生為嫡子，可以承襲王位，可以說反便反，也可以娶到自己最想娶的人。他恨世道、恨神、恨封武帝、恨魏諍，更恨那個無能為力的庶子魏猙。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "innerPalace",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "魏猙放聲狂笑。所有人都跪著，只有他站立，像是第一次違背天道。笑過之後，他拖著傷軀走入內宮，來到內侍殿。"
+      },
+      {
+        "speaker": "魏猙 · 字子貍",
+        "character": "weizeng",
+        "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp",
+        "position": "left",
+        "scene": "innerPalace",
+        "text": "我要入宮，做太監。自宮後，我要去服侍上官映雪。做得到，這些都是你的。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "innerPalace",
+        "text": "掌事太監見錢眼開，當即應下。魏猙最後回望這座布滿過去的王城，眼底只剩名為復仇的火焰。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "genghuaHall",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "他走進自宮房「更華殿」，咬緊下唇，未曾發出一點聲音。止血後，他緩緩走出；改變的並非只有身軀，還有那顆從此只為復仇而活的心。"
+      }
+    ]
+  }
+}

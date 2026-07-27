@@ -1,0 +1,160 @@
+{
+  "id": "chapter3",
+  "title": "第三章 · 鳳印如枷",
+  "scenes": {
+    "bridalSedan": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
+    "weddingRoad": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
+    "rainCourt": { "background": "./assets/images/storyline/bg_rain_palace.webp" },
+    "enthronement": { "background": "./assets/images/storyline/bg_palace_hall.webp" },
+    "yideHall": { "background": "./assets/images/storyline/bg_palace_corridor.webp" },
+    "palaceNight": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
+    "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
+  },
+  "scripts": {
+    "chapterStart": [
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "bridalSedan",
+        "actors": [
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "第三章，時間仍在大封十年，魏氏迎娶上官氏的那一日。十里紅妝、喜樂齊鳴，婚儀如期而至，卻無一人真正歡喜。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "bridalSedan",
+        "actors": [
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "上官映雪蒙著刺眼的紅蓋頭，端坐在緩緩駛向王城的婚轎中。直到轎外忽然傳來布帛撕裂的銳響，喜樂被兵刃與馬蹄聲驟然截斷。"
+      },
+      {
+        "speaker": "魏諍 · 字子羽",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "right",
+        "scene": "weddingRoad",
+        "effects": ["sword-flash", "dust", "smoke"],
+        "camera": { "shake": "strong" },
+        "text": "皇帝不顧民生……我魏子羽今日在此，反了！"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "bridalSedan",
+        "camera": { "shake": "medium" },
+        "actors": [
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "left", "speaking": false },
+          { "id": "weizheng", "name": "魏諍 · 字子羽", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "王城頃刻化為修羅場。坐在混亂中心的上官映雪沒有驚慌，只親手掀開紅蓋頭，隔著轎簾冷眼望向馬上的魏諍，以及他直指王城的劍。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "bridalSedan",
+        "actors": [
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "她只覺得魏諍瘋了，卻也悲哀地明白：魏諍是能掌握命運的瘋子，而她不是。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "rainCourt",
+        "effects": ["heavy-rain", "lightning", "screen-vignette"],
+        "text": "魏諍弒帝走出議政殿，高喊天下太平，滂沱大雨便轟然砸落。舊帝殞落、新朝建立，於上官映雪而言，不過是換了一個主人，枷鎖依舊。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "enthronement",
+        "text": "封武帝駕崩後，魏諍改朝登基。新帝初立，覬覦四起，朝局混亂。身為文臣之首的上官氏主動與新帝合議：唯有完成未竟的世家聯姻，才能坐實改朝而非謀逆，穩住民心與派系。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "enthronement",
+        "actors": [
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "left", "speaking": false },
+          { "id": "weizheng", "name": "魏諍", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "魏諍妥協了。三日後的登基大典，上官映雪披上沉重鳳袍，接過鳳印，正式受冊為后。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "enthronement",
+        "actors": [
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "left", "speaking": false },
+          { "id": "weizheng", "name": "魏諍", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "立后當日，她在萬民跪拜中走在新帝身側。眾人眼裡，帝后同心一體、無可挑剔；可喧囂退去後，魏諍無事不入懿德殿，上官映雪也從不踏足育心殿。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "yideHall",
+        "actors": [
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "未曾被臨幸，在旁人看來是深宮寂寞，對她而言反倒是唯一的清靜。直到大封十三年前，她每日端坐鳳椅，垂眸翻看帳目，守著無懈可擊的規矩。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "yideHall",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "她真正的心跳，都藏在魏猙偷偷傳入宮中的信裡——那是柳眠寫給她的手信，每一張信紙都帶著海棠花香。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "palaceNight",
+        "text": "直到某日，深宮朱牆內流傳起一則荒唐風言：皇上在浣衣局看上了一名宮女，望著她時流露的憐愛，是世人未曾見過的幸福模樣。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "palaceNight",
+        "effects": ["fire-sparks", "screen-vignette"],
+        "actors": [
+          { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "得知傳言那夜，上官映雪正就著宮燈，將柳眠的信箋投入火苗。帶著海棠香的紙張寸寸化作死灰，她的眼底仍古井無波。"
+      },
+      {
+        "speaker": "上官映雪",
+        "character": "shangguan-yingxue",
+        "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp",
+        "position": "center",
+        "scene": "palaceNight",
+        "text": "隨他去吧，只要皇上高興。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "palaceNight",
+        "text": "她拍去指尖沾上的餘燼，只自嘲地彎了彎嘴角，並未再多想。"
+      }
+    ]
+  }
+}

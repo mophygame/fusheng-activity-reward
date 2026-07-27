@@ -2,47 +2,139 @@
   "id": "prologue",
   "title": "序章 · 不見書肆",
   "scenes": {
-    "shop": {
-      "background": "./assets/images/scroll-shop.webp"
-    },
-    "city": {
-      "background": "./assets/images/title-city.webp"
-    }
+    "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" },
+    "city": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" }
   },
   "scripts": {
     "intro": [
-      { "speaker": "旁白", "character": null, "text": "雨下得正急。你循著一盞將熄的燈，推開了巷尾那扇從未見過的門。" },
-      { "speaker": "書肆主人 · 眠", "character": "mian", "position": "right", "text": "姑娘，夜半入店，可是來尋一本忘了名字的書？" },
-      { "speaker": "你", "character": null, "text": "我只是避雨。這裡……賣的都是書卷嗎？" },
-      { "speaker": "書肆主人 · 沐", "character": "mu", "position": "left", "text": "眠，你別嚇著客人。既然進了門，便是與這些書有緣。" },
-      { "speaker": "書肆主人 · 眠", "character": "mian", "position": "right", "text": "尋常書卷記人間事；我們這裡的，記的是人間未了之事。" },
-      { "speaker": "你", "character": null, "text": "未了之事……也包括已經忘記的人嗎？" },
-      { "speaker": "書肆主人 · 沐", "character": "mu", "position": "left", "text": "五卷命書，五位故人。有人等你一世，也有人等了不只一世。" },
-      { "speaker": "書肆主人 · 眠", "character": "mian", "position": "right", "text": "選吧。只是書卷一開，前塵便再也不能只當作一場夢了。" }
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "姑娘，既然推開了不見書肆的門，便坐下聽一段大封舊事吧。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "眠，別急。這五卷命書沉睡多年，總得讓{username}先認一認卷上的名字。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "魏諍，字子羽；魏猙，字子貍；上官映雪；霍驍，字允執；還有那匹名為疾風的白金汗血寶馬。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "五段命途並非彼此無關。它們起於眠祈書院的一場相逢，終於大封二十年的一夜花燈。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "有人為百姓弒帝，有人為所愛捨去自身，有人困於鳳印，有人把真心藏在玄甲之下。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "翻頁吧，{username}。這一次，讓他們的名字留在故事裡。"
+      }
     ],
     "booksReturned": [
-      { "speaker": "旁白", "character": null, "scene": "shop", "text": "最後一卷在你指下闔起，五道墨色印記同時泛起微光，而後歸於沉寂。" },
-      { "speaker": "書肆主人 · 沐", "character": "mu", "position": "left", "scene": "shop", "text": "五卷皆閱，看來你已經見過那些等在前塵裡的人了。" },
-      { "speaker": "書肆主人 · 眠", "character": "mian", "position": "right", "scene": "shop", "text": "不過，若只看他們的故事，仍不足以明白一切從何而起。" },
-      { "speaker": "書肆主人 · 沐", "character": "mu", "position": "left", "scene": "shop", "text": "你可想知道，大封王朝真正的歷史？" }
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "五卷皆閱。如今妳已見過魏諍、魏猙、上官映雪、霍驍與疾風留下的前塵。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "可若只讀各自的命書，仍看不清他們如何在同一場旱災、婚變與王朝覆亡裡彼此交錯。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "妳可願從大封八年的眠祈書院開始，把這段歷史重新讀過一次？"
+      }
     ],
     "booksReturnedAgain": [
-      { "speaker": "書肆主人 · 眠", "character": "mian", "position": "right", "scene": "shop", "text": "無妨。歷史不會離去，它只會在書頁深處，等你願意回頭。" },
-      { "speaker": "旁白", "character": null, "scene": "shop", "text": "右上方的命書印記微微發亮。你隨時可以重開五卷，也可以再次詢問大封舊史。" }
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "無妨。命書不會催促讀者，它只會留在書頁深處，等妳願意回來。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "待妳準備好，再從顧芨與子羽相識的那一天翻起。"
+      }
     ],
     "historyIntro": [
-      { "speaker": "書肆主人 · 沐", "character": "mu", "position": "left", "scene": "shop", "text": "既然你願意問，我們便從五卷命書共同遺漏的那一年說起。" },
-      { "speaker": "書肆主人 · 眠", "character": "mian", "position": "right", "scene": "shop", "text": "大封建國一百二十七年，史冊只留下盛世二字，卻抹去了赤京城裡的一場血雨。" },
-      { "speaker": "書肆主人 · 沐", "character": "mu", "position": "left", "scene": "shop", "text": "接下來所見，並非夢境。那是命書替你保存至今的歷史殘影。" },
-      { "speaker": "書肆主人 · 眠", "character": "mian", "position": "right", "scene": "shop", "text": "莫要移開目光。故事，便從那扇宮門開啟之時開始。" }
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "這段故事始於大封八年。十五歲的顧芨考中狀元，卻因家貧而遲遲未能進京。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "也是那一年，汝齊王嫡子魏諍走進眠祈書院，遇見了那個將改變他一生的書生。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "city",
+        "effects": ["dust", "screen-vignette"],
+        "text": "兩年後，旱災、徵糧與一紙荒謬賜婚，將所有人的命運推向皇城。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "city",
+        "text": "莫要移開目光。第一卷，現在開啟。"
+      }
     ],
     "chapterStart": [
-      { "speaker": "旁白", "character": null, "scene": "city", "effects": ["rain"], "text": "大封建國一百二十七年，北境風雪未歇，赤京城內卻已暗潮洶湧。" },
-      { "speaker": "書肆主人 · 沐", "character": "mu", "position": "left", "scene": "city", "camera": { "shake": "soft" }, "text": "史書說，那一年天下太平。可寫史的人，從來不會記下每一個被犧牲的名字。" },
-      { "speaker": "書肆主人 · 眠", "character": "mian", "position": "right", "scene": "shop", "text": "五卷命書，正是在那場被抹去的舊事裡彼此交會。" },
-      { "speaker": "你", "character": null, "scene": "city", "text": "所以我看見的前世，不只是五段彼此無關的故事？" },
-      { "speaker": "書肆主人 · 沐", "character": "mu", "position": "left", "scene": "city", "effects": ["flash"], "text": "不。它們共同指向一場宮變、一紙密詔，還有一個不該被歷史忘記的人。" },
-      { "speaker": "旁白", "character": null, "scene": "city", "text": "第一章 · 山雨欲來。遠處宮門緩緩開啟，你聽見命運重新落筆的聲音。" }
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "city",
+        "text": "大封八年，眠祈書院。顧芨靜靜讀著書簡，尚不知一位名叫子羽的少年正向他走來。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "city",
+        "text": "這場相遇，終將改寫大封的天下。"
+      }
     ]
   }
 }

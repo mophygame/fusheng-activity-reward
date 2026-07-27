@@ -1,0 +1,465 @@
+:root {
+  --memorial-gold: #c69a56;
+  --memorial-gold-light: #f1d59a;
+  --memorial-red: #9e2f27;
+  --memorial-ink: #17130f;
+  --memorial-paper: #dbc69d;
+}
+
+.memorial-modal {
+  position: fixed;
+  z-index: 84;
+  inset: 0;
+  display: grid;
+  padding: 1vh 1vw;
+  background: #020302ed;
+  place-items: center;
+  backdrop-filter: blur(9px);
+}
+
+.memorial-game {
+  position: relative;
+  width: min(98vw, 1600px);
+  height: min(98dvh, 1000px);
+  overflow: hidden;
+  border: 1px solid #9b713e;
+  background:
+    radial-gradient(circle at 50% 8%, #8a5f2c24, transparent 28%),
+    linear-gradient(145deg, #12100c, #050706 62%, #0c0907);
+  color: var(--memorial-gold-light);
+  box-shadow: inset 0 0 0 5px #050605, inset 0 0 0 6px #5d4025, 0 30px 100px #000;
+  font-family: "Noto Serif TC", "Songti TC", "STSong", serif;
+}
+
+.memorial-game::before,
+.memorial-game::after {
+  position: absolute;
+  z-index: 30;
+  pointer-events: none;
+  content: "";
+}
+
+.memorial-game::before { inset: 10px; border: 1px solid #8d653a88; }
+.memorial-game::after { top: 16px; right: 16px; bottom: 16px; left: 16px; border-block: 1px solid #b88a4a28; }
+
+.memorial-close {
+  position: absolute;
+  z-index: 50;
+  top: 18px;
+  right: 20px;
+  width: 43px;
+  height: 43px;
+  border: 1px solid #c69a56;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2d2014, #0d0b08);
+  color: #efd09a;
+  font-size: 27px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 3px #070706, 0 5px 18px #000a;
+}
+
+.memorial-close:hover { filter: brightness(1.25); transform: rotate(5deg); }
+
+.memorial-header {
+  position: relative;
+  z-index: 4;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 86px 14px 34px;
+  border-bottom: 1px solid #8c6538;
+  background: linear-gradient(90deg, #0b0b08, #21170f 52%, #090a08);
+  box-shadow: 0 8px 30px #0009;
+}
+
+.memorial-header p { margin: 0; color: #a98d64; font-size: 14px; letter-spacing: .24em; }
+.memorial-header h2 { margin: 4px 0 0; font-size: clamp(25px, 3vw, 38px); font-weight: 500; letter-spacing: .35em; text-indent: .35em; }
+
+.memorial-hud { display: flex; gap: clamp(12px, 3vw, 48px); }
+.memorial-hud span { display: grid; color: #a78c64; font-size: 13px; letter-spacing: .12em; text-align: center; }
+.memorial-hud b { color: #f2cf8e; font-size: clamp(20px, 2.4vw, 32px); font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: .03em; }
+.memorial-game.is-final-seconds .memorial-time { color: #ff7665; animation: memorial-time-pulse .6s ease-in-out infinite alternate; }
+
+.memorial-desk {
+  position: absolute;
+  inset: 96px 0 0;
+  display: grid;
+  grid-template-columns: minmax(430px, 1fr) minmax(300px, 30%);
+  grid-template-rows: 1fr 1fr;
+  gap: clamp(12px, 1.5vw, 22px);
+  padding: clamp(16px, 2vw, 28px);
+  background:
+    linear-gradient(#03050475, #0604039c),
+    url("../../assets/images/taskgame/memorial/desk.webp") center bottom / 100% auto no-repeat,
+    url("../../assets/images/taskgame/memorial/background.webp") center / cover no-repeat;
+}
+
+.memorial-rules,
+.memorial-stamp-rack {
+  position: relative;
+  z-index: 3;
+  align-self: center;
+  border: 1px solid #795632;
+  background: linear-gradient(145deg, #16130fd9, #090a08ed);
+  box-shadow: inset 0 0 25px #be833715, 0 18px 45px #0008;
+}
+
+.memorial-rules { grid-column: 2; grid-row: 1; align-self: end; padding: 12px 14px; }
+.memorial-era-date {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid #795632;
+  background: linear-gradient(90deg, #0b0b08ed, #21170fed, #090a08ed);
+  color: #e7c78f;
+  font-size: 15px;
+  letter-spacing: .14em;
+  text-align: center;
+  box-shadow: inset 0 0 18px #be833715, 0 8px 20px #0008;
+}
+.memorial-rules::before,
+.memorial-stamp-rack::before { position: absolute; inset: 7px; border: 1px solid #a7793a33; pointer-events: none; content: ""; }
+.memorial-rules h3,
+.memorial-stamp-rack h3 { margin: 0 0 18px; color: #e3c187; font-size: 18px; font-weight: 500; letter-spacing: .2em; text-align: center; }
+.memorial-rules h3 { position: absolute; z-index: 2; right: 0; bottom: calc(100% + 40px); left: 0; min-height: 38px; display: grid; margin: 0; border: 1px solid #795632; background: linear-gradient(90deg, #17110bed, #2a1b10ed, #0d0b08ed); color: #e3c187; font-size: 20px; font-weight: 500; letter-spacing: .16em; text-align: center; box-shadow: inset 0 0 18px #be833715, 0 8px 20px #0008; place-items: center; }
+.memorial-stamp-rack h3 { margin-bottom: 10px; }
+.memorial-rules dl { display: grid; gap: 5px; margin: 0; }
+.memorial-rules dl div { padding-bottom: 4px; border-bottom: 1px solid #8c63333d; }
+.memorial-rules dt { color: #c54c3d; font-size: 17px; letter-spacing: .12em; }
+.memorial-rules dd { margin: 3px 0 0; color: #b9a483; font-size: 14px; line-height: 1.4; }
+
+.memorial-level { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; margin-top: 10px; color: #b09b78; font-size: 13px; }
+.memorial-level i { grid-column: 1 / -1; height: 5px; overflow: hidden; border: 1px solid #70502f; background: #030403; }
+.memorial-level i b { display: block; width: 8%; height: 100%; background: linear-gradient(90deg, #82602f, #d14837); transition: width .4s ease; }
+.memorial-level em { color: #d1ae74; font-style: normal; }
+
+.memorial-paper-wrap {
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  grid-row: 1 / 3;
+  min-width: 0;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  perspective: 1200px;
+}
+
+.memorial-conveyor { position: absolute; inset: 8% 2% 7%; border: 1px solid #624424; background: #0908069c; box-shadow: inset 0 0 80px #000; }
+.memorial-conveyor::before,
+.memorial-conveyor::after { position: absolute; top: 0; bottom: 0; width: 20px; background: repeating-linear-gradient(#8e6938 0 4px, #271a0e 4px 14px); content: ""; }
+.memorial-conveyor::before { left: -10px; }
+.memorial-conveyor::after { right: -10px; }
+
+.memorial-paper {
+  position: relative;
+  z-index: 2;
+  width: auto;
+  height: min(72vh, 650px);
+  max-width: 88%;
+  aspect-ratio: 5 / 7;
+  display: flex;
+  box-sizing: border-box;
+  padding: clamp(88px, 12vh, 118px) clamp(35px, 4vw, 52px) clamp(40px, 6vh, 58px);
+  border: 0;
+  background: url("../../assets/images/taskgame/memorial/paper_plain.webp") center / 100% 100% no-repeat;
+  color: #30261c;
+  flex-direction: column;
+  transform-origin: center top;
+  transition: transform .35s ease, opacity .28s ease;
+  box-shadow: inset 0 0 40px #6e4a2444, 0 24px 42px #000c;
+}
+
+.memorial-paper::before,
+.memorial-paper::after { display: none; }
+.memorial-paper.is-entering { opacity: 0; transform: translateY(-40px) rotateX(8deg); }
+.memorial-paper.is-windy { animation: memorial-paper-wind 2.6s ease-in-out infinite alternate; }
+.memorial-paper.is-tilted { transform: rotate(-2.2deg); }
+.memorial-paper.is-windy.is-tilted { animation: memorial-paper-wind-tilted 2.4s ease-in-out infinite alternate; }
+
+.memorial-paper-top { display: flex; align-items: center; justify-content: space-between; }
+.memorial-category { padding: 5px 13px; border: 1px solid #7f2f28; color: #81261f; font-size: 16px; font-weight: 700; letter-spacing: .16em; }
+.memorial-tag { color: #6b5030; font-size: 14px; letter-spacing: .1em; }
+.memorial-number { margin: 14px 0 5px; color: #715a3b; font-size: 13px; letter-spacing: .18em; text-align: center; }
+.memorial-case-title { margin: 0 0 20px; padding-bottom: 13px; border-bottom: 1px solid #735a3859; font-size: clamp(22px, 3vw, 34px); font-weight: 600; letter-spacing: .12em; text-align: center; }
+.memorial-case-content { min-height: 72px; margin: 0; font-size: clamp(18px, 1.55vw, 22px); line-height: 1.7; letter-spacing: .05em; }
+.memorial-intel { display: grid; gap: 3px; margin: 0 0 8px; padding: 6px 8px; border: 1px solid #795b3566; background: #080807a8; }
+.memorial-intel span { color: #dc6b59; font-size: 13px; letter-spacing: .1em; }
+.memorial-intel span b { font-weight: 600; }
+.memorial-intel p { margin: 0; color: #d0b88e; font-size: 14px; line-height: 1.45; letter-spacing: .03em; }
+.memorial-request { display: grid; gap: 6px; margin-top: 16px; padding: 10px 14px; border-left: 3px solid #8f3429; background: #6d422314; }
+.memorial-request span { color: #8c3027; font-size: 13px; letter-spacing: .16em; }
+.memorial-request b { font-size: 16px; font-weight: 500; }
+
+.memorial-step { display: flex; justify-content: center; gap: 8px; margin: 14px 0 0; }
+.memorial-step span { padding: 5px 9px; border: 1px solid #80613b66; color: #665738; font-size: 13px; }
+.memorial-step .is-current { border-color: #9c3b2f; background: #9c3b2f14; color: #81281f; font-weight: 700; }
+.memorial-step .is-done { opacity: .55; text-decoration: line-through; }
+
+.memorial-target {
+  position: relative;
+  width: clamp(110px, 13vw, 160px);
+  aspect-ratio: 1.5;
+  margin: auto 5% 0 auto;
+  border: 2px dashed #a33c32;
+  background: linear-gradient(#f5dfbba6, #ead0a18f);
+  color: #98382f;
+  font: inherit;
+  cursor: crosshair;
+  box-shadow: inset 0 0 18px #fff5d36b, 0 2px 8px #4f2a1724;
+  transition: width .25s ease, background .2s ease, transform .2s ease;
+}
+.memorial-target::before { position: absolute; inset: 6px; border: 1px solid #a33c3270; content: ""; }
+.memorial-target span { font-size: 15px; font-weight: 600; letter-spacing: .16em; text-shadow: 0 1px #fff3d6; }
+.memorial-target.is-hovered { background: linear-gradient(#f8dfbccc, #dcae7abb); transform: scale(1.04); }
+.memorial-target.is-small { width: clamp(86px, 10vw, 125px); }
+
+.memorial-case-clock { position: absolute; z-index: 4; right: 9%; bottom: 4%; left: 9%; height: 5px; overflow: hidden; border: 1px solid #6d4d2a; background: #080705; }
+.memorial-case-clock i { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, #9c2c27, #dcae61); transform-origin: left; }
+
+.memorial-stamp-rack { grid-column: 2; grid-row: 2; align-self: start; padding: 10px 8px; text-align: center; }
+.memorial-stamp-rack > p { margin: -3px 0 7px; color: #aa9573; font-size: 13px; letter-spacing: .1em; }
+.memorial-stamps { display: flex; align-items: flex-end; justify-content: center; gap: clamp(8px, 1.4vw, 18px); }
+.memorial-stamp {
+  position: relative;
+  width: clamp(70px, 6.8vw, 88px);
+  height: clamp(78px, 7.6vw, 90px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #e7c68e;
+  touch-action: none;
+  cursor: grab;
+  transition: filter .2s ease, transform .2s ease;
+}
+.memorial-stamp i { position: absolute; top: 0; right: 0; left: 0; height: calc(100% - 27px); border: 0; background: url("../../assets/images/taskgame/memorial/stamp_wood.webp") center / contain no-repeat; filter: drop-shadow(0 8px 7px #000b); }
+.memorial-stamp i::after { display: none; }
+.memorial-game[data-stamp-skin="white-jade"] .memorial-stamp i { background-image: url("../../assets/images/taskgame/memorial/stamp_white_jade.webp"); }
+.memorial-game[data-stamp-skin="green-jade"] .memorial-stamp i { background-image: url("../../assets/images/taskgame/memorial/stamp_green_jade.webp"); }
+.memorial-game[data-stamp-skin="gold-dragon"] .memorial-stamp i { background-image: url("../../assets/images/taskgame/memorial/stamp_gold_dragon.webp"); }
+.memorial-game[data-stamp-skin="tiger-tally"] .memorial-stamp i { background-image: url("../../assets/images/taskgame/memorial/stamp_tiger_tally.webp"); }
+.memorial-stamp-ghost[data-stamp-skin="white-jade"] i { background-image: url("../../assets/images/taskgame/memorial/stamp_white_jade.webp"); }
+.memorial-stamp-ghost[data-stamp-skin="green-jade"] i { background-image: url("../../assets/images/taskgame/memorial/stamp_green_jade.webp"); }
+.memorial-stamp-ghost[data-stamp-skin="gold-dragon"] i { background-image: url("../../assets/images/taskgame/memorial/stamp_gold_dragon.webp"); }
+.memorial-stamp-ghost[data-stamp-skin="tiger-tally"] i { background-image: url("../../assets/images/taskgame/memorial/stamp_tiger_tally.webp"); }
+.memorial-stamp b { position: absolute; right: 0; bottom: 0; left: 0; padding: 7px 2px; border: 1px solid #8d673b; background: #100d09; color: #e2bc7d; font-size: clamp(12px, 1.2vw, 16px); font-weight: 500; letter-spacing: .12em; }
+.memorial-stamp:hover,
+.memorial-stamp.is-selected { filter: brightness(1.28) drop-shadow(0 0 10px #d79e4c88); transform: translateY(-8px) scale(1.04); }
+.memorial-stamp:active { cursor: grabbing; }
+
+.memorial-stamp-ghost { position: fixed; z-index: 200; margin: 0; pointer-events: none; opacity: .9; transform: translate(-50%, -76%) rotate(-8deg) scale(.9); filter: drop-shadow(0 14px 16px #000b); }
+.memorial-stamp-ghost:hover { transform: translate(-50%, -76%) rotate(-8deg) scale(.9); }
+
+.memorial-placed-stamps { position: absolute; z-index: 4; inset: 0; pointer-events: none; }
+.memorial-placed-stamp { --seal-opacity: .88; --seal-rotation: -7deg; --seal-scale: 1; position: absolute; width: clamp(72px, 8vw, 96px); aspect-ratio: 1; background: var(--seal-image) center / contain no-repeat; font-style: normal; animation: memorial-stamp-land .28s cubic-bezier(.2, 1.5, .5, 1) both; mix-blend-mode: multiply; }
+.memorial-placed-stamp.is-good { --seal-opacity: .7; --seal-rotation: -13deg; }
+.memorial-placed-stamp.is-miss { --seal-opacity: .58; --seal-rotation: 14deg; --seal-scale: .92; filter: blur(.7px); }
+
+.memorial-feedback { position: absolute; z-index: 10; top: 42%; left: 50%; width: min(48vw, 520px); display: grid; justify-items: center; gap: 4px; pointer-events: none; text-align: center; transform: translate(-50%, -50%); }
+.memorial-feedback-image { width: 100%; height: auto; display: block; filter: drop-shadow(0 8px 14px #000c); }
+.memorial-combo-image { width: 64%; height: auto; display: block; margin-top: -8%; filter: drop-shadow(0 6px 10px #000b); animation: memorial-combo-pop .4s cubic-bezier(.2, 1.45, .5, 1) both; }
+.memorial-feedback span { padding: 3px 10px; border-radius: 999px; background: #080705a8; color: #f3d6a0; font-size: 14px; letter-spacing: .16em; text-shadow: 0 3px 8px #000; }
+.memorial-feedback.is-perfect { color: #ffe5a4; animation: memorial-perfect .65s ease-out both; }
+.memorial-feedback.is-good { color: #e3c78e; animation: memorial-good .55s ease-out both; }
+.memorial-feedback.is-miss,
+.memorial-feedback.is-timeout { color: #d56d60; animation: memorial-miss .55s ease-out both; }
+
+.memorial-burst { position: absolute; z-index: 7; top: 43%; left: 50%; width: 280px; aspect-ratio: 1; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); }
+.memorial-burst.is-gold { background: radial-gradient(circle, #ffe5a8aa, #d89c4144 23%, transparent 66%); animation: memorial-burst .7s ease-out both; }
+.memorial-burst.is-ink { background: radial-gradient(ellipse, #17120ea0 0 10%, transparent 58%); animation: memorial-ink .6s ease-out both; }
+.memorial-burst.is-miss { background: radial-gradient(ellipse, #7b1f1975, transparent 62%); animation: memorial-ink .55s ease-out both; }
+
+.memorial-wind-leaves { position: absolute; z-index: 6; inset: 3% 0 5%; overflow: hidden; pointer-events: none; opacity: 0; }
+.memorial-wind-leaves.is-active { opacity: 1; }
+.memorial-wind-leaves i { position: absolute; top: var(--leaf-y); left: -12%; width: var(--leaf-size); aspect-ratio: 1; background: var(--leaf-image) center / contain no-repeat; opacity: .88; filter: drop-shadow(0 4px 4px #0008); animation: memorial-leaf-flight var(--leaf-duration) linear var(--leaf-delay) infinite; }
+
+.memorial-intro,
+.memorial-result {
+  position: absolute;
+  z-index: 40;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #030405d9, #080604ce),
+    url("../../assets/images/taskgame/memorial/background.webp") center / cover no-repeat;
+}
+.memorial-intro[hidden],
+.memorial-result[hidden] { display: none; }
+
+.memorial-intro { display: grid; grid-template-columns: minmax(250px, 38%) minmax(0, 1fr); align-items: center; gap: clamp(25px, 5vw, 80px); padding: clamp(42px, 7vw, 100px); }
+.memorial-intro::before,
+.memorial-result::before { position: absolute; inset: 6%; border: 1px solid #946a3a; pointer-events: none; content: ""; box-shadow: inset 0 0 50px #ae762619; }
+.memorial-host { position: relative; z-index: 1; height: 100%; min-height: 430px; margin: 0; overflow: hidden; border: 0; background: radial-gradient(circle at 50% 36%, #76503455, #080908 67%); box-shadow: 0 18px 50px #0009; }
+.memorial-host::before { position: absolute; z-index: 1; inset: 0; background: url("../../assets/images/taskgame/memorial/dialog_profile.webp") center / 100% 100% no-repeat; pointer-events: none; content: ""; }
+.memorial-host::after { display: none; }
+.memorial-host img { position: absolute; z-index: 2; top: 4%; right: 5%; bottom: 2%; left: 5%; width: 90%; height: 94%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 20px 18px #000);transform: scale(1);}
+.memorial-host-fallback { position: absolute; inset: 0; display: grid; color: #a77a4255; font-size: clamp(60px, 9vw, 130px); letter-spacing: .15em; place-items: center; writing-mode: vertical-rl; }
+.memorial-host figcaption { position: absolute; z-index: 4; right: 7%; bottom: 5%; left: 7%; display: grid; padding: 10px 15px; border: 1px solid #9a7040; background: #090a09e8; text-align: center; }
+.memorial-host figcaption b { color: #efd09a; font-size: 22px; font-weight: 500; letter-spacing: .2em; }
+.memorial-host figcaption small { color: #9d8968; letter-spacing: .15em; }
+
+.memorial-dialogue { position: relative; z-index: 2; display: flex; width: min(100%, 720px); min-height: 360px; align-items: center; flex-direction: column; justify-content: center; padding: 55px 64px 50px; border: 0; background: url("../../assets/images/taskgame/memorial/dialog_desktop.webp") center / 100% 100% no-repeat; text-align: center; filter: drop-shadow(0 22px 30px #000a); }
+.memorial-dialogue p,
+.memorial-result-card > p { margin: 0; color: #aa916d; font-size: 14px; letter-spacing: .24em; margin-bottom: 12px;}
+.memorial-dialogue blockquote { margin: 20px 0 26px; color: #efd09a; font-size: clamp(18px, 2.2vw, 28px); line-height: 1.85; }
+.memorial-dialogue blockquote::before { content: "「"; }
+.memorial-dialogue blockquote::after { content: "」"; }
+.memorial-brief { width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 26px; }
+.memorial-brief span { padding: 10px 6px; border: 1px solid #765532; color: #c8ad82; font-size: 14px; }
+.memorial-dialogue button,
+.memorial-result button { min-width: 175px; padding: 12px 25px; border: 1px solid #aa7a3e; background: linear-gradient(#51351f, #17100b); color: #efd19a; font: inherit; letter-spacing: .13em; cursor: pointer; }
+.memorial-dialogue button:hover,
+.memorial-result button:hover { filter: brightness(1.25); transform: translateY(-2px); }
+.memorial-dialogue small { margin-top: 14px; color: #aa9675; font-size: 13px; }
+
+.memorial-result { display: grid; padding: 7%; place-items: center; }
+.memorial-result-card { position: relative; z-index: 2; width: min(620px, 90%); display: flex; align-items: center; flex-direction: column; padding: clamp(30px, 5vw, 58px);  background: linear-gradient(145deg, #18140ff2, #070908f5); text-align: center; box-shadow: inset 0 0 50px #b87c2815, 0 30px 70px #000c; }
+.memorial-result-card h3 { margin: 12px 0 8px; color: #ead09d; font-size: clamp(20px, 3vw, 30px); font-weight: 500; letter-spacing: .12em; }
+.memorial-grade { width: 88px; aspect-ratio: 1; display: grid; margin: 8px 0 20px; border: 5px double #ae392f; color: #d45a4a; font-size: 33px; place-items: center; transform: rotate(-5deg); }
+.memorial-result-card dl { width: min(100%, 480px); display: grid; grid-template-columns: repeat(5, 1fr); margin: 0 0 20px; }
+.memorial-result-card dl div { display: grid; gap: 5px; padding: 10px 6px; border-right: 1px solid #73543255; }
+.memorial-result-card dl div:last-child { border: 0; }
+.memorial-result-card dt { color: #a99779; font-size: 13px; }
+.memorial-result-card dd { margin: 0; color: #e9c98d; font-size: 18px; }
+.memorial-result-card em { margin-bottom: 20px; color: #c7a878; font-style: normal; }
+.memorial-result-card em b { color: #f4d38f; font-size: 22px; }
+.memorial-unlocks { min-height: 1.4em; margin: -10px 0 18px; color: #d7b77a; font-size: 12px; letter-spacing: .1em; }
+.memorial-result-card > div { display: flex; gap: 12px; }
+
+.memorial-game[data-paper-skin="plain"] .memorial-paper { background-image: url("../../assets/images/taskgame/memorial/paper_plain.webp"); }
+.memorial-game[data-paper-skin="spring"] .memorial-paper { background-image: url("../../assets/images/taskgame/memorial/paper_spring.webp"); }
+.memorial-game[data-paper-skin="summer"] .memorial-paper { background-image: url("../../assets/images/taskgame/memorial/paper_summer.webp"); }
+.memorial-game[data-paper-skin="autumn"] .memorial-paper { background-image: url("../../assets/images/taskgame/memorial/paper_autumn.webp"); }
+.memorial-game[data-paper-skin="winter"] .memorial-paper { background-image: url("../../assets/images/taskgame/memorial/paper_winter.webp"); }
+.memorial-game .memorial-paper.is-special-paper { background-image: url("../../assets/images/taskgame/memorial/paper_special.webp"); }
+.memorial-game .memorial-paper.is-urgent-paper { background-image: url("../../assets/images/taskgame/memorial/paper_urgent.webp"); }
+
+@keyframes memorial-paper-wind { from { transform: translateX(-4px) rotate(-.7deg); } to { transform: translateX(5px) rotate(.8deg); } }
+@keyframes memorial-paper-wind-tilted { from { transform: translateX(-4px) rotate(-2.8deg); } to { transform: translateX(4px) rotate(-1.2deg); } }
+@keyframes memorial-time-pulse { to { text-shadow: 0 0 16px #f33; transform: scale(1.08); } }
+@keyframes memorial-stamp-land { from { opacity: 0; transform: translate(-50%, -50%) rotate(var(--seal-rotation)) scale(1.7); } to { opacity: var(--seal-opacity); transform: translate(-50%, -50%) rotate(var(--seal-rotation)) scale(var(--seal-scale)); } }
+@keyframes memorial-perfect { from { opacity: 0; transform: translate(-50%, -40%) scale(.65); } 60% { opacity: 1; transform: translate(-50%, -50%) scale(1.13); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes memorial-good { from { opacity: 0; transform: translate(-50%, -43%) scale(.82); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes memorial-miss { 0% { opacity: 0; transform: translate(-50%, -50%); } 35% { opacity: 1; transform: translate(-54%, -50%); } 70% { transform: translate(-46%, -50%); } 100% { transform: translate(-50%, -50%); } }
+@keyframes memorial-burst { from { opacity: 1; transform: translate(-50%, -50%) scale(.25); } to { opacity: 0; transform: translate(-50%, -50%) scale(1.65); } }
+@keyframes memorial-ink { from { opacity: .9; transform: translate(-50%, -50%) scale(.2) rotate(0); } to { opacity: 0; transform: translate(-50%, -50%) scale(1.5) rotate(18deg); } }
+@keyframes memorial-combo-pop { from { opacity: 0; transform: scale(.45) rotate(-5deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes memorial-leaf-flight { 0% { opacity: 0; transform: translate3d(0, -12px, 0) rotate(0); } 12% { opacity: .9; } 55% { transform: translate3d(58vw, calc(var(--leaf-drop) * .35), 0) rotate(390deg); } 100% { opacity: 0; transform: translate3d(112vw, var(--leaf-drop), 0) rotate(820deg); } }
+
+@media (max-width: 1024px) {
+  .memorial-modal { padding: 1vh 1vw; }
+  .memorial-game { width: 98vw; height: 98dvh; }
+  .memorial-header { height: 96px; padding: 13px 72px 10px 22px; }
+  .memorial-hud { gap: clamp(9px, 2.6vw, 25px); }
+  .memorial-desk { inset: 96px 0 0; grid-template-columns: 1fr; grid-template-rows: 1fr; padding: 12px 14px 245px; }
+  .memorial-rules { position: absolute; z-index: 13; right: 2%; bottom: 140px; left: 2%; width: auto; display: flex; grid-column: auto; grid-row: auto; align-items: center; gap: 14px; padding: 9px 14px; opacity: .97; }
+  .memorial-era-date { right: 0; bottom: 100%; left: auto; width: min(390px, 62vw); min-height: 36px; padding: 7px 10px; font-size: 14px; }
+  .memorial-rules h3 { right: 0; bottom: calc(100% + 36px); left: auto; width: min(390px, 62vw); min-height: 34px; display: grid; margin: 0; font-size: 17px; }
+  .memorial-rules dl { flex: 1; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .memorial-rules dl div { padding-bottom: 4px; }
+  .memorial-rules dt { font-size: 15px; }
+  .memorial-rules dd { display: none; }
+  .memorial-level { width: 125px; margin-top: 0; font-size: 12px; }
+  .memorial-paper-wrap { grid-column: 1; grid-row: 1; height: 100%; padding-bottom: 32px; }
+  .memorial-paper { width: auto; height: min(55dvh, 540px); max-width: 70vw; padding: 74px 34px 40px; }
+  .memorial-case-content { font-size: 18px; }
+  .memorial-intel { flex: 1; margin: 0; padding: 7px 9px; }
+  .memorial-intel span { font-size: 12px; }
+  .memorial-intel p { font-size: 13px; }
+  .memorial-stamp-rack { position: absolute; z-index: 12; right: 2%; bottom: 12px; left: 2%; display: flex; grid-column: auto; grid-row: auto; align-items: center; justify-content: space-between; padding: 9px 16px; background: #090a08f2; }
+  .memorial-stamp-rack h3 { margin: 0; font-size: 17px; }
+  .memorial-stamp-rack > p { display: none; }
+  .memorial-stamps { gap: clamp(18px, 7vw, 55px); }
+  .memorial-stamp { width: 88px; height: 92px; }
+  .memorial-stamp b { font-size: 14px; }
+  .memorial-intro { grid-template-columns: 1fr; grid-template-rows: minmax(220px, 39%) minmax(0, 1fr); gap: 14px; padding: 5% 9%; }
+  .memorial-host { width: min(68vw, 460px); min-height: 0; justify-self: center; transform: translateY(13px);width: 94%;}
+  .memorial-host figcaption { right: 4%; bottom: 4%; left: auto; min-width: 150px; }
+  .memorial-dialogue { width: min(80vw, 540px); min-height: min(48dvh, 560px); max-height: 100%; overflow-y: auto; justify-self: center; padding: 55px 48px 68px; background: url("../../assets/images/taskgame/memorial/dialog_mobile.webp") center / 100% 100% no-repeat; }
+  .memorial-dialogue blockquote { margin: 12px 0 17px; font-size: clamp(18px, 3vw, 24px); }
+  .memorial-brief { margin-bottom: 17px; }
+}
+
+@media (max-width: 650px) {
+  .memorial-modal { padding: 0; }
+  .memorial-game { width: 100vw; height: 100dvh; border: 0; }
+  .memorial-game::before { inset: 5px; }
+  .memorial-game::after { display: none; }
+  .memorial-close { top: 10px; right: 10px; width: 38px; height: 38px; }
+  .memorial-header { height: 100px; display: block; padding: 9px 52px 8px 12px; }
+  .memorial-header p { display: none; }
+  .memorial-header h2 { margin: 0; font-size: 24px; text-align: left; }
+  .memorial-hud { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 5px; }
+  .memorial-hud span { font-size: 12px; }
+  .memorial-hud b { font-size: 20px; }
+  .memorial-desk { inset: 100px 0 0; padding: 6px 6px 218px; }
+  .memorial-rules { top: auto; right: 2%; bottom: 132px; left: 2%; width: auto; gap: 8px; padding: 7px 9px; }
+  .memorial-era-date { right: 0; bottom: 100%; width: min(310px, 82vw); min-height: 32px; padding: 6px 8px; font-size: 12px; }
+  .memorial-rules h3 { right: 0; bottom: calc(100% + 32px); left: auto; width: min(310px, 82vw); min-height: 30px; display: grid; font-size: 15px; }
+  .memorial-level span { display: none; }
+  .memorial-rules dl { grid-template-columns: repeat(3, 1fr); }
+  .memorial-rules dl div { border: 0; }
+  .memorial-rules dt { font-size: 13px; text-align: center; }
+  .memorial-level { width: 92px; grid-template-columns: 1fr auto; margin: 3px 0 0; font-size: 11px; }
+  .memorial-level em { font-size: 11px; }
+  .memorial-paper-wrap { align-items: end; padding-bottom: 58px; }
+  .memorial-conveyor { inset: 6% 1% 2%; }
+  .memorial-paper { width: auto; height: min(50dvh, 440px); max-width: 88vw; padding: 58px 25px 30px; }
+  .memorial-paper-top { margin-top: 3px; }
+  .memorial-category { padding: 3px 8px; font-size: 13px; }
+  .memorial-tag { font-size: 12px; }
+  .memorial-number { margin: 7px 0 2px; font-size: 11px; }
+  .memorial-case-title { margin-bottom: 8px; padding-bottom: 6px; font-size: 23px; }
+  .memorial-case-content { min-height: 50px; font-size: 16px; line-height: 1.55; }
+  .memorial-intel { min-width: 0; gap: 2px; margin: 0; padding: 4px 6px; }
+  .memorial-intel span { font-size: 11px; }
+  .memorial-intel p { display: -webkit-box; overflow: hidden; font-size: 12px; line-height: 1.35; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+  .memorial-request { margin-top: 6px; padding: 6px 8px; }
+  .memorial-request span { font-size: 11px; }
+  .memorial-request b { font-size: 14px; }
+  .memorial-step { margin-top: 5px; }
+  .memorial-step span { padding: 3px 5px; font-size: 11px; }
+  .memorial-target { width: 130px; }
+  .memorial-target.is-small { width: 108px; }
+  .memorial-target span { font-size: 14px; }
+  .memorial-case-clock { bottom: 1%; }
+  .memorial-stamp-rack { right: 2%; bottom: 5px; left: 2%; height: 122px; padding: 7px 10px; }
+  .memorial-stamp-rack h3 { display: none; }
+  .memorial-stamps { width: 100%; justify-content: space-around; gap: 10px; }
+  .memorial-stamp { width: 78px; height: 82px; }
+  .memorial-stamp b { padding: 5px 1px; font-size: 13px; }
+  .memorial-feedback { top: 45%; width: min(86vw, 430px); }
+  .memorial-feedback span { font-size: 12px; }
+  .memorial-intro { grid-template-rows: 34% minmax(0, 1fr); padding: 5% 5%; }
+  .memorial-host { width: 72vw; }
+  .memorial-host figcaption { min-width: 115px; padding: 6px 8px; }
+  .memorial-host figcaption b { font-size: 18px; }
+  .memorial-dialogue { width: min(92vw, 460px); min-height: 0; max-height: 61dvh; overflow-y: auto; padding: 38px 22px 48px; }
+  .memorial-dialogue p { font-size: 12px; }
+  .memorial-dialogue blockquote { margin: 9px 0 12px; font-size: 17px; line-height: 1.65; }
+  .memorial-brief { grid-template-columns: 1fr; gap: 3px; margin-bottom: 12px; }
+  .memorial-brief span { padding: 6px 4px; font-size: 12px; }
+  .memorial-dialogue button { padding: 11px 18px; font-size: 14px; }
+  .memorial-dialogue small { margin-top: 7px; font-size: 11px; }
+  .memorial-result { padding: 7% 4%; }
+  .memorial-result-card { width: 92%; padding: 25px 16px; }
+  .memorial-result-card dl { grid-template-columns: repeat(2, 1fr); }
+  .memorial-result-card dl div { border-bottom: 1px solid #73543255; }
+  .memorial-result-card dl div:last-child { grid-column: 1 / -1; }
+  .memorial-result-card > div { width: 100%; }
+  .memorial-result button { min-width: 0; flex: 1; padding: 10px 8px; font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memorial-paper,
+  .memorial-feedback,
+  .memorial-burst,
+  .memorial-wind-leaves i,
+  .memorial-placed-stamp,
+  .memorial-time { animation: none !important; transition: none !important; }
+}

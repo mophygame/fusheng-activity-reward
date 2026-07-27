@@ -1,0 +1,309 @@
+{
+  "id": "chapter5",
+  "title": "第五章 · 大封之末",
+  "scenes": {
+    "lanternMarket": { "background": "./assets/images/storyline/bg_market_night.webp" },
+    "marketAmbush": { "background": "./assets/images/storyline/bg_market_night.webp" },
+    "cityOutskirts": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
+    "cliff": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
+    "cliffBottom": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
+    "forest": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
+    "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
+  },
+  "scripts": {
+    "chapterStart": [
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "lanternMarket",
+        "text": "第五章，大封之末。大封二十年，一年一度的花燈節，魏諍帶著端淑妃微服出巡，像一對尋常夫妻般穿梭在熱鬧市集。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "lanternMarket",
+        "actors": [
+          { "id": "weizheng", "name": "魏諍", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "途經飾品攤時，魏諍取下端淑妃早已相中的鈴鐺簪，親手替她別上。"
+      },
+      {
+        "speaker": "魏諍",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "right",
+        "scene": "lanternMarket",
+        "text": "贈爾之鈴鐺，一步一響，一步一嚮。步步響鈴，心悅於汝；步步所嚮，心之所向。子羽在此，願與汝白首不相離。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "marketAmbush",
+        "effects": ["fire-sparks", "smoke"],
+        "camera": { "shake": "strong" },
+        "text": "話音方落，夜空猛然綻開一朵不屬於花燈節的猩紅煙火，宛如預告即將染血的未來。煙火墜落，上官氏旗幟隨之出現，市集頃刻被叛軍占據。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "marketAmbush",
+        "text": "原本的人間煙火氣，轉眼染上硝煙。為首叛軍認出了微服的魏諍與端淑妃。"
+      },
+      {
+        "speaker": "叛軍首領",
+        "character": null,
+        "scene": "marketAmbush",
+        "text": "昏君與妖妃在此！頭兒說了，誰能斬下他們首級，永保一世榮華富貴！"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "marketAmbush",
+        "effects": ["sword-flash", "dust", "smoke"],
+        "camera": { "shake": "medium" },
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "left", "speaking": false },
+          { "id": "weizheng", "name": "魏諍", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
+        ],
+        "text": "叛軍一擁而上，霍驍卻在此刻破陣而出，率領一小隊護衛擋在帝妃身前。"
+      },
+      {
+        "speaker": "霍驍 · 字允執",
+        "character": "huoxiao",
+        "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp",
+        "position": "left",
+        "scene": "marketAmbush",
+        "text": "吾等在此，誓死護帝！"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "marketAmbush",
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "left", "speaking": false },
+          { "id": "jifeng", "name": "疾風", "portrait": "./assets/images/letter/ch_馬唯冀(疾風).webp", "position": "right", "speaking": false }
+        ],
+        "text": "霍驍牽來魏諍初時賞他的白金汗血寶馬「疾風」，將韁繩交到魏諍手中。"
+      },
+      {
+        "speaker": "霍驍 · 字允執",
+        "character": "huoxiao",
+        "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp",
+        "position": "left",
+        "scene": "marketAmbush",
+        "text": "皇上，城郊十里有我們的死士，那裡甚是安全。快帶端淑妃走！"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "cityOutskirts",
+        "effects": ["dust"],
+        "camera": { "shake": "soft" },
+        "actors": [
+          { "id": "weizheng", "name": "魏諍", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "left", "speaking": false },
+          { "id": "jifeng", "name": "疾風", "portrait": "./assets/images/letter/ch_馬唯冀(疾風).webp", "position": "right", "speaking": false }
+        ],
+        "text": "魏諍抱著端淑妃翻身上馬。疾風像是聽懂主人之言，立刻馱著兩人奔向城郊十里。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "cliff",
+        "camera": { "shake": "medium" },
+        "text": "然而上官叛軍人數眾多，緊追不捨，還像早已知道路線一般，將魏諍逼離原本方向，最終困在一處懸崖。"
+      },
+      {
+        "speaker": "魏諍",
+        "character": "weizheng",
+        "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
+        "position": "right",
+        "scene": "cliff",
+        "text": "朕可禪位，只要你們放了朕與朕的愛妃。"
+      },
+      {
+        "speaker": "叛軍首領",
+        "character": null,
+        "scene": "cliff",
+        "text": "上官一族，不斬草，只除根！"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "cliff",
+        "effects": ["sword-flash", "fog", "screen-vignette"],
+        "camera": { "shake": "strong" },
+        "text": "漫天箭矢直射而來。魏諍將端淑妃緊緊護入懷中，毅然躍下懸崖；疾風竟也跟著一躍而下。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "cliffBottom",
+        "effects": ["fog", "screen-vignette"],
+        "actors": [
+          { "id": "jifeng", "name": "疾風", "portrait": "./assets/images/letter/ch_馬唯冀(疾風).webp", "position": "center", "speaking": false }
+        ],
+        "text": "墜落瞬間，疾風硬是以身軀護住魏諍，以及被魏諍死死抱住的端淑妃。懸崖下，從此多了兩人一馬的身影。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "cliffBottom",
+        "text": "萬幸的是，在一人一馬的保護下，端淑妃硬生生留住最後一口氣。她顫抖著抓撓地上泥土，像是在向命運求取一線生機。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "cliffBottom",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "就在此時，她看見了那位傳聞中只服侍皇后的內侍總管——魏猙。"
+      },
+      {
+        "speaker": "端淑妃 · {username}",
+        "character": null,
+        "scene": "cliffBottom",
+        "text": "魏……公公……救……"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "cliffBottom",
+        "actors": [
+          { "id": "weizeng", "name": "魏猙", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false }
+        ],
+        "text": "魏猙像是沒有聽見，緩緩在她身旁蹲下。"
+      },
+      {
+        "speaker": "魏猙 · 字子貍",
+        "character": "weizeng",
+        "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp",
+        "position": "left",
+        "scene": "cliffBottom",
+        "text": "真美的人兒，可惜，只剩一口氣了。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "cliffBottom",
+        "text": "魏猙輕撫端淑妃的臉，直視她充滿恐懼的雙眼，而後緩緩將手攀上她纖細的脖頸。"
+      },
+      {
+        "speaker": "魏猙 · 字子貍",
+        "character": "weizeng",
+        "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp",
+        "position": "left",
+        "scene": "cliffBottom",
+        "text": "你我這一生，禍福相依，事事不由己。只可惜，我這一次，只想做一回阿貍——專屬她的阿貍。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "cliffBottom",
+        "text": "他的手隨話語越收越緊。最後一字落下，端淑妃也斷了氣。臨走前，魏猙在她胸口放下一顆糖炒栗子，隨即回城稟報。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "cliffBottom",
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "魏猙離去後，滿身傷痕的霍驍終於趕到。他望見兩人一馬的屍身，跪地抱起端淑妃，崩潰痛哭。"
+      },
+      {
+        "speaker": "霍驍 · 字允執",
+        "character": "huoxiao",
+        "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp",
+        "position": "center",
+        "scene": "cliffBottom",
+        "text": "允執來遲了……我不做將軍了。下輩子，允執哪兒也不去，只給妳搗一輩子的藥，好不好？"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "forest",
+        "camera": { "shake": "soft" },
+        "text": "極度悲慟讓霍驍屏蔽了周遭一切。他沒有察覺，林間的叛軍弓箭手正悄然逼近。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "forest",
+        "effects": ["blood-splash", "screen-vignette"],
+        "camera": { "shake": "strong" },
+        "actors": [
+          { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "center", "speaking": false }
+        ],
+        "text": "利箭穿透玄甲。萬箭穿心之際，霍驍沒有回頭，也沒有拔劍，只用盡最後一絲力氣，將懷裡的{username}護得更緊。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "forest",
+        "text": "這一次，他終於可以不用再退讓了。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "書頁闔上了。抬起頭吧，{username}，妳已經回到不見書肆。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "妳方才看見的並非夢境，也不是後人杜撰的戲文。那就是大封曾經發生過的歷史。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "史冊記下帝王更替，卻未必記得顧芨的飢餓、魏猙的執念、映雪的枷鎖，以及允執最後沒有說出口的心願。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "魏諍以帝血換來的大雨，疾風縱身躍下的懸崖，還有所有被盛世之名掩埋的人，如今都由妳親眼見證。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "只要仍有人記得，他們便不算真正消失。這五卷命書，也終於可以安心歸架了。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "《大封舊事》，至此落卷。故事結束了。"
+      }
+    ]
+  }
+}

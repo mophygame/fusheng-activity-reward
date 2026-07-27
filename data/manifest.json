@@ -1,7 +1,15 @@
 {
   "routes": "./data/routes.json",
   "chapters": {
-    "prologue": "./data/chapters/prologue.json"
+    "prologue": "./data/chapters/prologue.json",
+    "chapter1": "./data/chapters/chapter1.json",
+    "chapter2": "./data/chapters/chapter2.json",
+    "chapter3": "./data/chapters/chapter3.json",
+    "chapter4": "./data/chapters/chapter4.json",
+    "chapter5": "./data/chapters/chapter5.json"
+  },
+  "minigames": {
+    "keepsakeMatch": "./data/minigames/keepsake-match.json"
   },
   "startChapter": "prologue"
 }
