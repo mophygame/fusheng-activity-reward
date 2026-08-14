@@ -3,6 +3,7 @@ class TaskGameModal {
     this.container = container;
     this.onClose = options.onClose || (() => {});
     this.onStart = options.onStart || (() => {});
+    this.onIntent = options.onIntent || (() => {});
     this.previouslyFocusedElement = null;
     this.games = options.games || [
       {
@@ -67,6 +68,7 @@ class TaskGameModal {
     this.games.forEach((game) => {
       const card = document.createElement("article");
       card.className = `taskgame-card${game.available ? "" : " is-locked"}`;
+      card.dataset.gameId = game.id;
       card.innerHTML = `
         <img class="taskgame-card-bg" src="${game.image}" alt="" aria-hidden="true" />
         <div class="taskgame-card-content">
@@ -77,6 +79,10 @@ class TaskGameModal {
       `;
       if (game.available) {
         card.querySelector(".taskgame-start").addEventListener("click", () => this.onStart(game.id));
+        const warm = () => this.onIntent(game.id);
+        card.addEventListener("pointerenter", warm, { once: true, passive: true });
+        card.addEventListener("touchstart", warm, { once: true, passive: true });
+        card.querySelector(".taskgame-start").addEventListener("focus", warm, { once: true, passive: true });
       }
       this.listEl.appendChild(card);
     });
@@ -88,7 +94,7 @@ class TaskGameModal {
 
     const selectNearestCard = () => {
       frame = 0;
-      if (!window.matchMedia("(max-width: 900px)").matches) {
+      if (!window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches) {
         cards.forEach((card) => card.classList.remove("is-selected"));
         return;
       }
@@ -117,7 +123,7 @@ class TaskGameModal {
     cards.forEach((card) => {
       card.addEventListener("click", (event) => {
         if (event.target.closest(".taskgame-start")) return;
-        if (!window.matchMedia("(max-width: 900px)").matches) return;
+        if (!window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches) return;
         card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
       });
     });

@@ -32,5 +32,5 @@
 .still-viewer button { position:absolute; right:3vw; top:3vh; color:#ddbd83; border:0; background:none; font-size:42px; cursor:pointer; }
 .still-no-funds .still-balance { animation:still-shake .35s; color:#ff8a65; }
 @keyframes still-shake { 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
-@media (max-width:850px) { #gallery-shop{padding:2vh 2vw}.still-gallery{padding:22px 18px}.still-header{padding:0 0 48px}.still-balance{left:0;bottom:10px}.still-grid{grid-template-columns:repeat(2,1fr);gap:12px}.still-close{right:14px;top:14px;width:40px;height:40px}.still-footer span::before,.still-footer span::after{margin:0 7px} }
-@media (max-width:420px) { .still-header h2{font-size:23px}.still-grid{grid-template-columns:1fr 1fr}.still-card h3{font-size:13px}.still-gallery{width:96vw}.still-footer{font-size:11px} }
+@media (max-width:850px) and (orientation:portrait) { #gallery-shop{padding:2vh 2vw}.still-gallery{padding:22px 18px}.still-header{padding:0 0 48px}.still-balance{left:0;bottom:10px}.still-grid{grid-template-columns:repeat(2,1fr);gap:12px}.still-close{right:14px;top:14px;width:40px;height:40px}.still-footer span::before,.still-footer span::after{margin:0 7px} }
+@media (max-width:420px) and (orientation:portrait) { .still-header h2{font-size:23px}.still-grid{grid-template-columns:1fr 1fr}.still-card h3{font-size:13px}.still-gallery{width:96vw}.still-footer{font-size:11px} }

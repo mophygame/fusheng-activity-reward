@@ -2,13 +2,16 @@
   "id": "chapter2",
   "title": "第二章 · 庶子子貍",
   "scenes": {
-    "weiBackyard": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
-    "shangguanEstate": { "background": "./assets/images/storyline/bg_palace_exterior.webp" },
-    "market": { "background": "./assets/images/storyline/bg_market_day.webp" },
-    "weddingRoad": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
-    "rainCourt": { "background": "./assets/images/storyline/bg_rain_palace.webp" },
-    "innerPalace": { "background": "./assets/images/storyline/bg_palace_corridor.webp" },
-    "genghuaHall": { "background": "./assets/images/storyline/bg_palace_corridor.webp" },
+    "weiBackyard": { "background": "./assets/images/storyline/chapter2/bg_wei_backyard.webp" },
+    "shangguanEstate": { "background": "./assets/images/storyline/chapter2/bg_shangguan_estate.webp" },
+    "shangguanStudy": { "background": "./assets/images/storyline/chapter2/bg_shangguan_estate.webp" },
+    "market": { "background": "./assets/images/storyline/chapter2/bg_ancient_market.webp" },
+    "shangguanRoomNight": { "background": "./assets/images/storyline/chapter2/bg_shangguan_room_night.webp" },
+    "weddingRoad": { "background": "./assets/images/storyline/chapter1/bg_wedding_street.webp" },
+    "weddingChaos": { "background": "./assets/images/storyline/chapter2/bg_wedding_chaos.webp" },
+    "rainCourt": { "background": "./assets/images/storyline/chapter2/bg_rain_enthronement.webp" },
+    "innerPalace": { "background": "./assets/images/storyline/chapter2/bg_inner_palace.webp" },
+    "genghuaHall": { "background": "./assets/images/storyline/chapter2/bg_genghua_hall.webp" },
     "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
   },
   "scripts": {
@@ -69,7 +72,7 @@
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
-        "scene": "shangguanEstate",
+        "scene": "shangguanStudy",
         "actors": [
           { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
           { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
@@ -110,7 +113,7 @@
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
-        "scene": "shangguanEstate",
+        "scene": "shangguanRoomNight",
         "actors": [
           { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false }
         ],
@@ -121,14 +124,14 @@
         "character": "shangguan-yingxue",
         "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp",
         "position": "right",
-        "scene": "shangguanEstate",
+        "scene": "shangguanRoomNight",
         "text": "阿貍，我這一生，萬事不得由己，而你還有機會，可以隨心所欲。與你伴讀的這五年，是我這一生中唯一能隨心所欲的時刻。"
       },
       {
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
-        "scene": "shangguanEstate",
+        "scene": "shangguanRoomNight",
         "actors": [
           { "id": "weizeng", "name": "魏猙 · 字子貍", "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp", "position": "left", "speaking": false },
           { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "right", "speaking": false }
@@ -147,7 +150,7 @@
         "character": "weizheng",
         "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
         "position": "center",
-        "scene": "weddingRoad",
+        "scene": "weddingChaos",
         "effects": ["sword-flash", "dust", "smoke"],
         "camera": { "shake": "strong" },
         "text": "皇帝不顧民生，日日歌舞，視百姓如草芥，日日欺壓百姓。我魏子羽，今日反了！"
@@ -156,7 +159,7 @@
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
-        "scene": "weddingRoad",
+        "scene": "weddingChaos",
         "camera": { "shake": "medium" },
         "text": "魏氏死士與軍隊一擁而上，劍指王城，迎親隊伍瞬間被軍馬沖散。魏猙想衝上前救出映雪，卻被魏家死士誤作阻撓叛軍之人，狠狠制服在地。"
       },
@@ -165,14 +168,14 @@
         "character": "weizeng",
         "portrait": "./assets/images/全身人設-魏猙（白霽前世）.webp",
         "position": "left",
-        "scene": "weddingRoad",
+        "scene": "weddingChaos",
         "text": "映雪娘子！阿貍在這！別怕！"
       },
       {
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
-        "scene": "weddingRoad",
+        "scene": "weddingChaos",
         "camera": { "shake": "medium" },
         "text": "他的嘶喊被亂軍與馬蹄聲淹沒，視線也逐漸模糊。待他再抬起頭，上官映雪早已不知去向。"
       },

@@ -2,12 +2,14 @@
   "id": "chapter3",
   "title": "第三章 · 鳳印如枷",
   "scenes": {
-    "bridalSedan": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
-    "weddingRoad": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
-    "rainCourt": { "background": "./assets/images/storyline/bg_rain_palace.webp" },
-    "enthronement": { "background": "./assets/images/storyline/bg_palace_hall.webp" },
-    "yideHall": { "background": "./assets/images/storyline/bg_palace_corridor.webp" },
-    "palaceNight": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
+    "bridalSedan": { "background": "./assets/images/storyline/chapter3/bg_bridal_sedan_inside.webp" },
+    "weddingRoad": { "background": "./assets/images/storyline/chapter3/bg_wedding_battle.webp" },
+    "rainCourt": { "background": "./assets/images/storyline/chapter2/bg_rain_enthronement.webp" },
+    "enthronement": { "background": "./assets/images/storyline/chapter3/bg_enthronement_ceremony.webp" },
+    "yideHall": { "background": "./assets/images/storyline/chapter3/bg_yide_hall.webp" },
+    "yuxinHall": { "background": "./assets/images/storyline/chapter3/bg_yuxin_hall.webp" },
+    "palaceNight": { "background": "./assets/images/storyline/chapter3/bg_palace_night.webp" },
+    "lanternDesk": { "background": "./assets/images/storyline/chapter3/bg_palace_lantern_desk.webp" },
     "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
   },
   "scripts": {
@@ -94,7 +96,7 @@
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
-        "scene": "enthronement",
+        "scene": "yuxinHall",
         "actors": [
           { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "left", "speaking": false },
           { "id": "weizheng", "name": "魏諍", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
@@ -133,7 +135,7 @@
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
-        "scene": "palaceNight",
+        "scene": "lanternDesk",
         "effects": ["fire-sparks", "screen-vignette"],
         "actors": [
           { "id": "shangguan-yingxue", "name": "上官映雪", "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp", "position": "center", "speaking": false }
@@ -145,14 +147,14 @@
         "character": "shangguan-yingxue",
         "portrait": "./assets/images/全身人設-上官映雪（褚晏時前世）.webp",
         "position": "center",
-        "scene": "palaceNight",
+        "scene": "lanternDesk",
         "text": "隨他去吧，只要皇上高興。"
       },
       {
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
-        "scene": "palaceNight",
+        "scene": "lanternDesk",
         "text": "她拍去指尖沾上的餘燼，只自嘲地彎了彎嘴角，並未再多想。"
       }
     ]

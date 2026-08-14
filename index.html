@@ -6,16 +6,11 @@
     <meta name="theme-color" content="#07090d" />
     <meta name="description" content="沐眠之地恭喜你破關《燈晝餘燼》" />
     <title>燈晝餘燼</title>
-    <link rel="preload" href="./assets/images/title-city.webp" as="image" />
-    <link rel="preload" href="./assets/images/enter/bg_loading.webp" as="image" />
-    <link rel="preload" href="./assets/images/enter/title.webp" as="image" />
-    <link rel="preload" href="./assets/images/enter/btn.webp" as="image" />
-    <link rel="preload" href="./assets/images/enter/btn_hover.webp" as="image" />
-    <link rel="preload" href="./assets/images/enter/icon_user.webp" as="image" />
-    <link rel="preload" href="./assets/images/bookstoreowner_mu.webp" as="image" />
-    <link rel="preload" href="./assets/images/bookstoreowner_mian.webp" as="image" />
+    <!-- Only the first-screen artwork is render-critical. Preloading later scenes here
+         competes with it on slower GitHub Pages connections. -->
+    <link rel="preload" href="./assets/images/enter/bg_loading.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="./assets/images/enter/title2.webp" as="image" type="image/webp" fetchpriority="high" />
     <link rel="stylesheet" href="./styles.css" />
-    <link rel="stylesheet" href="./src/keepsake-game.css" />
     <link rel="stylesheet" href="./style/taskgame/taskgame.css" />
     <link rel="stylesheet" href="./style/taskgame/skylantern.css" />
     <link rel="stylesheet" href="./style/taskgame/touhu.css" />
@@ -31,27 +26,36 @@
         <div id="story-items" class="story-items" aria-hidden="true"></div>
         <div id="embers" class="embers" aria-hidden="true"></div>
 
-        <header class="game-hud">
-          <button id="keepsake-toggle" class="icon-button keepsake-toggle" type="button" aria-label="重玩信物配對" hidden>
-            <span>信物</span>
-          </button>
-        </header>
-
         <section id="title-screen" class="screen title-screen">
           <p class="eyebrow">以史為鏡，可以知興替</p>
           <h1 class="game-title">
-            <img src="./assets/images/enter/title2.webp" alt="燈書餘燼" />
+            <img src="./assets/images/enter/title2.webp" alt="燈書餘燼" fetchpriority="high" decoding="async" />
           </h1>
           <div class="title-rule">
-            <img src="./assets/images/subtitle.webp" alt="如沐墨眠 x Touchie" />
+            <img src="./assets/images/subtitle.webp" alt="如沐墨眠 x Touchie" loading="lazy" decoding="async" />
           </div>
           <p class="title-copy">命簿已開，你可還記得故人？</p>
           <button id="enter-button" class="enter-button" type="button">
             <span>入 卷</span>
             <small>ENTER THE STORY</small>
           </button>
-          <img class="enter-user-icon" src="./assets/images/enter/icon_user.webp" alt="" aria-hidden="true" />
+          <img class="enter-user-icon" src="./assets/images/enter/icon_user.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           <p class="headphone-note">建議開啟聲音，獲得完整體驗</p>
+
+          <div id="passcode-modal" class="passcode-modal" hidden>
+            <section class="passcode-scroll" role="dialog" aria-modal="true" aria-labelledby="passcode-title" aria-describedby="passcode-instruction">
+              <button id="close-passcode-button" class="passcode-close" type="button" aria-label="闔上密令卷">×</button>
+              <p class="passcode-kicker">欲 啟 此 卷</p>
+              <h2 id="passcode-title">請呈通關密令</h2>
+              <p id="passcode-instruction">密令既合，前塵方可重現。</p>
+              <form id="passcode-form" novalidate>
+                <label for="passcode-input">於此落字</label>
+                <input id="passcode-input" name="passcode" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-describedby="passcode-error" />
+                <p id="passcode-error" class="passcode-error" role="alert" aria-live="assertive"></p>
+                <button class="passcode-submit" type="submit">驗 令 啟 卷</button>
+              </form>
+            </section>
+          </div>
         </section>
 
         <section id="home-screen" class="screen home-screen" hidden>
@@ -130,7 +134,7 @@
             <div class="home-modal-card story-map-card">
               <button id="close-story-menu-button" class="home-modal-close" type="button" aria-label="關閉故事主線">×</button>
               <header class="story-map-heading">
-                <p class="modal-kicker">浮生卷 · 故事主線</p>
+                <p class="modal-kicker">燈晝餘燼 · 故事主線</p>
                 <h2>大封舊事</h2>
                 <p>循命書殘跡，閱盡一場被史冊遺忘的前塵。</p>
               </header>
@@ -179,11 +183,6 @@
               <p class="modal-kicker">小遊戲</p>
               <h2>選擇遊戲</h2>
               <div class="minigame-list">
-                <button id="start-keepsake-game-button" class="minigame-entry" type="button">
-                  <span>已開放</span>
-                  <b>五信歸命</b>
-                  <small>將五件現代信物，交還給命定之人。</small>
-                </button>
                 <button class="minigame-entry is-locked" type="button" disabled>
                   <span>未開放</span>
                   <b>燈影問答</b>
@@ -237,12 +236,15 @@
           <div id="dialogue-panel" class="dialogue-panel" hidden>
             <div class="speaker-row">
               <strong id="speaker-name">旁白</strong>
-              <span id="progress-mark">01 / 08</span>
             </div>
             <p id="dialogue-text"></p>
-            <button id="dialogue-next" class="dialogue-next" type="button" aria-label="繼續對話">
-              <span>繼續</span><i></i>
-            </button>
+            <button id="exit-story-button" class="exit-story-button" type="button">離開故事</button>
+            <div class="dialogue-actions">
+              <button id="dialogue-next" class="dialogue-next" type="button" aria-label="繼續對話">
+                <span>繼續</span><i></i>
+              </button>
+              <span class="dialogue-shortcut" aria-hidden="true"><kbd>Space</kbd><b>或</b><kbd>Enter</kbd></span>
+            </div>
             <button id="ask-history-button" class="ask-history-button" type="button" hidden>詢問大封舊史</button>
           </div>
 
@@ -253,6 +255,7 @@
               <h2>五 卷 命 書</h2>
             </header>
             <div id="scroll-grid" class="scroll-grid"></div>
+            <p class="books-swipe-hint" aria-hidden="true">‹　左右滑動選擇命書　›</p>
             <button id="shelve-books-button" class="shelve-books-button" type="button" hidden>闔卷歸架</button>
           </div>
 
@@ -290,9 +293,19 @@
                 </dl>
                 <blockquote id="reader-line"></blockquote>
                 <p id="reader-background" class="reader-prologue"></p>
-                <button id="love-letter-button" class="begin-route-button" type="button">展閱情箋</button>
+                <div class="reader-actions">
+                  <button id="love-letter-button" class="begin-route-button" type="button">展閱情箋</button>
+                  <button id="route-keepsake-button" class="begin-route-button route-keepsake-button" type="button" aria-haspopup="dialog" aria-controls="route-keepsake-modal">查看命定信物</button>
+                </div>
               </div>
             </article>
+            <div id="route-keepsake-modal" class="route-keepsake-modal" hidden>
+              <section class="route-keepsake-panel" role="dialog" aria-modal="true" aria-label="命定信物">
+                <button id="close-route-keepsake-button" class="route-keepsake-close" type="button" aria-label="關閉命定信物">×</button>
+                <div id="route-keepsake-list" class="route-keepsake-list"></div>
+                <footer>每一件信物，都承載著一段緣分與記憶。</footer>
+              </section>
+            </div>
             <div id="love-letter" class="love-letter" hidden>
               <div class="letter-sheet">
                 <button id="close-letter-button" class="letter-close" type="button" aria-label="闔箋收情">×</button>
@@ -304,6 +317,11 @@
                   <p class="letter-author"><span>念卿人</span><b id="letter-author-name"></b></p>
                   <img id="letter-signature" class="letter-signature" alt="" />
                 </div>
+                <nav class="letter-pagination" aria-label="書信分頁">
+                  <button id="letter-prev-page" type="button" aria-label="上一頁">‹</button>
+                  <span id="letter-page-indicator" aria-live="polite">1 / 1</span>
+                  <button id="letter-next-page" type="button" aria-label="下一頁">›</button>
+                </nav>
               </div>
             </div>
           </div>
@@ -323,7 +341,6 @@
             </video>
           </div>
 
-          <div id="keepsake-game" hidden></div>
         </section>
 
         <div id="transition" class="transition" aria-hidden="true">
@@ -333,7 +350,7 @@
         </div>
       </div>
     </main>
-    <script defer src="./src/keepsake-game.js"></script>
+    <script defer src="./src/feature-preloader.js"></script>
     <script defer src="./src/taskgame/taskgame.js"></script>
     <script defer src="./src/taskgame/skylantern.js"></script>
     <script defer src="./src/taskgame/touhu.js"></script>

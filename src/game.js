@@ -4,7 +4,6 @@ const GAME_STATE = Object.freeze({
   DIALOGUE: "dialogue",
   SELECT: "select",
   READER: "reader",
-  MINIGAME: "minigame",
   VIDEO: "video",
   CHAPTER: "chapter",
 });
@@ -16,17 +15,11 @@ class StoryLoader {
     const chapterEntries = await Promise.all(
       Object.entries(manifest.chapters).map(async ([id, path]) => [id, await this.fetchJson(path)]),
     );
-    const minigameEntries = await Promise.all(
-      Object.entries(manifest.minigames || {}).map(async ([id, path]) => [id, await this.fetchJson(path)]),
-    );
-
     const chapters = Object.fromEntries(chapterEntries);
-    const minigames = Object.fromEntries(minigameEntries);
     return {
       manifest,
       routes,
       chapters,
-      minigames,
       currentChapter: chapters[manifest.startChapter],
     };
   }
@@ -145,8 +138,6 @@ class OtomeGame {
     this.currentChapter = null;
     this.routes = [];
     this.scripts = {};
-    this.minigames = {};
-    this.currentMinigame = null;
     this.afterVideoAction = null;
     this.dialogueIndex = 0;
     this.dialogueScript = [];
@@ -156,14 +147,13 @@ class OtomeGame {
     this.booksReviewMode = false;
     this.beforeBooksState = null;
     this.returnHomeAfterBooks = false;
-    this.returnHomeAfterMiniGame = false;
     this.chapterInProgress = null;
     this.viewedRoutes = this.loadViewedRoutes();
     this.booksUnlocked = localStorage.getItem("booksUnlocked") === "true";
-    this.keepsakeMatchCompleted = localStorage.getItem("keepsakeMatchCompleted") === "true";
     this.player = this.loadPlayerState();
     this.typeTimer = null;
     this.audio = new AudioDirector();
+    this.preloader = new window.FeaturePreloader({ concurrency: 3 });
     this.taskGameModal = null;
     this.skyLanternGame = null;
     this.touhuGame = null;
@@ -179,8 +169,12 @@ class OtomeGame {
       home: document.querySelector("#home-screen"),
       story: document.querySelector("#story-screen"),
       enter: document.querySelector("#enter-button"),
+      passcodeModal: document.querySelector("#passcode-modal"),
+      passcodeForm: document.querySelector("#passcode-form"),
+      passcodeInput: document.querySelector("#passcode-input"),
+      passcodeError: document.querySelector("#passcode-error"),
+      closePasscode: document.querySelector("#close-passcode-button"),
       music: document.querySelector("#music-toggle"),
-      keepsake: document.querySelector("#keepsake-toggle"),
       playerNickname: document.querySelector("#player-nickname"),
       playerLevel: document.querySelector("#player-level"),
       playerProgress: document.querySelector("#player-progress"),
@@ -199,7 +193,6 @@ class OtomeGame {
       homeGallery: document.querySelector("#home-gallery-button"),
       minigameMenu: document.querySelector("#minigame-menu"),
       closeMinigameMenu: document.querySelector("#close-minigame-menu-button"),
-      startKeepsakeGame: document.querySelector("#start-keepsake-game-button"),
       storyMenu: document.querySelector("#story-menu"),
       closeStoryMenu: document.querySelector("#close-story-menu-button"),
       chapterList: document.querySelector("#chapter-list"),
@@ -216,8 +209,8 @@ class OtomeGame {
       panel: document.querySelector("#dialogue-panel"),
       speaker: document.querySelector("#speaker-name"),
       text: document.querySelector("#dialogue-text"),
-      progress: document.querySelector("#progress-mark"),
       next: document.querySelector("#dialogue-next"),
+      exitStory: document.querySelector("#exit-story-button"),
       askHistory: document.querySelector("#ask-history-button"),
       select: document.querySelector("#scroll-select"),
       closeBooks: document.querySelector("#close-books-button"),
@@ -237,7 +230,6 @@ class OtomeGame {
       laterHistory: document.querySelector("#later-history-button"),
       historyVideoScreen: document.querySelector("#history-video-screen"),
       historyVideo: document.querySelector("#history-video"),
-      keepsakeGame: document.querySelector("#keepsake-game"),
       transition: document.querySelector("#transition"),
       embers: document.querySelector("#embers"),
     };
@@ -250,7 +242,6 @@ class OtomeGame {
       this.currentChapter = this.story.currentChapter;
       this.routes = this.story.routes;
       this.scripts = this.currentChapter.scripts;
-      this.minigames = this.story.minigames;
       this.dialogueScript = this.scripts.intro;
     } catch (error) {
       console.error("劇情資料載入失敗", error);
@@ -260,11 +251,138 @@ class OtomeGame {
 
     this.createEmbers();
     this.createScrolls();
+    this.setupPreloading();
     this.bindEvents();
     this.bindHomeCarousel();
-    this.el.keepsake.hidden = !this.keepsakeMatchCompleted;
     this.renderHome();
     this.updateReadingProgress();
+  }
+
+  setupPreloading() {
+    const image = (path) => `./assets/images/${path}`;
+    const routeImages = this.routes.flatMap((route, index) => {
+      const portraitName = `${route.role}(${route.name})`;
+      return [
+        image(`letter/ch_${encodeURIComponent(`現代_${portraitName}`)}.webp`),
+        image(`letter/ch_${encodeURIComponent(portraitName)}.webp`),
+        image(`letter/信物-${encodeURIComponent(portraitName)}-現代信物.webp`),
+        image(`letter/信物-${encodeURIComponent(portraitName)}-古代信物.webp`),
+        image(`letter/${index % 2 === 0 ? "mask.webp" : "mask02.webp"}`),
+        image(`用印-${encodeURIComponent(route.name)}.webp`),
+      ];
+    });
+    const portraitLayout = window.matchMedia("(max-width: 1024px) and (orientation: portrait)");
+    const desktopHome = image("index/bg_index.webp");
+    const portraitHome = image("index/bg_index_mobile.webp");
+    const mobileHome = portraitLayout.matches ? portraitHome : desktopHome;
+
+    this.preloader.register("home", {
+      critical: [mobileHome, image("btn_storyline.webp")],
+      deferred: [
+        image("index/player_avatar.png"), image("index/icon_light.webp"),
+        image("index/icon_signin_reward.webp"), image("index/icon_music.webp"),
+        image("btn_taskgame.webp"), image("btn_letter.webp"), image("btn_still.webp"),
+      ],
+    });
+    this.preloader.register("story", {
+      critical: [image("storyline/story_map_background.webp"), image("storyline/horse/idle_01.webp")],
+      deferred: [
+        image("storyline/horse/idle_02.webp"), image("storyline/horse/idle_03.webp"),
+        image("storyline/horse/idle_04.webp"), image("title-city.webp"), image("scroll-shop.webp"),
+      ],
+    });
+    this.preloader.register("books", {
+      critical: [image("scroll-shop.webp"), image("paper.webp")],
+      deferred: [
+        image("letter/book_leather_texture.webp"), image("letter/book_paper_edge.webp"),
+        image("letter/book_spine_pattern.webp"), image("letter/book_corner.webp"), image("letter/book_label.webp"),
+      ],
+    });
+    this.preloader.register("gallery", {
+      critical: [image("btn_normal.webp")],
+      deferred: [image("btn_hover.webp")],
+    });
+    this.preloader.register("minigames", {
+      critical: [image("taskgame/btn_startgame.webp")],
+      deferred: [
+        image("taskgame/btn_startgame_hover.webp"), image("taskgame/btn_skylantern.webp"),
+        image("taskgame/btn_touhu.webp"), image("taskgame/btn_throne.webp"),
+      ],
+    });
+    this.preloader.register("skylantern", {
+      critical: [image("taskgame/skylantern/nightsky.webp"), image("taskgame/skylantern/lantern.webp")],
+      deferred: [
+        image("taskgame/skylantern/mountain_scenery.webp"), image("taskgame/skylantern/moon.webp"),
+        image("taskgame/skylantern/cloud01.webp"), image("taskgame/skylantern/cloud02.webp"),
+        image("taskgame/skylantern/lantern_normal.webp"), image("taskgame/skylantern/lantern_light.webp"),
+      ],
+    });
+    this.preloader.register("touhu", {
+      critical: [image("taskgame/touhu/background.webp"), image("taskgame/touhu/ground.webp"), image("taskgame/touhu/arrow.webp")],
+      deferred: [
+        ...Array.from({ length: 9 }, (_, index) => image(`taskgame/touhu/bottle${String(index + 1).padStart(2, "0")}.webp`)),
+        image("taskgame/touhu/hit_effect.webp"), image("taskgame/touhu/miss_effect.webp"),
+      ],
+    });
+    this.preloader.register("memorial", {
+      critical: [image("taskgame/memorial/background.webp"), image("taskgame/memorial/desk.webp"), image("taskgame/memorial/paper_plain.webp")],
+      deferred: [
+        image("taskgame/memorial/paper_spring.webp"), image("taskgame/memorial/paper_summer.webp"),
+        image("taskgame/memorial/paper_autumn.webp"), image("taskgame/memorial/paper_winter.webp"),
+        image("taskgame/memorial/paper_urgent.webp"), image("taskgame/memorial/paper_special.webp"),
+        image("taskgame/memorial/seal_approve.webp"), image("taskgame/memorial/seal_reject.webp"),
+      ],
+    });
+
+    const collectAssets = (value, assets = []) => {
+      if (typeof value === "string" && /\.(?:webp|png|jpe?g|gif|avif)$/i.test(value)) assets.push(value);
+      else if (Array.isArray(value)) value.forEach((entry) => collectAssets(entry, assets));
+      else if (value && typeof value === "object") Object.values(value).forEach((entry) => collectAssets(entry, assets));
+      return assets;
+    };
+    Object.entries(this.story.chapters).forEach(([chapterId, chapter]) => {
+      const assets = [...new Set(collectAssets(chapter))];
+      this.preloader.register(`chapter:${chapterId}`, {
+        critical: assets.slice(0, 3),
+        deferred: assets.slice(3),
+      });
+      this.preloader.onIntent(
+        this.el.chapterButtons.find((button) => button.dataset.chapterId === chapterId),
+        `chapter:${chapterId}`,
+      );
+    });
+    this.routes.forEach((route, index) => {
+      const assets = routeImages.slice(index * 6, index * 6 + 6);
+      this.preloader.register(`route:${route.id}`, {
+        critical: assets.slice(0, 2),
+        deferred: assets.slice(2),
+      });
+      this.preloader.onIntent(
+        this.el.grid.querySelector(`[data-route-id="${route.id}"]`),
+        `route:${route.id}`,
+      );
+    });
+
+    this.preloader.warm("home");
+    this.preloader.onIntent(this.el.homeStory, "story");
+    this.preloader.onIntent(this.el.homeBooks, "books");
+    this.preloader.onIntent(this.el.homeGallery, "gallery");
+    this.preloader.onIntent(this.el.homeMinigame, "minigames");
+    portraitLayout.addEventListener("change", (event) => {
+      this.preloader.loadImage(event.matches ? portraitHome : desktopHome, "high");
+      window.requestAnimationFrame(() => {
+        this.updateHomeCarouselSelection?.();
+        this.updateScrollBookSelection?.();
+      });
+    });
+  }
+
+  async openWhenReady(button, group, action) {
+    button?.setAttribute("aria-busy", "true");
+    await this.preloader.load(group, { criticalOnly: true });
+    button?.removeAttribute("aria-busy");
+    action();
+    this.preloader.warm(group);
   }
 
   showLoadError() {
@@ -292,6 +410,7 @@ class OtomeGame {
       loginRewardHistory: {},
       clearedChapters: [],
       lastStoryChapter: "",
+      storyProgress: {},
     };
 
     try {
@@ -310,6 +429,9 @@ class OtomeGame {
         lastStoryChapter: ["prologue", "chapter1", "chapter2", "chapter3", "chapter4", "chapter5"].includes(saved.lastStoryChapter)
           ? saved.lastStoryChapter
           : fallback.lastStoryChapter,
+        storyProgress: saved.storyProgress && typeof saved.storyProgress === "object"
+          ? saved.storyProgress
+          : fallback.storyProgress,
       };
     } catch {
       return fallback;
@@ -422,17 +544,33 @@ class OtomeGame {
       const chapterId = button.dataset.chapterId;
       const unlocked = this.isChapterUnlocked(chapterId);
       const cleared = this.isChapterCleared(chapterId);
+      const hasProgress = !cleared && Number.isInteger(Number(this.player.storyProgress?.[chapterId]));
       button.disabled = !unlocked;
       button.classList.toggle("is-locked", !unlocked);
       button.classList.toggle("is-cleared", cleared);
-      button.querySelector(".chapter-status").textContent = cleared ? "已讀 · 重溫" : unlocked ? "可閱讀" : "未解鎖";
-      button.setAttribute("aria-label", `${button.querySelector(".chapter-number").textContent} ${button.querySelector("b").textContent}，${cleared ? "已讀，可重新閱讀" : unlocked ? "可閱讀" : "尚未解鎖"}`);
+      button.classList.toggle("has-progress", hasProgress);
+      const status = cleared ? "已讀 · 重溫" : hasProgress ? "繼續閱讀" : unlocked ? "可閱讀" : "未解鎖";
+      button.querySelector(".chapter-status").textContent = status;
+      button.setAttribute("aria-label", `${button.querySelector(".chapter-number").textContent} ${button.querySelector("b").textContent}，${status}`);
     });
   }
 
   bindEvents() {
-    this.el.enter.addEventListener("click", () => this.enterStory());
+    this.el.enter.addEventListener("click", () => this.openPasscodeModal());
+    this.el.closePasscode.addEventListener("click", () => this.closePasscodeModal());
+    this.el.passcodeModal.addEventListener("click", (event) => {
+      if (event.target === this.el.passcodeModal) this.closePasscodeModal();
+    });
+    this.el.passcodeInput.addEventListener("input", () => {
+      this.el.passcodeInput.value = this.el.passcodeInput.value.replace(/\D/g, "").slice(0, 4);
+      this.clearPasscodeError();
+    });
+    this.el.passcodeForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.verifyPasscode();
+    });
     this.el.next.addEventListener("click", () => this.nextDialogue());
+    this.el.exitStory.addEventListener("click", () => this.exitStoryToMenu());
     this.el.askHistory.addEventListener("click", () => {
       this.el.askHistory.hidden = true;
       this.startDialogue(this.scripts.historyIntro, () => this.playHistoryVideo());
@@ -447,7 +585,6 @@ class OtomeGame {
       this.el.music.setAttribute("aria-label", muted ? "開啟背景音樂" : "關閉背景音樂");
       this.el.music.querySelector(".music-label").textContent = muted ? "開啟音樂" : "關閉音樂";
     });
-    this.el.keepsake.addEventListener("click", () => this.openMiniGameFromHome());
     this.el.loginReward.addEventListener("click", () => this.openLoginRewardCalendar());
     this.el.closeLoginCalendar.addEventListener("click", () => this.closeLoginRewardCalendar());
     this.el.claimCalendarReward.addEventListener("click", () => this.claimLoginReward());
@@ -455,12 +592,19 @@ class OtomeGame {
       if (event.target === this.el.loginCalendar) this.closeLoginRewardCalendar();
       if (event.target.closest("[data-claim-today]")) this.claimLoginReward();
     });
-    this.el.homeMinigame.addEventListener("click", () => this.openMiniGameMenu());
+    this.el.homeMinigame.addEventListener("click", () => this.openWhenReady(
+      this.el.homeMinigame, "minigames", () => this.openMiniGameMenu(),
+    ));
     this.el.closeMinigameMenu.addEventListener("click", () => this.closeMiniGameMenu());
-    this.el.startKeepsakeGame.addEventListener("click", () => this.openMiniGameFromHome());
-    this.el.homeBooks.addEventListener("click", () => this.openBooksFromHome());
-    this.el.homeStory.addEventListener("click", () => this.openStoryMenu());
-    this.el.homeGallery.addEventListener("click", () => this.openGalleryShop());
+    this.el.homeBooks.addEventListener("click", () => this.openWhenReady(
+      this.el.homeBooks, "books", () => this.openBooksFromHome(),
+    ));
+    this.el.homeStory.addEventListener("click", () => this.openWhenReady(
+      this.el.homeStory, "story", () => this.openStoryMenu(),
+    ));
+    this.el.homeGallery.addEventListener("click", () => this.openWhenReady(
+      this.el.homeGallery, "gallery", () => this.openGalleryShop(),
+    ));
     this.el.closeStoryMenu.addEventListener("click", () => this.closeStoryMenu());
     this.el.closeGallery.addEventListener("click", () => this.closeGalleryShop());
     this.el.chapterList.addEventListener("click", (event) => {
@@ -481,6 +625,10 @@ class OtomeGame {
     });
     this.el.historyVideo.addEventListener("ended", () => this.finishHistoryVideo());
     window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !this.el.passcodeModal.hidden) {
+        this.closePasscodeModal();
+        return;
+      }
       if ((event.key === " " || event.key === "Enter") && this.state === GAME_STATE.DIALOGUE) {
         event.preventDefault();
         this.nextDialogue();
@@ -494,6 +642,43 @@ class OtomeGame {
         this.placeChapterHorse();
       });
     });
+  }
+
+  openPasscodeModal() {
+    this.clearPasscodeError();
+    this.el.passcodeInput.value = "";
+    this.el.passcodeModal.hidden = false;
+    window.requestAnimationFrame(() => {
+      this.el.passcodeModal.classList.add("is-open");
+      this.el.passcodeInput.focus();
+    });
+  }
+
+  closePasscodeModal() {
+    this.el.passcodeModal.classList.remove("is-open");
+    this.el.passcodeModal.hidden = true;
+    this.clearPasscodeError();
+    this.el.enter.focus();
+  }
+
+  clearPasscodeError() {
+    this.el.passcodeError.textContent = "";
+    this.el.passcodeInput.removeAttribute("aria-invalid");
+    this.el.passcodeInput.classList.remove("is-invalid");
+  }
+
+  verifyPasscode() {
+    if (this.el.passcodeInput.value !== "0000") {
+      this.el.passcodeError.textContent = "密令有誤，卷門未開，還請重新落字。";
+      this.el.passcodeInput.setAttribute("aria-invalid", "true");
+      this.el.passcodeInput.classList.add("is-invalid");
+      this.el.passcodeInput.select();
+      return;
+    }
+
+    this.el.passcodeModal.hidden = true;
+    this.el.passcodeModal.classList.remove("is-open");
+    this.enterStory();
   }
 
   bindHomeCarousel() {
@@ -529,7 +714,7 @@ class OtomeGame {
 
     const selectNearestCard = () => {
       frame = 0;
-      if (!window.matchMedia("(max-width: 1024px)").matches || this.el.home.hidden) {
+      if (!window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches || this.el.home.hidden) {
         cards.forEach((card) => card.classList.remove("is-selected"));
         return;
       }
@@ -560,7 +745,7 @@ class OtomeGame {
 
     cards.forEach((card) => {
       card.addEventListener("click", () => {
-        if (!window.matchMedia("(max-width: 1024px)").matches) return;
+        if (!window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches) return;
         goToCard(cards.indexOf(card));
       });
     });
@@ -589,31 +774,93 @@ class OtomeGame {
   }
 
   createScrolls() {
+    const coverPalettes = [
+      { cover: "#5a2426", accent: "#d4a45d" },
+      { cover: "#1f4438", accent: "#d7bd78" },
+      { cover: "#213858", accent: "#c7b47a" },
+      { cover: "#292322", accent: "#bd8b55" },
+      { cover: "#5a3b23", accent: "#d5a45e" },
+    ];
     this.routes.forEach((route, index) => {
+      const palette = coverPalettes[index % coverPalettes.length];
       const button = document.createElement("button");
       button.type = "button";
       button.className = "scroll-card";
       button.dataset.routeId = route.id;
-      button.style.setProperty("--tone", route.tone);
+      button.style.setProperty("--book-cover", palette.cover);
+      button.style.setProperty("--book-accent", palette.accent);
       button.innerHTML = `
+        <span class="book-paper-edge" aria-hidden="true"></span>
+        <span class="book-cover" aria-hidden="true"></span>
+        <span class="book-spine" aria-hidden="true"></span>
+        <i class="book-corner is-top-left" aria-hidden="true"></i>
+        <i class="book-corner is-top-right" aria-hidden="true"></i>
+        <i class="book-corner is-bottom-left" aria-hidden="true"></i>
+        <i class="book-corner is-bottom-right" aria-hidden="true"></i>
         <span class="scroll-number">卷之 ${String(index + 1).padStart(2, "0")}</span>
-        <b class="scroll-glyph">${route.glyph}</b>
-        <h3>${route.title}</h3>
-        <p>${route.role}</p>
-        <span class="seal">${route.seal}<br>之印</span>
+        <span class="book-title-label">
+          <b class="scroll-glyph">${route.glyph}</b>
+          <h3>${route.title}</h3>
+          <p>${route.role}</p>
+        </span>
       `;
-      button.addEventListener("click", () => this.chooseRoute(route));
+      button.addEventListener("click", () => {
+        if (window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches && !button.classList.contains("is-selected")) {
+          button.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+          return;
+        }
+        this.chooseRoute(route);
+      });
       this.el.grid.appendChild(button);
     });
+    this.bindScrollBookCarousel();
+  }
+
+  bindScrollBookCarousel() {
+    const cards = [...this.el.grid.querySelectorAll(".scroll-card")];
+    let frame = 0;
+
+    const selectNearestBook = () => {
+      frame = 0;
+      if (!window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches || this.el.select.hidden) {
+        cards.forEach((card) => card.classList.remove("is-selected"));
+        return;
+      }
+
+      const gridBounds = this.el.grid.getBoundingClientRect();
+      const gridCenter = gridBounds.left + gridBounds.width / 2;
+      let selectedBook = cards[0];
+      let nearestDistance = Infinity;
+
+      cards.forEach((card) => {
+        const bounds = card.getBoundingClientRect();
+        const distance = Math.abs(bounds.left + bounds.width / 2 - gridCenter);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          selectedBook = card;
+        }
+      });
+
+      cards.forEach((card) => card.classList.toggle("is-selected", card === selectedBook));
+    };
+
+    this.el.grid.addEventListener("scroll", () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(selectNearestBook);
+    }, { passive: true });
+    window.addEventListener("resize", selectNearestBook);
+    this.updateScrollBookSelection = selectNearestBook;
   }
 
   async enterStory() {
+    const homeReady = this.preloader.load("home", { criticalOnly: true });
     this.audio.startMusic();
     this.el.music.classList.add("music-started");
     this.audio.enter();
     this.el.transition.classList.add("active");
-    await this.wait(900);
+    await Promise.all([this.wait(900), homeReady]);
     this.showHome();
+    this.preloader.warm("home");
     await this.wait(550);
     this.el.transition.classList.remove("active");
   }
@@ -623,7 +870,6 @@ class OtomeGame {
     window.clearInterval(this.typeTimer);
     this.clearMomentEffects();
     this.returnHomeAfterBooks = false;
-    this.returnHomeAfterMiniGame = false;
     this.el.title.hidden = true;
     this.el.home.hidden = false;
     this.el.story.hidden = true;
@@ -634,6 +880,7 @@ class OtomeGame {
       "scene-chapter-city",
       "scene-chapter-shop",
       "dialogue-active",
+      "narrators-visible",
       "scroll-select-active",
       "speaker-mu",
       "speaker-mian",
@@ -641,7 +888,6 @@ class OtomeGame {
     );
     this.el.scene.classList.add("scene-home");
     this.el.sceneBg.style.backgroundImage = "";
-    this.el.keepsake.hidden = !this.keepsakeMatchCompleted;
     this.hideHomeModals();
     this.hideStoryOverlays();
     this.renderHome();
@@ -663,7 +909,6 @@ class OtomeGame {
     this.letter.close();
     this.el.historyChoice.hidden = true;
     this.el.historyVideoScreen.hidden = true;
-    this.el.keepsakeGame.hidden = true;
     this.el.characterStage.hidden = true;
     this.el.askHistory.hidden = true;
   }
@@ -750,6 +995,8 @@ class OtomeGame {
     const button = this.el.chapterButtons.find((entry) => entry.dataset.chapterId === chapterId);
     if (!button || button.disabled || this.el.chapterHorse.classList.contains("is-travelling")) return;
     this.el.chapterButtons.forEach((entry) => { entry.disabled = true; });
+    await this.preloader.load(`chapter:${chapterId}`, { criticalOnly: true });
+    this.preloader.warm(`chapter:${chapterId}`);
     this.placeChapterHorse(chapterId, true);
     this.audio.enter();
     await this.wait(1050);
@@ -764,7 +1011,16 @@ class OtomeGame {
       if (!this.taskGameModal) {
         this.taskGameModal = new window.TaskGameModal(this.el.minigameMenu, {
           onClose: () => this.closeMiniGameMenu(),
-          onStart: (gameId) => {
+          onIntent: (gameId) => {
+            const preloadGroup = { touhu: "touhu", skyLantern: "skylantern", memorial: "memorial" }[gameId];
+            if (preloadGroup) this.preloader.warm(preloadGroup);
+          },
+          onStart: async (gameId) => {
+            const preloadGroup = { touhu: "touhu", skyLantern: "skylantern", memorial: "memorial" }[gameId];
+            if (preloadGroup) {
+              await this.preloader.load(preloadGroup, { criticalOnly: true });
+              this.preloader.warm(preloadGroup);
+            }
             if (gameId === "touhu") this.openTouhuGame();
             if (gameId === "skyLantern") this.openSkyLanternGame();
             if (gameId === "memorial") this.openMemorialGame();
@@ -801,7 +1057,7 @@ class OtomeGame {
       onClose: () => {
         this.skyLanternGame = null;
         this.renderHome();
-        this.el.homeMinigame.focus({ preventScroll: true });
+        this.openMiniGameMenu();
       },
     });
     this.skyLanternGame.mount();
@@ -822,7 +1078,7 @@ class OtomeGame {
       onClose: () => {
         this.touhuGame = null;
         this.renderHome();
-        this.el.homeMinigame.focus({ preventScroll: true });
+        this.openMiniGameMenu();
       },
       onFinish: () => {
         this.touhuGame = null;
@@ -848,7 +1104,7 @@ class OtomeGame {
       onClose: () => {
         this.memorialGame = null;
         this.renderHome();
-        this.el.homeMinigame.focus({ preventScroll: true });
+        this.openMiniGameMenu();
       },
       onFinish: () => {
         this.memorialGame = null;
@@ -980,7 +1236,8 @@ class OtomeGame {
     this.scripts = this.currentChapter.scripts;
     this.state = GAME_STATE.DIALOGUE;
     this.dialogueScript = this.scripts.intro;
-    this.dialogueIndex = 0;
+    this.chapterInProgress = "prologue";
+    this.dialogueIndex = this.getSavedStoryIndex("prologue", this.dialogueScript);
     this.onDialogueComplete = () => this.finishStoryChapter("prologue");
     this.el.chapter.hidden = false;
     await this.wait(2900);
@@ -1005,6 +1262,7 @@ class OtomeGame {
   finishStoryChapter(chapterId) {
     this.markChapterCleared(chapterId);
     this.player.lastStoryChapter = chapterId;
+    delete this.player.storyProgress[chapterId];
     this.savePlayerState();
     this.chapterInProgress = null;
     this.showHome();
@@ -1013,6 +1271,8 @@ class OtomeGame {
 
   showDialogue() {
     const line = this.dialogueScript[this.dialogueIndex];
+    const showNarrators = this.chapterInProgress === "prologue"
+      || (this.chapterInProgress === "chapter5" && line.scene === "shop");
     this.el.askHistory.hidden = true;
     this.el.next.hidden = false;
     this.applyLineDirectives(line);
@@ -1021,25 +1281,46 @@ class OtomeGame {
     this.el.scene.classList.toggle("speaker-mu", line.character === "mu");
     this.el.scene.classList.toggle("speaker-mian", line.character === "mian");
     this.el.scene.classList.toggle("speaker-neutral", !line.character);
+    this.el.scene.classList.toggle("narrators-visible", showNarrators);
     this.el.scene.classList.toggle("last-speaker-mu", this.lastSpeaker === "mu");
     this.el.scene.classList.toggle("last-speaker-mian", this.lastSpeaker === "mian");
     this.applySpeakerPosition(line);
-    this.renderStoryCharacters(line);
+    this.renderStoryCharacters();
     this.el.speaker.textContent = line.speaker;
-    this.el.progress.textContent = `${String(this.dialogueIndex + 1).padStart(2, "0")} / ${String(this.dialogueScript.length).padStart(2, "0")}`;
+    this.el.exitStory.hidden = !this.chapterInProgress;
+    this.saveStoryProgress();
     this.typeText(line.text);
+  }
+
+  getSavedStoryIndex(chapterId, script) {
+    const savedIndex = Number(this.player.storyProgress?.[chapterId]);
+    if (!Number.isInteger(savedIndex) || savedIndex < 0) return 0;
+    return Math.min(savedIndex, Math.max(0, script.length - 1));
+  }
+
+  saveStoryProgress() {
+    if (!this.chapterInProgress || !this.dialogueScript.length) return;
+    this.player.storyProgress[this.chapterInProgress] = this.dialogueIndex;
+    this.player.lastStoryChapter = this.chapterInProgress;
+    this.savePlayerState();
+  }
+
+  exitStoryToMenu() {
+    if (!this.chapterInProgress) return;
+    window.clearInterval(this.typeTimer);
+    this.saveStoryProgress();
+    this.chapterInProgress = null;
+    this.showHome();
+    this.openStoryMenu();
   }
 
   typeText(content) {
     window.clearInterval(this.typeTimer);
-    this.el.text.textContent = "";
-    const chars = Array.from(content);
-    let index = 0;
-    this.typeTimer = window.setInterval(() => {
-      this.el.text.textContent += chars[index] ?? "";
-      index += 1;
-      if (index >= chars.length) window.clearInterval(this.typeTimer);
-    }, 34);
+    this.el.text.classList.remove("is-revealing");
+    this.el.text.textContent = content;
+    requestAnimationFrame(() => {
+      this.el.text.classList.add("is-revealing");
+    });
   }
 
   nextDialogue() {
@@ -1061,16 +1342,15 @@ class OtomeGame {
     this.onDialogueComplete();
   }
 
-  startDialogue(script, onComplete) {
+  startDialogue(script, onComplete, startIndex = 0) {
     const dialogue = Array.isArray(script) ? script : script?.lines;
     if (!dialogue?.length) return;
     this.state = GAME_STATE.DIALOGUE;
     this.dialogueScript = dialogue;
-    this.dialogueIndex = 0;
+    this.dialogueIndex = Math.min(Math.max(0, startIndex), dialogue.length - 1);
     this.onDialogueComplete = onComplete || (() => this.runAction(script?.onComplete));
     this.el.select.hidden = true;
     this.el.reader.hidden = true;
-    this.el.keepsakeGame.hidden = true;
     this.el.historyChoice.hidden = true;
     this.el.panel.hidden = false;
     this.el.askHistory.hidden = true;
@@ -1144,56 +1424,15 @@ class OtomeGame {
     this.el.scene.classList.add(`speaker-position-${position}`);
   }
 
-  renderStoryCharacters(line) {
-    const actors = line.actors || line.characters || (line.portrait ? [{
-      id: line.character,
-      name: line.speaker,
-      portrait: line.portrait,
-      position: line.position || "center",
-      speaking: true,
-    }] : []);
-
-    if (!actors.length) {
-      this.el.characterStage.hidden = true;
-      this.el.characterStage.querySelectorAll(".story-character").forEach((node) => {
-        node.hidden = true;
-      });
-      return;
-    }
-
-    this.el.characterStage.hidden = false;
-    this.el.characterStage.querySelectorAll(".story-character").forEach((node) => {
-      node.hidden = true;
-      node.classList.remove("is-speaking");
-    });
-
-    actors.forEach((actor) => {
-      const id = actor.id || actor.name || "character";
-      let image = this.el.characterStage.querySelector(`[data-character-id="${id}"]`);
-      if (!image) {
-        image = document.createElement("img");
-        image.className = "story-character";
-        image.dataset.characterId = id;
-        this.el.characterStage.appendChild(image);
-      }
-
-      image.src = actor.src || actor.portrait;
-      image.alt = actor.name || id;
-      image.hidden = false;
-      image.className = `story-character story-character-${actor.position || "center"}`;
-      image.classList.toggle("is-speaking", actor.speaking !== false);
-    });
+  renderStoryCharacters() {
+    // 大封舊事以沐、眠兩位說書人引領畫面；章節人物只透過場景與台詞出現。
+    this.el.characterStage.replaceChildren();
+    this.el.characterStage.hidden = true;
   }
 
   openBooksFromHome() {
     this.prepareStoryScene();
     this.showScrollSelect({ review: true, returnHome: true });
-  }
-
-  openMiniGameFromHome() {
-    this.closeMiniGameMenu();
-    this.prepareStoryScene();
-    this.showMiniGame("keepsakeMatch", { replay: true, returnHome: true });
   }
 
   showScrollSelect(options = {}) {
@@ -1217,17 +1456,21 @@ class OtomeGame {
     this.el.panel.hidden = true;
     this.el.historyChoice.hidden = true;
     this.el.reader.hidden = true;
-    this.el.keepsakeGame.hidden = true;
     this.el.select.hidden = false;
     this.el.closeBooks.hidden = !this.booksReviewMode;
     this.updateReadingProgress();
+    window.requestAnimationFrame(() => this.updateScrollBookSelection?.());
     this.audio.reveal();
   }
 
   async chooseRoute(route) {
     this.audio.reveal();
     this.el.transition.classList.add("active");
-    await this.wait(500);
+    await Promise.all([
+      this.wait(500),
+      this.preloader.load(`route:${route.id}`, { criticalOnly: true }),
+    ]);
+    this.preloader.warm(`route:${route.id}`);
     this.selectedRoute = route;
     this.el.scene.classList.remove("scroll-select-active");
     this.el.select.hidden = true;
@@ -1310,11 +1553,6 @@ class OtomeGame {
   runAction(action) {
     if (!action) return;
 
-    if (action.type === "miniGame") {
-      this.showMiniGame(action.id);
-      return;
-    }
-
     if (action.type === "video") {
       this.playHistoryVideo(action.after);
       return;
@@ -1330,78 +1568,21 @@ class OtomeGame {
     }
   }
 
-  startChapter(chapterId, scriptId = "chapterStart") {
+  async startChapter(chapterId, scriptId = "chapterStart") {
     const chapter = this.story.chapters[chapterId];
     if (!chapter) {
       console.warn("章節資料尚未載入", chapterId);
       return;
     }
 
+    await this.preloader.load(`chapter:${chapterId}`, { criticalOnly: true });
+    this.preloader.warm(`chapter:${chapterId}`);
     this.currentChapter = chapter;
     this.scripts = chapter.scripts;
     this.chapterInProgress = chapterId;
-    this.startDialogue(this.scripts[scriptId], () => this.finishStoryChapter(chapterId));
-  }
-
-  showMiniGame(id, options = {}) {
-    const config = this.minigames[id];
-    if (!config || !window.KeepsakeMatchGame) {
-      console.warn("小遊戲資料尚未載入", id);
-      return;
-    }
-
-    this.state = GAME_STATE.MINIGAME;
-    this.returnHomeAfterMiniGame = options.returnHome === true;
-    window.clearInterval(this.typeTimer);
-    if (id === "keepsakeMatch") this.el.keepsake.hidden = false;
-    this.el.panel.hidden = true;
-    this.el.select.hidden = true;
-    this.el.reader.hidden = true;
-    this.el.historyChoice.hidden = true;
-    this.el.select.hidden = true;
-    this.el.keepsakeGame.hidden = false;
-    this.el.scene.classList.remove("scroll-select-active");
-    this.el.scene.classList.add("dialogue-active");
-    this.applyDialogueScene("shop");
-
-    this.currentMinigame = new window.KeepsakeMatchGame(this.el.keepsakeGame, config, {
-      onFeedback: (result) => {
-        if (result === "correct") this.audio.reveal();
-        if (result === "wrong") this.audio.tap();
-      },
-      onClose: () => this.closeMiniGame(),
-      onComplete: (nextAction) => {
-        if (id === "keepsakeMatch") {
-          this.grantRewards({ lanterns: 3, experience: 45 });
-          this.keepsakeMatchCompleted = true;
-          localStorage.setItem("keepsakeMatchCompleted", "true");
-          this.el.keepsake.hidden = false;
-        }
-        this.audio.enter();
-        this.el.keepsakeGame.hidden = true;
-        this.returnHomeAfterMiniGame = false;
-        if (options.replay) {
-          if (options.returnHome) {
-            this.showHome();
-          } else {
-            this.state = GAME_STATE.CHAPTER;
-          }
-          return;
-        }
-        this.runAction(nextAction);
-      },
-    });
-    this.currentMinigame.start();
-  }
-
-  closeMiniGame() {
-    this.el.keepsakeGame.hidden = true;
-    if (this.returnHomeAfterMiniGame) {
-      this.returnHomeAfterMiniGame = false;
-      this.showHome();
-      return;
-    }
-    this.state = GAME_STATE.CHAPTER;
+    const script = this.scripts[scriptId];
+    const startIndex = this.getSavedStoryIndex(chapterId, Array.isArray(script) ? script : script?.lines || []);
+    this.startDialogue(script, () => this.finishStoryChapter(chapterId), startIndex);
   }
 
   showHistoryChoice() {
@@ -1424,7 +1605,6 @@ class OtomeGame {
     this.state = GAME_STATE.VIDEO;
     this.afterVideoAction = afterAction;
     this.el.historyChoice.hidden = true;
-    this.el.keepsakeGame.hidden = true;
     this.el.historyVideoScreen.hidden = false;
     this.audio.pauseMusic();
     this.el.historyVideo.currentTime = 0;

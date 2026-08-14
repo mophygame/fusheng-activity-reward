@@ -8,8 +8,5 @@
     "chapter4": "./data/chapters/chapter4.json",
     "chapter5": "./data/chapters/chapter5.json"
   },
-  "minigames": {
-    "keepsakeMatch": "./data/minigames/keepsake-match.json"
-  },
   "startChapter": "prologue"
 }

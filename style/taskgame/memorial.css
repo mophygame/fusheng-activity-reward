@@ -351,7 +351,7 @@
 @keyframes memorial-combo-pop { from { opacity: 0; transform: scale(.45) rotate(-5deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
 @keyframes memorial-leaf-flight { 0% { opacity: 0; transform: translate3d(0, -12px, 0) rotate(0); } 12% { opacity: .9; } 55% { transform: translate3d(58vw, calc(var(--leaf-drop) * .35), 0) rotate(390deg); } 100% { opacity: 0; transform: translate3d(112vw, var(--leaf-drop), 0) rotate(820deg); } }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (orientation: portrait) {
   .memorial-modal { padding: 1vh 1vw; }
   .memorial-game { width: 98vw; height: 98dvh; }
   .memorial-header { height: 96px; padding: 13px 72px 10px 22px; }
@@ -385,7 +385,7 @@
   .memorial-brief { margin-bottom: 17px; }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 650px) and (orientation: portrait) {
   .memorial-modal { padding: 0; }
   .memorial-game { width: 100vw; height: 100dvh; border: 0; }
   .memorial-game::before { inset: 5px; }

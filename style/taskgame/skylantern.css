@@ -31,5 +31,5 @@
 @keyframes skylantern-ember { 0% { opacity: 0; transform: translate3d(0,0,0) scale(.55); } 18% { opacity: .9; } 72% { opacity: .65; } 100% { opacity: 0; transform: translate3d(var(--ember-drift),-82vh,0) scale(1.15); } }
 @keyframes skylantern-shield-pulse { 50% { border-color: #fff0ba; box-shadow: inset 0 0 30px rgba(255,218,126,.54),0 0 22px rgba(255,190,67,.88),0 0 46px rgba(255,157,24,.54); transform: scale(1.045); } }
 @media (min-width: 901px) { .skylantern-game { width: 88vw; }.skylantern-sky { bottom: 138px; }.skylantern-player { width: 98px; height: 132px; } }
-@media (max-width: 430px) { .skylantern-altimeter { left: 8px; width: 52px; }.skylantern-altimeter-value { left: 20px; }.skylantern-altimeter-track span { font-size: 9px; } }
+@media (max-width: 430px) and (orientation: portrait) { .skylantern-altimeter { left: 8px; width: 52px; }.skylantern-altimeter-value { left: 20px; }.skylantern-altimeter-track span { font-size: 9px; } }
 @media (prefers-reduced-motion: reduce) { .skylantern-player,.skylantern-player::after,.skylantern-card,.skylantern-embers i { animation: none !important; transition: none !important; } }
