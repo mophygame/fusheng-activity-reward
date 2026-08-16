@@ -56,6 +56,18 @@ body.intro-active #game {
   opacity: 0;
 }
 
+/* 開場動畫必須等初次載入遮罩完全退場後才開始計時。 */
+.dream-intro:not(.is-playing) .dream-city,
+.dream-intro:not(.is-playing) .dream-city-glow,
+.dream-intro:not(.is-playing) .dream-butterfly,
+.dream-intro:not(.is-playing) .dream-butterfly-trail,
+.dream-intro:not(.is-playing) .dream-wash,
+.dream-intro:not(.is-playing) .dream-wash::before,
+.dream-intro:not(.is-playing) .dream-wash::after,
+.dream-intro:not(.is-playing) .dream-whisper {
+  animation-play-state: paused;
+}
+
 .dream-city,
 .dream-city-glow,
 .dream-butterfly-trail,

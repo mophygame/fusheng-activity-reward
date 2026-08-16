@@ -41,6 +41,7 @@ class PageLoadingController {
   end(token) {
     const operation = this.operations.get(token);
     if (!operation) return;
+    const isBootOperation = token === this.bootToken;
     window.clearTimeout(operation.timer);
     this.operations.delete(token);
     if (this.operations.size) return;
@@ -51,7 +52,10 @@ class PageLoadingController {
       this.root.classList.remove("is-visible");
       this.root.setAttribute("aria-busy", "false");
       window.setTimeout(() => {
-        if (!this.operations.size) this.root.hidden = true;
+        if (!this.operations.size) {
+          this.root.hidden = true;
+          if (isBootOperation) window.dispatchEvent(new CustomEvent("page-loading:boot-complete"));
+        }
       }, 260);
     }, delay);
   }

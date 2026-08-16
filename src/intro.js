@@ -27,6 +27,9 @@
   let butterflyAnimation = 0;
   let lastButterflyFrame = -1;
   let butterflyStartedAt = 0;
+  let finishTimer = 0;
+  let started = false;
+  let finished = false;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const animateButterfly = (time) => {
     if (!butterflyStartedAt) butterflyStartedAt = time;
@@ -37,25 +40,33 @@
     }
     butterflyAnimation = window.requestAnimationFrame(animateButterfly);
   };
-  if (!reducedMotion) {
-    preloadFrames().then(() => {
-      if (!finished) butterflyAnimation = window.requestAnimationFrame(animateButterfly);
-    });
-  }
-
-  let finished = false;
+  const butterflyFramesReady = reducedMotion ? Promise.resolve() : preloadFrames();
   const finish = () => {
     if (finished) return;
     finished = true;
+    window.clearTimeout(finishTimer);
     window.cancelAnimationFrame(butterflyAnimation);
     intro.classList.add("is-leaving");
     document.body.classList.remove("intro-active");
     window.setTimeout(() => intro.remove(), 900);
   };
 
+  const start = () => {
+    if (started || finished) return;
+    started = true;
+    intro.classList.add("is-playing");
+    butterflyFramesReady.then(() => {
+      if (!finished) butterflyAnimation = window.requestAnimationFrame(animateButterfly);
+    });
+    finishTimer = window.setTimeout(finish, 7200);
+  };
+
   skip?.addEventListener("click", finish);
   intro.addEventListener("animationend", (event) => {
     if (event.animationName === "dream-wash") finish();
   });
-  window.setTimeout(finish, 7200);
+
+  const loading = document.querySelector("#site-loading");
+  if (!loading || loading.hidden || !loading.classList.contains("is-visible")) start();
+  else window.addEventListener("page-loading:boot-complete", start, { once: true });
 })();
