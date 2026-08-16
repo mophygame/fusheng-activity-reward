@@ -2,12 +2,15 @@
   "id": "chapter5",
   "title": "第五章 · 大封之末",
   "scenes": {
-    "lanternMarket": { "background": "./assets/images/storyline/bg_market_night.webp" },
-    "marketAmbush": { "background": "./assets/images/storyline/bg_market_night.webp" },
-    "cityOutskirts": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
-    "cliff": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
-    "cliffBottom": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
-    "forest": { "background": "./assets/images/storyline/bg_ancient_city_night.webp" },
+    "lanternMarket": { "background": "./assets/images/storyline/chapter5/bg_lantern_festival.webp" },
+    "jewelryStall": { "background": "./assets/images/storyline/chapter5/bg_jewelry_stall.webp" },
+    "redFireworkMarket": { "background": "./assets/images/storyline/chapter5/bg_red_firework_market.webp" },
+    "marketAmbush": { "background": "./assets/images/storyline/chapter5/bg_rebel_market.webp" },
+    "cityOutskirts": { "background": "./assets/images/storyline/chapter5/bg_city_outskirts_road.webp" },
+    "cliff": { "background": "./assets/images/storyline/chapter5/bg_cliff_top.webp" },
+    "cliffFall": { "background": "./assets/images/storyline/chapter5/bg_cliff_fall.webp" },
+    "cliffBottom": { "background": "./assets/images/storyline/chapter5/bg_cliff_bottom.webp" },
+    "forest": { "background": "./assets/images/storyline/chapter5/bg_forest_archers.webp" },
     "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
   },
   "scripts": {
@@ -23,7 +26,7 @@
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
-        "scene": "lanternMarket",
+        "scene": "jewelryStall",
         "actors": [
           { "id": "weizheng", "name": "魏諍", "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp", "position": "right", "speaking": false }
         ],
@@ -34,14 +37,14 @@
         "character": "weizheng",
         "portrait": "./assets/images/全身人設-魏諍（黃奕澤前世）.webp",
         "position": "right",
-        "scene": "lanternMarket",
+        "scene": "jewelryStall",
         "text": "贈爾之鈴鐺，一步一響，一步一嚮。步步響鈴，心悅於汝；步步所嚮，心之所向。子羽在此，願與汝白首不相離。"
       },
       {
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
-        "scene": "marketAmbush",
+        "scene": "redFireworkMarket",
         "effects": ["fire-sparks", "smoke"],
         "camera": { "shake": "strong" },
         "text": "話音方落，夜空猛然綻開一朵不屬於花燈節的猩紅煙火，宛如預告即將染血的未來。煙火墜落，上官氏旗幟隨之出現，市集頃刻被叛軍占據。"
@@ -138,7 +141,7 @@
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
-        "scene": "cliff",
+        "scene": "cliffFall",
         "effects": ["sword-flash", "fog", "screen-vignette"],
         "camera": { "shake": "strong" },
         "text": "漫天箭矢直射而來。魏諍將端淑妃緊緊護入懷中，毅然躍下懸崖；疾風竟也跟著一躍而下。"

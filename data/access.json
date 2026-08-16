@@ -1,0 +1,16 @@
+{
+  "profiles": [
+    {
+      "passcode": "0000",
+      "role": "full",
+      "nickname": "淺野夏",
+      "features": ["minigames", "books", "story", "gallery"]
+    },
+    {
+      "passcode": "1111",
+      "role": "limited",
+      "nickname": "",
+      "features": ["minigames", "story"]
+    }
+  ]
+}

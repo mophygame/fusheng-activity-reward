@@ -9,6 +9,8 @@
     <!-- Only the first-screen artwork is render-critical. Preloading later scenes here
          competes with it on slower GitHub Pages connections. -->
     <link rel="preload" href="./assets/images/enter/bg_loading.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="./assets/images/enter/modern-city-dream.png" as="image" type="image/png" fetchpriority="high" />
+    <link rel="preload" href="./assets/images/enter/butterfly_01.webp" as="image" type="image/webp" fetchpriority="high" />
     <link rel="preload" href="./assets/images/enter/title2.webp" as="image" type="image/webp" fetchpriority="high" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./style/taskgame/taskgame.css" />
@@ -17,7 +19,24 @@
     <link rel="stylesheet" href="./style/taskgame/memorial.css" />
     <link rel="stylesheet" href="./style/still/still.css" />
   </head>
-  <body>
+  <body class="intro-active">
+    <div id="site-loading" class="site-loading is-visible" role="status" aria-live="polite" aria-busy="true">
+      <div class="site-loading-mark" aria-hidden="true"><i></i><span>燈</span></div>
+      <p data-loading-label>正在展開命簿…</p>
+      <div class="site-loading-track" aria-hidden="true"><i data-loading-bar></i></div>
+      <small data-loading-progress>載入中</small>
+    </div>
+    <div id="dream-intro" class="dream-intro" aria-label="一隻金色蝴蝶飛過現代街區，帶領你進入夢境">
+      <div class="dream-city" aria-hidden="true"></div>
+      <div class="dream-city-glow" aria-hidden="true"></div>
+      <div class="dream-butterfly-trail" aria-hidden="true"></div>
+      <div class="dream-butterfly" aria-hidden="true">
+        <img src="./assets/images/enter/butterfly_01.webp" alt="" decoding="async" />
+      </div>
+      <div class="dream-wash" aria-hidden="true"></div>
+      <p class="dream-whisper">循著微光，前塵入夢</p>
+      <button id="skip-dream-intro" class="dream-skip" type="button">略過</button>
+    </div>
     <main id="game" aria-live="polite">
       <div id="scene" class="scene scene-title">
         <div class="scene-bg" aria-hidden="true"></div>
@@ -56,6 +75,21 @@
               </form>
             </section>
           </div>
+
+          <div id="nickname-modal" class="passcode-modal nickname-modal" hidden>
+            <section class="passcode-scroll nickname-scroll" role="dialog" aria-modal="true" aria-labelledby="nickname-title" aria-describedby="nickname-instruction">
+              <button id="close-nickname-button" class="passcode-close" type="button" aria-label="返回密令卷">×</button>
+              <p class="passcode-kicker">落 名 入 卷</p>
+              <h2 id="nickname-title">請留下你的名諱</h2>
+              <p id="nickname-instruction">此名將載於卷中，伴你走過大封舊事。</p>
+              <form id="nickname-form" novalidate>
+                <label for="nickname-input">於此題名</label>
+                <input id="nickname-input" name="nickname" type="text" maxlength="20" autocomplete="nickname" aria-describedby="nickname-error" />
+                <p id="nickname-error" class="passcode-error" role="alert" aria-live="assertive"></p>
+                <button class="passcode-submit" type="submit">題 名 入 卷</button>
+              </form>
+            </section>
+          </div>
         </section>
 
         <section id="home-screen" class="screen home-screen" hidden>
@@ -82,6 +116,10 @@
               <button id="music-toggle" class="icon-button music-toggle" type="button" aria-label="關閉背景音樂">
                 <img src="./assets/images/index/icon_music.webp" alt="" aria-hidden="true" />
                 <span class="music-label">關閉音樂</span>
+              </button>
+              <button id="home-exit-button" class="icon-button home-exit-button" type="button" aria-label="退出遊戲">
+                <img src="./assets/images/index/icon_signout.webp" alt="" aria-hidden="true" />
+                <span class="home-exit-label">退出遊戲</span>
               </button>
             </div>
           </div>
@@ -127,6 +165,20 @@
                 <p>每日可領 5～10 盞；每個星期日獎勵提升 1.5～3 倍。逾期不可補領。</p>
                 <button id="claim-calendar-reward-button" type="button">領取今日獎勵</button>
               </footer>
+            </section>
+          </div>
+
+          <div id="home-exit-modal" class="home-modal home-exit-modal" hidden>
+            <section class="home-exit-card" role="dialog" aria-modal="true" aria-labelledby="home-exit-title" aria-describedby="home-exit-copy">
+              <button id="close-home-exit-button" class="home-modal-close" type="button" aria-label="取消退出">×</button>
+              <p class="home-exit-kicker">闔 卷 離 席</p>
+              <h2 id="home-exit-title">欲往何處？</h2>
+              <p id="home-exit-copy">此刻離席不會遺失已保存的燈盞、等級與閱卷進度。</p>
+              <div class="home-exit-actions">
+                <button id="return-login-button" class="home-exit-choice" type="button"><span>返回登入頁</span><small>重新呈上通關密令</small></button>
+                <button id="close-window-button" class="home-exit-choice is-danger" type="button"><span>關閉視窗</span><small>離開燈書餘燼</small></button>
+              </div>
+              <p id="close-window-status" class="close-window-status" role="status" aria-live="polite"></p>
             </section>
           </div>
 
@@ -200,6 +252,10 @@
           <div id="gallery-shop" class="home-modal" hidden>
             <div class="still-gallery" role="dialog" aria-modal="true" aria-labelledby="still-gallery-title">
               <button id="close-gallery-button" class="still-close" type="button" aria-label="關閉劇照收藏">×</button>
+              <span class="still-corner still-corner-tl" aria-hidden="true"></span>
+              <span class="still-corner still-corner-tr" aria-hidden="true"></span>
+              <span class="still-corner still-corner-bl" aria-hidden="true"></span>
+              <span class="still-corner still-corner-br" aria-hidden="true"></span>
               <header class="still-header">
                 <h2 id="still-gallery-title"><span>劇</span> 照 收 藏</h2>
                 <p>解鎖劇照，永久保存珍貴回憶</p>
@@ -357,6 +413,7 @@
     <script defer src="./src/taskgame/memorial.js"></script>
     <script defer src="./src/still/still.js"></script>
     <script defer src="./src/letter/letter.js"></script>
+    <script defer src="./src/intro.js"></script>
     <script defer src="./src/game.js"></script>
   </body>
 </html>

@@ -12,7 +12,7 @@
         "character": "mian",
         "position": "right",
         "scene": "shop",
-        "text": "姑娘，既然推開了不見書肆的門，便坐下聽一段大封舊事吧。"
+        "text": "故人，別來無恙？既然推開了不見書肆的門，便坐下聽一段大封舊事吧。"
       },
       {
         "speaker": "書肆主人 · 沐",
@@ -48,6 +48,88 @@
         "position": "left",
         "scene": "shop",
         "text": "翻頁吧，{username}。這一次，讓他們的名字留在故事裡。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "text": "大封之始"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "text": "史書記載，湛廉王名為魏錫，原為前朝心腹王臣。因前朝皇帝昏聵、重用奸臣，多數忠臣派系皆遭迫害，而湛廉王一族便是其中之一。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "text": "湛廉王一族直言勸諫，請前朝皇帝不可將國帑浪費於王城花銷，亦不可再耗費於那修了二十餘年、遲遲未完工的河堤。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "camera": { "shake": "soft" },
+        "text": "前朝皇帝盛怒，下旨將湛廉王一族男子流放邊疆充軍，女子發配為官妓。魏錫遂聯合其餘派系，在聖旨實行當天叛變。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "effects": ["flash"],
+        "text": "魏錫登臨天下，國號為「封」，史稱封武帝。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "text": "封武帝登基後，停下興建河堤，開始排查工程遲遲未成的原因，並親自臨訪。以雷厲風行之手段，短短二年便完成河堤，解決百年之患，被百姓奉為「百年難得一遇的明君」。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "effects": ["dust", "screen-vignette"],
+        "text": "然，大封八年，內有奸臣。舊有派系早已沆瀣一氣，封武帝的權力亦被蛀空；外有邊境強敵「藩籬」來犯。此時又逢旱災與蟲害，百姓早已哀怨不堪，封武帝亦有心無力。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "text": "大封九年，藩籬已深入王城，封武帝受其控制，如同傀儡。敵人更以封武帝摯愛「祈恩妃」的性命要脅，逼他下旨將僅剩的糧食進貢朝廷，並命王城日日歌舞，以掩飾外敵將糧食運往邊境、解藩籬旱災之患。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "text": "大封十年，封武帝深知此舉已惹得百姓不滿。友弟汝齊王魏允有一子名為魏諍，在此番旱災中痛失摯友，早已對封武帝恨之入骨。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "camera": { "shake": "medium" },
+        "text": "封武帝不顧藩籬操弄，果斷下旨，命汝齊王之子魏諍與上官嫡女上官映雪三日內成婚。藩籬得知後盛怒，竟將祈恩妃處死。封武帝痛徹心扉，一項計畫亦就此成形。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "text": "親信早已來報：魏諍暗中集結死士及軍馬，欲於大婚之日起義。"
+      },
+      {
+        "speaker": "史書",
+        "character": null,
+        "scene": "city",
+        "text": "而封武帝，則用最後一點未被操控的權力，暗中將上好的軍備與戰馬，以汝齊王之名贈與魏諍，暗中輔佐魏諍成事。"
+      },
+      {
+        "speaker": "封武帝 · 魏錫",
+        "character": null,
+        "scene": "city",
+        "text": "朕深知荒唐至極，願諍能順安。"
       }
     ],
     "booksReturned": [

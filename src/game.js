@@ -159,6 +159,8 @@ class OtomeGame {
     this.touhuGame = null;
     this.memorialGame = null;
     this.stillGallery = null;
+    this.accessProfiles = [];
+    this.activeAccess = null;
 
     this.el = {
       scene: document.querySelector("#scene"),
@@ -174,7 +176,18 @@ class OtomeGame {
       passcodeInput: document.querySelector("#passcode-input"),
       passcodeError: document.querySelector("#passcode-error"),
       closePasscode: document.querySelector("#close-passcode-button"),
+      nicknameModal: document.querySelector("#nickname-modal"),
+      nicknameForm: document.querySelector("#nickname-form"),
+      nicknameInput: document.querySelector("#nickname-input"),
+      nicknameError: document.querySelector("#nickname-error"),
+      closeNickname: document.querySelector("#close-nickname-button"),
       music: document.querySelector("#music-toggle"),
+      homeExit: document.querySelector("#home-exit-button"),
+      homeExitModal: document.querySelector("#home-exit-modal"),
+      closeHomeExit: document.querySelector("#close-home-exit-button"),
+      returnLogin: document.querySelector("#return-login-button"),
+      closeWindow: document.querySelector("#close-window-button"),
+      closeWindowStatus: document.querySelector("#close-window-status"),
       playerNickname: document.querySelector("#player-nickname"),
       playerLevel: document.querySelector("#player-level"),
       playerProgress: document.querySelector("#player-progress"),
@@ -238,7 +251,15 @@ class OtomeGame {
 
   async start() {
     try {
-      this.story = await StoryLoader.load();
+      const [story, accessConfig] = await Promise.all([
+        StoryLoader.load(),
+        fetch("./data/access.json").then((response) => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}: data/access.json`);
+          return response.json();
+        }),
+      ]);
+      this.story = story;
+      this.accessProfiles = Array.isArray(accessConfig.profiles) ? accessConfig.profiles : [];
       this.currentChapter = this.story.currentChapter;
       this.routes = this.story.routes;
       this.scripts = this.currentChapter.scripts;
@@ -252,6 +273,8 @@ class OtomeGame {
     this.createEmbers();
     this.createScrolls();
     this.setupPreloading();
+    await this.preloader.load("boot", { criticalOnly: true });
+    window.pageLoading?.finishBoot();
     this.bindEvents();
     this.bindHomeCarousel();
     this.renderHome();
@@ -275,6 +298,13 @@ class OtomeGame {
     const desktopHome = image("index/bg_index.webp");
     const portraitHome = image("index/bg_index_mobile.webp");
     const mobileHome = portraitLayout.matches ? portraitHome : desktopHome;
+
+    this.preloader.register("boot", {
+      critical: [
+        image("enter/bg_loading.webp"), image("enter/modern-city-dream.png"),
+        image("enter/butterfly_01.webp"), image("enter/title2.webp"),
+      ],
+    });
 
     this.preloader.register("home", {
       critical: [mobileHome, image("btn_storyline.webp")],
@@ -333,6 +363,7 @@ class OtomeGame {
         image("taskgame/memorial/seal_approve.webp"), image("taskgame/memorial/seal_reject.webp"),
       ],
     });
+    this.extendPreloadGroupsFromCss();
 
     const collectAssets = (value, assets = []) => {
       if (typeof value === "string" && /\.(?:webp|png|jpe?g|gif|avif)$/i.test(value)) assets.push(value);
@@ -377,15 +408,57 @@ class OtomeGame {
     });
   }
 
+  extendPreloadGroupsFromCss() {
+    const assets = {
+      home: [], story: [], books: [], gallery: [], minigames: [],
+      skylantern: [], touhu: [], memorial: [],
+    };
+    const groupFor = (url) => {
+      const path = new URL(url).pathname;
+      if (path.includes("/taskgame/skylantern/")) return "skylantern";
+      if (path.includes("/taskgame/touhu/")) return "touhu";
+      if (path.includes("/taskgame/memorial/")) return "memorial";
+      if (path.includes("/taskgame/")) return "minigames";
+      if (path.includes("/storyline/")) return "story";
+      if (path.includes("/letter/")) return "books";
+      if (path.includes("/still/")) return "gallery";
+      if (path.includes("/index/")) return "home";
+      return null;
+    };
+    const collectRule = (rule, baseUrl) => {
+      [...(rule.cssRules || [])].forEach((child) => collectRule(child, baseUrl));
+      for (const match of rule.cssText.matchAll(/url\(["']?([^"')]+)["']?\)/g)) {
+        if (match[1].startsWith("data:")) continue;
+        const url = new URL(match[1], baseUrl).href;
+        const group = groupFor(url);
+        if (group) assets[group].push(url);
+      }
+    };
+
+    [...document.styleSheets].forEach((sheet) => {
+      try {
+        [...sheet.cssRules].forEach((rule) => collectRule(rule, sheet.href || document.baseURI));
+      } catch {
+        // Cross-origin stylesheets cannot expose CSS rules; local styles still work.
+      }
+    });
+    Object.entries(assets).forEach(([group, paths]) => this.preloader.extend(group, paths));
+  }
+
   async openWhenReady(button, group, action) {
     button?.setAttribute("aria-busy", "true");
-    await this.preloader.load(group, { criticalOnly: true });
+    await this.preloader.load(group, {
+      criticalOnly: group === "story",
+      showLoading: true,
+      label: "正在準備頁面…",
+    });
     button?.removeAttribute("aria-busy");
     action();
     this.preloader.warm(group);
   }
 
   showLoadError() {
+    window.pageLoading?.finishBoot();
     this.el.enter.disabled = true;
     this.el.enter.querySelector("span").textContent = "資料未載入";
     this.el.enter.querySelector("small").textContent = "請用 npm start 或 GitHub Pages 開啟";
@@ -411,6 +484,7 @@ class OtomeGame {
       clearedChapters: [],
       lastStoryChapter: "",
       storyProgress: {},
+      storyProgressVersion: 2,
     };
 
     try {
@@ -430,8 +504,12 @@ class OtomeGame {
           ? saved.lastStoryChapter
           : fallback.lastStoryChapter,
         storyProgress: saved.storyProgress && typeof saved.storyProgress === "object"
-          ? saved.storyProgress
+          ? {
+              ...saved.storyProgress,
+              ...(saved.storyProgressVersion === fallback.storyProgressVersion ? {} : { prologue: undefined }),
+            }
           : fallback.storyProgress,
+        storyProgressVersion: fallback.storyProgressVersion,
       };
     } catch {
       return fallback;
@@ -508,7 +586,7 @@ class OtomeGame {
 
   renderHome() {
     if (!this.el.home) return;
-    this.el.playerNickname.textContent = this.player.nickname || "破關者暱稱";
+    this.el.playerNickname.textContent = this.getDisplayNickname();
     this.el.playerLevel.textContent = String(this.player.level);
     const requiredExperience = this.experienceRequired();
     const progress = this.player.level >= 99 ? 100 : (this.player.experience / requiredExperience) * 100;
@@ -523,6 +601,14 @@ class OtomeGame {
     this.el.loginReward.querySelector("span").textContent = "登入獎勵";
     this.el.loginReward.setAttribute("aria-label", claimedToday ? "登入獎勵，今日已領取" : "領取登入獎勵");
     this.renderStoryMenu();
+  }
+
+  getDisplayNickname() {
+    return this.activeAccess?.nickname || this.player.nickname || "破關者暱稱";
+  }
+
+  formatStoryContent(value = "") {
+    return String(value).replace(/\{username\}/g, this.getDisplayNickname());
   }
 
   isChapterCleared(chapterId) {
@@ -569,6 +655,15 @@ class OtomeGame {
       event.preventDefault();
       this.verifyPasscode();
     });
+    this.el.closeNickname.addEventListener("click", () => this.closeNicknameModal());
+    this.el.nicknameModal.addEventListener("click", (event) => {
+      if (event.target === this.el.nicknameModal) this.closeNicknameModal();
+    });
+    this.el.nicknameInput.addEventListener("input", () => this.clearNicknameError());
+    this.el.nicknameForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.confirmNickname();
+    });
     this.el.next.addEventListener("click", () => this.nextDialogue());
     this.el.exitStory.addEventListener("click", () => this.exitStoryToMenu());
     this.el.askHistory.addEventListener("click", () => {
@@ -584,6 +679,13 @@ class OtomeGame {
       this.el.music.classList.toggle("music-muted", muted);
       this.el.music.setAttribute("aria-label", muted ? "開啟背景音樂" : "關閉背景音樂");
       this.el.music.querySelector(".music-label").textContent = muted ? "開啟音樂" : "關閉音樂";
+    });
+    this.el.homeExit.addEventListener("click", () => this.openHomeExitModal());
+    this.el.closeHomeExit.addEventListener("click", () => this.closeHomeExitModal());
+    this.el.returnLogin.addEventListener("click", () => this.returnToLogin());
+    this.el.closeWindow.addEventListener("click", () => this.closeGameWindow());
+    this.el.homeExitModal.addEventListener("click", (event) => {
+      if (event.target === this.el.homeExitModal) this.closeHomeExitModal();
     });
     this.el.loginReward.addEventListener("click", () => this.openLoginRewardCalendar());
     this.el.closeLoginCalendar.addEventListener("click", () => this.closeLoginRewardCalendar());
@@ -629,6 +731,14 @@ class OtomeGame {
         this.closePasscodeModal();
         return;
       }
+      if (event.key === "Escape" && !this.el.nicknameModal.hidden) {
+        this.closeNicknameModal();
+        return;
+      }
+      if (event.key === "Escape" && !this.el.homeExitModal.hidden) {
+        this.closeHomeExitModal();
+        return;
+      }
       if ((event.key === " " || event.key === "Enter") && this.state === GAME_STATE.DIALOGUE) {
         event.preventDefault();
         this.nextDialogue();
@@ -668,7 +778,8 @@ class OtomeGame {
   }
 
   verifyPasscode() {
-    if (this.el.passcodeInput.value !== "0000") {
+    const profile = this.accessProfiles.find(({ passcode }) => passcode === this.el.passcodeInput.value);
+    if (!profile) {
       this.el.passcodeError.textContent = "密令有誤，卷門未開，還請重新落字。";
       this.el.passcodeInput.setAttribute("aria-invalid", "true");
       this.el.passcodeInput.classList.add("is-invalid");
@@ -676,9 +787,77 @@ class OtomeGame {
       return;
     }
 
+    this.activeAccess = { ...profile };
     this.el.passcodeModal.hidden = true;
     this.el.passcodeModal.classList.remove("is-open");
+    this.openNicknameModal(profile.nickname || "");
+  }
+
+  openNicknameModal(defaultNickname = "") {
+    this.clearNicknameError();
+    this.el.nicknameInput.value = defaultNickname;
+    this.el.nicknameModal.hidden = false;
+    window.requestAnimationFrame(() => {
+      this.el.nicknameModal.classList.add("is-open");
+      this.el.nicknameInput.focus();
+      this.el.nicknameInput.select();
+    });
+  }
+
+  closeNicknameModal() {
+    this.el.nicknameModal.classList.remove("is-open");
+    this.el.nicknameModal.hidden = true;
+    this.activeAccess = null;
+    this.openPasscodeModal();
+  }
+
+  clearNicknameError() {
+    this.el.nicknameError.textContent = "";
+    this.el.nicknameInput.removeAttribute("aria-invalid");
+    this.el.nicknameInput.classList.remove("is-invalid");
+  }
+
+  confirmNickname() {
+    const nickname = this.el.nicknameInput.value.trim();
+    if (!nickname) {
+      this.el.nicknameError.textContent = "名諱不可留白，還請題名入卷。";
+      this.el.nicknameInput.setAttribute("aria-invalid", "true");
+      this.el.nicknameInput.classList.add("is-invalid");
+      this.el.nicknameInput.focus();
+      return;
+    }
+
+    this.player.nickname = nickname;
+    this.activeAccess = { ...this.activeAccess, nickname };
+    this.savePlayerState();
+    this.applyAccessPermissions();
+    this.el.nicknameModal.hidden = true;
+    this.el.nicknameModal.classList.remove("is-open");
     this.enterStory();
+  }
+
+  canAccess(feature) {
+    return Boolean(this.activeAccess?.features?.includes(feature));
+  }
+
+  applyAccessPermissions() {
+    const featureButtons = [
+      ["minigames", this.el.homeMinigame],
+      ["books", this.el.homeBooks],
+      ["story", this.el.homeStory],
+      ["gallery", this.el.homeGallery],
+    ];
+
+    featureButtons.forEach(([feature, button]) => {
+      const allowed = this.canAccess(feature);
+      button.disabled = !allowed;
+      button.classList.toggle("is-access-locked", !allowed);
+      button.setAttribute("aria-disabled", String(!allowed));
+      if (!button.dataset.defaultLabel) button.dataset.defaultLabel = button.getAttribute("aria-label") || "";
+      button.setAttribute("aria-label", allowed
+        ? button.dataset.defaultLabel
+        : `${button.dataset.defaultLabel}，此密令未開放`);
+    });
   }
 
   bindHomeCarousel() {
@@ -853,8 +1032,13 @@ class OtomeGame {
   }
 
   async enterStory() {
-    const homeReady = this.preloader.load("home", { criticalOnly: true });
-    this.audio.startMusic();
+    const homeReady = this.preloader.load("home", {
+      criticalOnly: false,
+      showLoading: true,
+      label: "正在準備首頁…",
+    });
+    if (this.audio.musicStarted) this.audio.resumeMusic();
+    else this.audio.startMusic();
     this.el.music.classList.add("music-started");
     this.audio.enter();
     this.el.transition.classList.add("active");
@@ -895,10 +1079,58 @@ class OtomeGame {
   }
 
   hideHomeModals() {
+    this.el.homeExitModal.hidden = true;
     this.el.loginCalendar.hidden = true;
     this.el.minigameMenu.hidden = true;
     this.el.storyMenu.hidden = true;
     this.el.galleryShop.hidden = true;
+  }
+
+  openHomeExitModal() {
+    this.hideHomeModals();
+    this.el.closeWindowStatus.textContent = "";
+    this.el.homeExitModal.hidden = false;
+    this.el.closeHomeExit.focus({ preventScroll: true });
+    this.audio.tap();
+  }
+
+  closeHomeExitModal() {
+    this.el.homeExitModal.hidden = true;
+    this.el.closeWindowStatus.textContent = "";
+    this.el.homeExit.focus({ preventScroll: true });
+    this.audio.tap();
+  }
+
+  returnToLogin() {
+    window.clearInterval(this.typeTimer);
+    this.clearMomentEffects();
+    this.hideHomeModals();
+    this.hideStoryOverlays();
+    this.el.transition.classList.remove("active");
+    this.el.passcodeModal.hidden = true;
+    this.el.passcodeModal.classList.remove("is-open");
+    this.el.nicknameModal.hidden = true;
+    this.el.nicknameModal.classList.remove("is-open");
+    this.el.home.hidden = true;
+    this.el.story.hidden = true;
+    this.el.title.hidden = false;
+    this.el.scene.className = "scene scene-title";
+    this.el.sceneBg.style.backgroundImage = "";
+    this.activeAccess = null;
+    this.state = GAME_STATE.TITLE;
+    this.audio.pauseMusic();
+    this.el.enter.focus({ preventScroll: true });
+  }
+
+  closeGameWindow() {
+    this.el.closeWindowStatus.textContent = "正為你闔上此卷……";
+    window.close();
+    window.setTimeout(() => {
+      if (!window.closed) {
+        this.el.closeWindowStatus.textContent = "瀏覽器未允許自動關閉，請手動關閉此分頁。";
+        this.el.closeWindow.focus({ preventScroll: true });
+      }
+    }, 180);
   }
 
   hideStoryOverlays() {
@@ -922,6 +1154,7 @@ class OtomeGame {
   }
 
   openStoryMenu() {
+    if (!this.canAccess("story")) return;
     this.hideHomeModals();
     this.renderStoryMenu();
     this.el.storyMenu.hidden = false;
@@ -995,7 +1228,11 @@ class OtomeGame {
     const button = this.el.chapterButtons.find((entry) => entry.dataset.chapterId === chapterId);
     if (!button || button.disabled || this.el.chapterHorse.classList.contains("is-travelling")) return;
     this.el.chapterButtons.forEach((entry) => { entry.disabled = true; });
-    await this.preloader.load(`chapter:${chapterId}`, { criticalOnly: true });
+    await this.preloader.load(`chapter:${chapterId}`, {
+      criticalOnly: false,
+      showLoading: true,
+      label: "正在展開章節…",
+    });
     this.preloader.warm(`chapter:${chapterId}`);
     this.placeChapterHorse(chapterId, true);
     this.audio.enter();
@@ -1006,6 +1243,7 @@ class OtomeGame {
   }
 
   openMiniGameMenu() {
+    if (!this.canAccess("minigames")) return;
     this.hideHomeModals();
     if (window.TaskGameModal) {
       if (!this.taskGameModal) {
@@ -1018,7 +1256,11 @@ class OtomeGame {
           onStart: async (gameId) => {
             const preloadGroup = { touhu: "touhu", skyLantern: "skylantern", memorial: "memorial" }[gameId];
             if (preloadGroup) {
-              await this.preloader.load(preloadGroup, { criticalOnly: true });
+              await this.preloader.load(preloadGroup, {
+                criticalOnly: false,
+                showLoading: true,
+                label: "正在布置試煉…",
+              });
               this.preloader.warm(preloadGroup);
             }
             if (gameId === "touhu") this.openTouhuGame();
@@ -1122,6 +1364,7 @@ class OtomeGame {
   }
 
   openGalleryShop() {
+    if (!this.canAccess("gallery")) return;
     this.hideHomeModals();
     this.renderHome();
     this.el.galleryShop.hidden = false;
@@ -1286,10 +1529,10 @@ class OtomeGame {
     this.el.scene.classList.toggle("last-speaker-mian", this.lastSpeaker === "mian");
     this.applySpeakerPosition(line);
     this.renderStoryCharacters();
-    this.el.speaker.textContent = line.speaker;
+    this.el.speaker.textContent = this.formatStoryContent(line.speaker);
     this.el.exitStory.hidden = !this.chapterInProgress;
     this.saveStoryProgress();
-    this.typeText(line.text);
+    this.typeText(this.formatStoryContent(line.text));
   }
 
   getSavedStoryIndex(chapterId, script) {
@@ -1326,7 +1569,7 @@ class OtomeGame {
   nextDialogue() {
     if (this.state !== GAME_STATE.DIALOGUE) return;
 
-    const current = this.dialogueScript[this.dialogueIndex].text;
+    const current = this.formatStoryContent(this.dialogueScript[this.dialogueIndex].text);
     if (this.el.text.textContent.length < Array.from(current).length) {
       window.clearInterval(this.typeTimer);
       this.el.text.textContent = current;
@@ -1431,6 +1674,7 @@ class OtomeGame {
   }
 
   openBooksFromHome() {
+    if (!this.canAccess("books")) return;
     this.prepareStoryScene();
     this.showScrollSelect({ review: true, returnHome: true });
   }
@@ -1468,7 +1712,11 @@ class OtomeGame {
     this.el.transition.classList.add("active");
     await Promise.all([
       this.wait(500),
-      this.preloader.load(`route:${route.id}`, { criticalOnly: true }),
+      this.preloader.load(`route:${route.id}`, {
+        criticalOnly: false,
+        showLoading: true,
+        label: "正在展開命書…",
+      }),
     ]);
     this.preloader.warm(`route:${route.id}`);
     this.selectedRoute = route;
@@ -1575,7 +1823,11 @@ class OtomeGame {
       return;
     }
 
-    await this.preloader.load(`chapter:${chapterId}`, { criticalOnly: true });
+    await this.preloader.load(`chapter:${chapterId}`, {
+      criticalOnly: false,
+      showLoading: true,
+      label: "正在展開章節…",
+    });
     this.preloader.warm(`chapter:${chapterId}`);
     this.currentChapter = chapter;
     this.scripts = chapter.scripts;

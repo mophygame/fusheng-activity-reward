@@ -29,13 +29,30 @@ class LetterFeature {
       keepsakeClose: document.querySelector("#close-route-keepsake-button"),
       keepsakeList: document.querySelector("#route-keepsake-list"),
     };
+    this.portraitPointerType = "";
 
     this.bindEvents();
   }
 
   bindEvents() {
-    this.el.portrait.addEventListener("click", () => {
-      this.el.portrait.classList.toggle("show-ancient");
+    this.el.portrait.addEventListener("pointerdown", (event) => {
+      this.portraitPointerType = event.pointerType;
+    });
+    this.el.portrait.addEventListener("pointermove", (event) => {
+      if (event.pointerType === "mouse" && (event.movementX || event.movementY)) {
+        this.setAncientPortraitVisible(true);
+      }
+    });
+    this.el.portrait.addEventListener("pointerleave", (event) => {
+      if (event.pointerType === "mouse") this.setAncientPortraitVisible(false);
+    });
+    this.el.portrait.addEventListener("click", (event) => {
+      const isKeyboard = event.detail === 0;
+      const isTouch = this.portraitPointerType === "touch" || this.portraitPointerType === "pen";
+      if (isKeyboard || isTouch) {
+        this.setAncientPortraitVisible(!this.el.portrait.classList.contains("show-ancient"));
+      }
+      this.portraitPointerType = "";
     });
     this.el.openButton.addEventListener("click", () => this.open());
     this.el.closeButton.addEventListener("click", () => this.close());
@@ -77,6 +94,13 @@ class LetterFeature {
     });
   }
 
+  setAncientPortraitVisible(visible) {
+    this.el.portrait.classList.toggle("show-ancient", visible);
+    this.el.portrait.setAttribute("aria-label", visible
+      ? "目前顯示前世古代照片，離開或再次點擊可返回今生照片"
+      : "目前顯示今生現代照片，滑鼠滑過或點擊可查看前世照片");
+  }
+
   setRoute(route, sealImagePath, routeNumber = 1) {
     this.route = route;
     this.close();
@@ -89,7 +113,7 @@ class LetterFeature {
     const maskFile = routeNumber % 2 === 0 ? "mask02.webp" : "mask.webp";
     this.el.portrait.style.setProperty("--portrait-mask", `url(\"./assets/images/letter/${maskFile}\")`);
     this.el.portrait.classList.remove("uses-photo-assets");
-    this.el.portrait.classList.remove("show-ancient");
+    this.setAncientPortraitVisible(false);
     this.el.modernPortrait.classList.remove("is-missing");
     this.el.ancientPortrait.classList.remove("is-missing");
 

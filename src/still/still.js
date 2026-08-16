@@ -53,7 +53,7 @@
       card.className = `still-card${unlocked ? " is-unlocked" : " is-locked"}`;
       card.innerHTML = `
         <span class="still-number">${still.id}</span>
-        <div class="still-picture"><img src="${still.src}" alt="${still.title}" loading="lazy"><span class="still-lock" aria-hidden="true">♙</span></div>
+        <div class="still-picture"><img src="${still.src}" alt="${still.title}" loading="lazy"><span class="still-lock" aria-hidden="true"></span></div>
         <h3>${still.title}</h3>
         <button type="button"><i></i>${unlocked ? "已解鎖" : COST}</button>`;
       const image = card.querySelector("img");

@@ -2,10 +2,12 @@
   "id": "chapter4",
   "title": "第四章 · 玄甲藏心",
   "scenes": {
-    "battlefield": { "background": "./assets/images/storyline/bg_ancient_city_day.webp" },
-    "palace": { "background": "./assets/images/storyline/bg_palace_hall.webp" },
-    "laundryBureau": { "background": "./assets/images/storyline/bg_palace_corridor.webp" },
-    "imperialGarden": { "background": "./assets/images/storyline/bg_palace_exterior.webp" },
+    "battlefield": { "background": "./assets/images/storyline/chapter4/bg_frontier_battlefield.webp" },
+    "militaryCamp": { "background": "./assets/images/storyline/chapter4/bg_military_camp_night.webp" },
+    "campfire": { "background": "./assets/images/storyline/chapter4/bg_campfire.webp" },
+    "palace": { "background": "./assets/images/storyline/chapter4/bg_council_hall_day.webp" },
+    "laundryBureau": { "background": "./assets/images/storyline/chapter4/bg_laundry_bureau.webp" },
+    "imperialGarden": { "background": "./assets/images/storyline/chapter4/bg_imperial_garden.webp" },
     "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
   },
   "scripts": {
@@ -53,7 +55,7 @@
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
-        "scene": "battlefield",
+        "scene": "militaryCamp",
         "actors": [
           { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "left", "speaking": false }
         ],
@@ -63,7 +65,7 @@
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
-        "scene": "battlefield",
+        "scene": "campfire",
         "actors": [
           { "id": "huoxiao", "name": "霍驍 · 字允執", "portrait": "./assets/images/全身人設-霍驍（祁烈前世）.webp", "position": "center", "speaking": false }
         ],
