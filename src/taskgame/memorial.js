@@ -372,6 +372,8 @@ class MemorialGame {
 
   resetState() {
     this.score = 0;
+    this.reward = 0;
+    this.rewardClaimed = false;
     this.combo = 0;
     this.maxCombo = 0;
     this.completed = 0;
@@ -980,6 +982,7 @@ class MemorialGame {
     const grade = finalScore >= 4200 ? "御筆" : finalScore >= 2800 ? "甲" : finalScore >= 1600 ? "乙" : finalScore >= 700 ? "丙" : "丁";
     const reward = finalScore >= 4200 ? 10 : finalScore >= 2800 ? 8 : finalScore >= 1600 ? 6 : finalScore >= 700 ? 4 : 2;
     this.reward = reward;
+    this.claimReward();
     const beforeTotal = this.collection.totalScore || 0;
     this.collection.totalScore = beforeTotal + finalScore;
     this.saveCollection();
@@ -1013,9 +1016,14 @@ class MemorialGame {
     this.startButton.focus({ preventScroll: true });
   }
 
+  claimReward() {
+    if (this.rewardClaimed || this.reward <= 0) return;
+    this.rewardClaimed = true;
+    this.onReward(this.reward, this.score);
+  }
+
   finish() {
-    if (this.reward) this.onReward(this.reward, this.score);
-    this.reward = 0;
+    this.claimReward();
     this.close(this.onFinish);
   }
 

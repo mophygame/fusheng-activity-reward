@@ -101,6 +101,7 @@ class TouhuGame {
     this.nextTimer = 0;
     this.flightAngle = 0;
     this.reward = 0;
+    this.rewardClaimed = false;
     this.boundEscape = (event) => { if (event.key === "Escape") this.close(); };
   }
 
@@ -471,6 +472,7 @@ class TouhuGame {
   showResult() {
     const guestWon = this.guestWins > this.hostWins;
     this.reward = guestWon ? (this.guestWins === 2 && this.hostWins === 0 ? 8 : 5) : 1;
+    this.claimReward();
     this.root.querySelector(".touhu-final-title").textContent = guestWon ? "賓客勝 · 全席共飲慶功酒" : "主人勝 · 全席共飲慶功酒";
     this.root.querySelector(".touhu-final-record").textContent = `主人 ${this.hostWins} 局　·　賓客 ${this.guestWins} 局`;
     this.result.querySelector(".touhu-host-line").textContent = this.pick(guestWon ? this.host.finalLose : this.host.finalWin);
@@ -490,6 +492,7 @@ class TouhuGame {
     this.lastInviteLine = "";
     this.host = this.pick(this.hosts);
     this.reward = 0;
+    this.rewardClaimed = false;
     this.result.hidden = true;
     this.roundResult.hidden = true;
     this.ritual.hidden = false;
@@ -523,9 +526,14 @@ class TouhuGame {
     this.stock.setAttribute("aria-label", `剩餘箭矢 ${remaining} 支`);
   }
 
+  claimReward() {
+    if (this.rewardClaimed || this.reward <= 0) return;
+    this.rewardClaimed = true;
+    this.onReward(this.reward, this.score);
+  }
+
   finish() {
-    if (this.reward) this.onReward(this.reward, this.score);
-    this.reward = 0;
+    this.claimReward();
     this.close(this.onFinish);
   }
 

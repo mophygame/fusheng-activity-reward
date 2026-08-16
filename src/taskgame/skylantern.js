@@ -4,6 +4,7 @@ class SkyLanternGame {
     this.onReward = options.onReward || (() => {});
     this.distance = 0;
     this.reward = 0;
+    this.rewardClaimed = false;
     this.running = false;
     this.lit = false;
     this.lanternX = 50;
@@ -294,6 +295,7 @@ class SkyLanternGame {
     this.deactivateShield();
     cancelAnimationFrame(this.animationFrame);
     this.reward = [...this.rewardTiers].reverse().find((tier) => this.distance >= tier.distance)?.reward || 0;
+    this.claimReward();
     this.root.querySelector(".skylantern-final-distance").textContent = Math.floor(this.distance);
     this.root.querySelector(".skylantern-final-reward").textContent = this.reward;
     this.player.classList.add("is-hit");
@@ -311,6 +313,7 @@ class SkyLanternGame {
     this.lit = false;
     this.distance = 0;
     this.reward = 0;
+    this.rewardClaimed = false;
     this.lanternX = 50;
     this.lanternY = 12;
     this.velocityX = 0;
@@ -410,9 +413,14 @@ class SkyLanternGame {
     this.emberLayer.appendChild(fragment);
   }
 
+  claimReward() {
+    if (this.rewardClaimed || this.reward <= 0) return;
+    this.rewardClaimed = true;
+    this.onReward(this.reward, Math.floor(this.distance));
+  }
+
   finish() {
-    if (this.reward > 0) this.onReward(this.reward, Math.floor(this.distance));
-    this.reward = 0;
+    this.claimReward();
     this.close();
   }
 
