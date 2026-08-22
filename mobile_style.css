@@ -405,7 +405,9 @@
   }
 
   .home-resource-menu-toggle {
-    position: relative;
+    position: absolute;
+    left: -3px;
+    top: 54px;
     z-index: 2;
     display: grid;
     width: 68px;
