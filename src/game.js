@@ -189,8 +189,6 @@ class OtomeGame {
       homeExitModal: document.querySelector("#home-exit-modal"),
       closeHomeExit: document.querySelector("#close-home-exit-button"),
       returnLogin: document.querySelector("#return-login-button"),
-      closeWindow: document.querySelector("#close-window-button"),
-      closeWindowStatus: document.querySelector("#close-window-status"),
       playerNickname: document.querySelector("#player-nickname"),
       playerAvatar: document.querySelector("#player-avatar"),
       playerLevel: document.querySelector("#player-level"),
@@ -750,7 +748,6 @@ class OtomeGame {
     });
     this.el.closeHomeExit.addEventListener("click", () => this.closeHomeExitModal());
     this.el.returnLogin.addEventListener("click", () => this.returnToLogin());
-    this.el.closeWindow.addEventListener("click", () => this.closeGameWindow());
     this.el.homeExitModal.addEventListener("click", (event) => {
       if (event.target === this.el.homeExitModal) this.closeHomeExitModal();
     });
@@ -1166,7 +1163,6 @@ class OtomeGame {
 
   openHomeExitModal() {
     this.hideHomeModals();
-    this.el.closeWindowStatus.textContent = "";
     this.el.homeExitModal.hidden = false;
     this.el.closeHomeExit.focus({ preventScroll: true });
     this.audio.tap();
@@ -1174,7 +1170,6 @@ class OtomeGame {
 
   closeHomeExitModal() {
     this.el.homeExitModal.hidden = true;
-    this.el.closeWindowStatus.textContent = "";
     this.el.homeExit.focus({ preventScroll: true });
     this.audio.tap();
   }
@@ -1198,17 +1193,6 @@ class OtomeGame {
     this.state = GAME_STATE.TITLE;
     this.audio.pauseMusic();
     this.el.enter.focus({ preventScroll: true });
-  }
-
-  closeGameWindow() {
-    this.el.closeWindowStatus.textContent = "正為你闔上此卷……";
-    window.close();
-    window.setTimeout(() => {
-      if (!window.closed) {
-        this.el.closeWindowStatus.textContent = "瀏覽器未允許自動關閉，請手動關閉此分頁。";
-        this.el.closeWindow.focus({ preventScroll: true });
-      }
-    }, 180);
   }
 
   hideStoryOverlays() {

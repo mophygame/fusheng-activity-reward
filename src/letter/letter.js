@@ -214,7 +214,7 @@ class LetterFeature {
           </div>
         </div>
         <div class="route-keepsake-info">
-          <h4><i aria-hidden="true"></i><span>文物簡介</span><i aria-hidden="true"></i></h4>
+          <h4><i aria-hidden="true"></i><span>信物簡介</span><i aria-hidden="true"></i></h4>
           <p>${keepsake.introduction || "這件信物承載著一段未斷的前世今生。"}</p>
           <dl>
             <div><dt>類　別</dt><dd>${keepsake.time}信物</dd></div>

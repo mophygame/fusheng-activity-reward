@@ -88,6 +88,12 @@
 .login-reward-toast.is-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 .login-reward-toast[hidden] { display: none; }
 
+.home-exit-actions {
+  width: min(320px, 100%);
+  margin-inline: auto;
+  grid-template-columns: minmax(0, 1fr);
+}
+
 /* Desktop keepsake viewer uses the same full-screen, single-card tab model. */
 @media (min-width: 901px) {
   .reader-era { text-align: left; }
@@ -1495,4 +1501,229 @@
   border-radius: 50%;
   clip-path: none;
   font-size: 24px;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  /* 1. 百藝一覽：收緊標題節奏，並保留卡片頂部完整可見。 */
+  .taskgame-panel { grid-template-rows: auto minmax(0, 1fr) auto; padding-top: 12px; }
+  .taskgame-header { margin: 0 46px 1px; }
+  .taskgame-kicker { margin: 0; font-size: 9px; line-height: 1.2; }
+  .taskgame-title { margin: 1px 0; font-size: clamp(26px, 7.6vw, 34px); line-height: 1.12; }
+  .taskgame-rule { margin-top: 1px; font-size: 10px; line-height: 1.2; }
+  .taskgame-list { align-items: flex-start; padding-top: 12px; }
+  .taskgame-card { height: calc(100% - 4px); align-self: start; }
+
+  /* 2. 首頁功能卡縮短，不再進入左上玩家資訊區。 */
+  .home-actions {
+    top: 55%;
+    padding-inline: calc((100% - min(260px, 60vw)) / 2);
+    scroll-padding-inline: calc((100% - min(260px, 60vw)) / 2);
+  }
+  .home-action-button {
+    width: min(260px, 60vw);
+    min-width: min(260px, 60vw);
+  }
+
+  /* 3–4. 投壺標題、人物與遊戲場景。 */
+  .touhu-header {
+    top: 7px;
+    right: 48px;
+    left: 48px;
+    display: grid;
+    height: 36px;
+    place-items: center;
+    text-align: center;
+  }
+  .touhu-header p { display: none; }
+  .touhu-header h2 { margin: 0; font-size: 25px; line-height: 1; }
+  .touhu-field {
+    background-image: url("./assets/images/taskgame/touhu/background.webp");
+  }
+  .touhu-host-figure {
+    width: min(94vw, 410px);
+    align-self: end;
+  }
+  .touhu-host-image {
+    inset: auto 0 0;
+    width: 100%;
+    height: 108%;
+    object-position: center bottom;
+    transform: translateY(16%) scale(1.34);
+    transform-origin: center bottom;
+  }
+  .touhu-host-figure figcaption { right: 2%; bottom: 3%; }
+  .touhu-host-figure figcaption span { display: none; }
+
+  /* 5. 玩家操控天燈縮小為原來的一半。 */
+  .skylantern-player { width: 47px; height: 66px; }
+  .skylantern-player i { width: 23px; height: 29px; }
+  .skylantern-player::after { inset: -13px -17px; }
+
+  /* 6. 批奏摺 HUD 改為單行，縮短印匣以增加奏摺區域。 */
+  .memorial-header {
+    height: 46px;
+    display: block;
+    padding: 5px 44px 4px 7px;
+  }
+  .memorial-header > div:first-child { display: none; }
+  .memorial-hud {
+    display: grid;
+    height: 36px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    gap: 1px;
+  }
+  .memorial-hud span {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    justify-content: center;
+    font-size: clamp(8px, 2.25vw, 10px);
+    letter-spacing: 0;
+    white-space: nowrap;
+    gap: 3px;
+  }
+  .memorial-hud b { font-size: clamp(12px, 3.4vw, 15px); }
+  .memorial-desk { inset: 46px 0 0; padding-bottom: 78px; }
+  .memorial-stamp-rack { height: 72px; padding: 3px 6px; }
+  .memorial-stamps { gap: 4px; }
+  .memorial-stamp { width: 62px; height: 65px; }
+  .memorial-stamp b { padding: 3px 1px; font-size: 11px; }
+
+  /* 7. 命書返回鈕、潑墨照片與照片下方標題間距。 */
+  .scroll-close {
+    transform: scale(.8);
+    transform-origin: right top;
+  }
+  .scroll-close:hover,
+  .scroll-close:focus-visible { transform: scale(.8) translateY(2px); }
+  .route-portrait {
+    -webkit-mask-image: var(--portrait-mask);
+    -webkit-mask-mode: luminance;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: 100% 100%;
+  }
+  .ink-portrait.uses-photo-assets .ink-wash {
+    z-index: 1;
+    display: block;
+    opacity: .48;
+    mix-blend-mode: multiply;
+  }
+  .scroll-copy { margin-top: 14px; }
+  .reader-era { margin-top: 8px; }
+
+  /* 9. 移除捲動時會停在章節路徑中間的內陰影。 */
+  #story-menu .story-map-card::before { box-shadow: none; }
+
+  /* 10. 燈絮記憶標題區縮為手機舒適比例。 */
+  .still-gallery { padding: 24px 15px 18px; }
+  .still-header { padding: 0 32px 30px; }
+  .still-header h2 { gap: 5px; font-size: clamp(20px, 6vw, 25px); letter-spacing: .2em; }
+  .still-header h2::before,
+  .still-header h2::after { max-width: 42px; }
+  .still-header p { margin-top: 3px; font-size: 10px; line-height: 1.4; }
+  .still-balance { bottom: 5px; font-size: 11px; }
+  .still-grid { padding-top: 9px; }
+
+  /* 11. 命書選擇標題區收緊。 */
+  .scroll-select { padding-top: 42px; }
+  .scroll-select header p { font-size: 10px; letter-spacing: .2em; }
+  .scroll-select header h2 {
+    margin: 5px 0 14px;
+    font-size: clamp(25px, 8vw, 34px);
+    line-height: 1.2;
+  }
+
+  /* 12. 選單改為玩家資訊左側的一體式入口。 */
+  .home-resource-menu { order: -1; }
+  .home-player-cluster { border-radius: 6px 30px 30px 6px; }
+  .home-resource-menu-toggle {
+    border-radius: 6px 0 0 6px;
+    background-position: center;
+  }
+}
+
+/* 行動版全站舒適度收尾：統一主要字級、行高、觸控高度與標題對齊。 */
+@media (max-width: 900px) and (orientation: portrait) {
+  :is(.home-modal-card, .login-calendar-card, .home-exit-card, .taskgame-panel,
+      .route-keepsake-panel, .letter-sheet, .still-gallery) {
+    box-sizing: border-box;
+  }
+
+  :is(.story-map-heading, .taskgame-header, .route-keepsake-heading,
+      .scroll-select > header, .still-header, .home-exit-card) {
+    text-align: center;
+  }
+
+  :is(.story-map-heading > p, .taskgame-rule, .route-keepsake-heading,
+      .still-header p, #home-exit-copy, .login-calendar-footer p) {
+    line-height: 1.55;
+  }
+
+  :is(.home-exit-choice, .login-calendar-footer button, .taskgame-start,
+      .begin-route-button, .letter-pagination button, .route-keepsake-tabs button,
+      .touhu-ritual button, .touhu-round-result button, .touhu-result button,
+      .memorial-dialogue button) {
+    min-height: 44px;
+  }
+
+  .login-calendar-card {
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - 20px);
+    padding: 18px 12px 10px;
+  }
+
+  .login-calendar-header {
+    min-height: 64px;
+    margin: 0 38px 8px 0;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .login-calendar-header img { width: 48px; height: 48px; }
+  .login-calendar-header h2 {
+    margin-top: 2px;
+    padding-right: 0;
+    font-size: clamp(18px, 5.3vw, 22px);
+    line-height: 1.35;
+    letter-spacing: .08em;
+    white-space: nowrap;
+  }
+  .login-calendar-header p { font-size: 10px; }
+  .login-calendar-days { gap: 5px; padding-right: 2px; }
+  .login-day { min-height: 56px; }
+
+  .home-exit-card {
+    width: calc(100vw - 28px);
+    padding: 38px 20px 24px;
+  }
+  .home-exit-card h2 { margin: 6px 0 8px; font-size: clamp(22px, 6.5vw, 28px); }
+  #home-exit-copy { margin: 8px auto 18px; font-size: 12px; }
+
+  .story-map-heading h2 { font-size: clamp(27px, 8vw, 35px); }
+  .story-map-heading > p:last-child { font-size: 10px; letter-spacing: .06em; }
+  .story-map-progress { font-size: 10px; }
+
+  .route-keepsake-heading { font-size: 11px; }
+  .route-keepsake-info h4 { font-size: clamp(16px, 4.6vw, 19px); text-align: center; }
+  .route-keepsake-info p { font-size: 12px; line-height: 1.65; }
+
+  .letter-sheet { padding-inline: 22px; }
+  .letter-kicker { font-size: 10px; }
+  .letter-sheet h3 { font-size: clamp(22px, 7vw, 30px); text-align: center; }
+  #letter-text { font-size: clamp(14px, 3.8vw, 16px); line-height: 1.85; }
+
+  .scroll-copy blockquote,
+  .reader-prologue { font-size: clamp(13px, 3.55vw, 15px); line-height: 1.75; }
+  .reader-actions { justify-content: center; }
+
+  .still-footer { font-size: 10px; line-height: 1.5; }
+  .still-card h3 { font-size: clamp(12px, 3.4vw, 14px); }
+  .still-card button { min-height: 38px; font-size: 13px; }
+
+  .touhu-dialogue-panel,
+  .memorial-dialogue { text-align: center; }
+  .touhu-host-line,
+  .memorial-dialogue blockquote { line-height: 1.6; }
 }
