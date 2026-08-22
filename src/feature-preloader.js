@@ -93,6 +93,10 @@ class ImageLoadingObserver {
   }
 
   track(image) {
+    if (image.hasAttribute("data-frame-animation")) {
+      this.markLoading(image);
+      return;
+    }
     if (!this.tracked.has(image)) {
       this.tracked.add(image);
       image.addEventListener("load", () => this.settle(image, true));
@@ -103,6 +107,11 @@ class ImageLoadingObserver {
 
   markLoading(image) {
     if (!(image instanceof HTMLImageElement) || !image.getAttribute("src")) return;
+    if (image.hasAttribute("data-frame-animation")) {
+      image.classList.remove("image-loading", "image-loaded", "image-load-error");
+      image.setAttribute("aria-busy", "false");
+      return;
+    }
     image.classList.remove("image-loaded", "image-load-error");
     image.classList.add("image-loading");
     image.setAttribute("aria-busy", "true");
@@ -110,6 +119,11 @@ class ImageLoadingObserver {
   }
 
   settle(image, succeeded) {
+    if (image.hasAttribute("data-frame-animation")) {
+      image.classList.remove("image-loading", "image-loaded", "image-load-error");
+      image.setAttribute("aria-busy", "false");
+      return;
+    }
     image.classList.remove("image-loading");
     image.classList.toggle("image-loaded", succeeded);
     image.classList.toggle("image-load-error", !succeeded);

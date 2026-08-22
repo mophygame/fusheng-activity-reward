@@ -239,6 +239,299 @@ body.intro-active #game {
   100% { opacity: .18; transform: translate(0, 0) scale(1.15); }
 }
 
+/* 命定信物：紙卷文物誌 */
+.route-keepsake-modal {
+  padding: clamp(10px, 2vh, 24px);
+  overflow: hidden;
+}
+
+.route-keepsake-panel {
+  width: min(1120px, 92vw);
+  max-height: 94dvh;
+  height: auto;
+  padding: clamp(18px, 2.4vh, 28px);
+  overflow-y: auto;
+  border: 1px solid rgba(151, 118, 76, .65);
+  background:
+    linear-gradient(rgba(235, 225, 204, .8), rgba(220, 205, 177, .86)),
+    url("./assets/images/letter/paper.webp") center / cover;
+  box-shadow: inset 0 0 58px rgba(91, 63, 35, .22), 0 18px 70px rgba(0, 0, 0, .62);
+  scrollbar-color: rgba(121, 86, 48, .6) transparent;
+}
+
+.route-keepsake-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: clamp(12px, 1.8vh, 20px);
+  color: #80694e;
+  font-family: "Noto Serif TC", serif;
+  font-size: clamp(13px, 1.4vw, 19px);
+  letter-spacing: .2em;
+}
+
+.route-keepsake-heading i {
+  width: clamp(44px, 9vw, 120px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(129, 94, 53, .55));
+}
+
+.route-keepsake-heading i:last-child { transform: scaleX(-1); }
+
+.route-keepsake-close {
+  position: sticky;
+  float: right;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  width: 42px;
+  height: 42px;
+  margin: -12px -8px -30px 0;
+  border-color: rgba(126, 89, 48, .5);
+  background: rgba(235, 222, 194, .86);
+  color: #765539;
+  box-shadow: 0 3px 12px rgba(71, 48, 27, .2);
+  font-size: 28px;
+}
+
+.route-keepsake-list {
+  display: grid;
+  height: auto;
+  grid-template-rows: none;
+  gap: clamp(18px, 2.4vh, 26px);
+}
+
+.route-keepsake-card {
+  position: relative;
+  display: grid;
+  height: auto;
+  min-height: clamp(390px, 46vh, 500px);
+  max-height: 100%;
+  padding: 14px;
+  cursor: default;
+  overflow: hidden;
+  border: 2px solid rgba(150, 115, 72, .56);
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, rgba(247, 242, 227, .44), rgba(223, 208, 180, .2)),
+    url("./assets/images/letter/paper.webp") center / cover;
+  box-shadow: inset 0 0 32px rgba(93, 65, 37, .14), 0 7px 18px rgba(72, 49, 29, .16);
+  grid-template-columns: minmax(0, 51%) minmax(0, 49%);
+  gap: 0;
+  transform: none;
+}
+
+.route-keepsake-card::before {
+  position: absolute;
+  z-index: 6;
+  inset: 8px;
+  pointer-events: none;
+  content: "";
+  border: 1px solid rgba(154, 119, 75, .48);
+  box-shadow: inset 0 0 0 3px rgba(249, 243, 225, .32);
+}
+
+.route-keepsake-card::after {
+  position: absolute;
+  z-index: 7;
+  top: 4px;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  content: "";
+  border: 1px solid rgba(155, 120, 76, .5);
+  background: rgba(226, 211, 181, .82);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.route-keepsake-card:hover,
+.route-keepsake-card:focus-visible { transform: none; }
+
+.route-keepsake-visual {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  width: 100%;
+  min-height: 360px;
+  place-items: center;
+  overflow: hidden;
+  background:
+    url("./assets/images/letter/ink_circle.webp") 61% 53% / min(82%, 390px) auto no-repeat,
+    linear-gradient(90deg, rgba(218, 197, 160, .3), transparent 72%);
+    background-size: cover;
+}
+
+.route-keepsake-visual::before {
+  position: absolute;
+  inset: 9% 5%;
+  z-index: 0;
+  content: "";
+  background: url("./assets/images/letter/flower_sketch.webp") left 70% / 48% auto no-repeat;
+  opacity: .3;
+}
+
+/* .route-keepsake-card.is-ancient .route-keepsake-visual::before {
+  background-image: url("./assets/images/letter/mountain_wash.webp");
+  background-position: center bottom;
+  background-size: 92% auto;
+  opacity: .42;
+} */
+
+.route-keepsake-visual > img {
+  position: relative;
+  z-index: 2;
+  width: 72%;
+  height: clamp(300px, 40vh, 430px);
+  margin-left: 12%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 12px rgba(51, 36, 23, .3));
+}
+
+.route-keepsake-vertical {
+  position: absolute;
+  z-index: 4;
+  inset: 18px auto 18px 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.route-keepsake-vertical h3 {
+  margin: 0;
+  color: #4d3928;
+  font-family: "Noto Serif TC", serif;
+  max-height: 270px;
+  font-size: clamp(17px, 1.9vw, 27px);
+  font-weight: 600;
+  letter-spacing: .15em;
+  line-height: 1.18;
+  writing-mode: vertical-rl;
+}
+
+.route-keepsake-serial {
+  display: grid;
+  width: 50px;
+  height: 50px;
+  background: url("./assets/images/letter/serial_number_badge.webp") center / contain no-repeat;
+  font-family: "Noto Serif TC", serif;
+  font-size: 1rem;
+  color: #e7ddcc;
+  place-items: center;
+}
+
+.route-keepsake-info {
+  display: flex;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+  padding: clamp(32px, 4vw, 56px) clamp(28px, 3.5vw, 50px);
+  justify-content: center;
+  flex-direction: column;
+}
+
+.route-keepsake-info h4 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 18px;
+  color: #70553a;
+  font: 600 clamp(17px, 1.8vw, 23px)/1.3 "Noto Serif TC", serif;
+  letter-spacing: .18em;
+}
+
+.route-keepsake-info h4 i {
+  width: 18px;
+  height: 1px;
+  background: #a58a66;
+}
+
+.route-keepsake-info h4 i:last-child { flex: 1; }
+
+.route-keepsake-info p {
+  display: -webkit-box;
+  margin: 0 0 clamp(18px, 2.5vh, 30px);
+  overflow: hidden;
+  color: #655443;
+  font-size: clamp(12px, 1.2vw, 16px);
+  letter-spacing: .08em;
+  line-height: 1.85;
+  white-space: pre-line;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+}
+
+.route-keepsake-info dl { display: grid; gap: 10px; margin: 0; }
+.route-keepsake-info dl > div {
+  display: grid;
+  min-height: 36px;
+  border: 1px solid rgba(150, 115, 75, .32);
+  border-radius: 3px;
+  grid-template-columns: 104px minmax(0, 1fr);
+}
+.route-keepsake-info dt {
+  display: flex;
+  align-items: center;
+  padding: 6px 13px;
+  color: #f4ead3;
+  background: linear-gradient(90deg, rgba(114, 82, 48, .96), rgba(139, 105, 65, .88));
+  font-size: 13px;
+  letter-spacing: .18em;
+}
+.route-keepsake-info dd {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  margin: 0;
+  padding: 6px 14px;
+  color: #64513e;
+  font-size: clamp(12px, 1.15vw, 15px);
+  letter-spacing: .06em;
+}
+
+.route-keepsake-card.is-ancient .route-keepsake-visual { order: 2; }
+.route-keepsake-card.is-ancient .route-keepsake-info { order: 1; }
+.route-keepsake-card.is-ancient .route-keepsake-vertical { inset: 18px 10px 18px auto; }
+.route-keepsake-card.is-ancient .route-keepsake-visual > img { margin-right: 12%; margin-left: 0; }
+.route-keepsake-card.is-ancient .route-keepsake-visual {
+  background-position: 39% 53%, center;
+  background-image:
+    url("./assets/images/letter/ink_circle.webp"),
+    linear-gradient(270deg, rgba(218, 197, 160, .3), transparent 72%);
+    background-size: cover;
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+  .route-keepsake-modal { padding: 7px; }
+  .route-keepsake-panel { width: 100%; max-height: calc(100dvh - 14px); padding: 20px 10px 14px; }
+  .route-keepsake-heading { padding-inline: 34px; font-size: 11px; letter-spacing: .08em; }
+  .route-keepsake-card { min-height: 0; grid-template-columns: 1fr; }
+  .route-keepsake-visual { min-height: 100%; order: 1 !important; }
+  .route-keepsake-info { padding: 24px 16px; order: 2 !important; }
+  .route-keepsake-vertical h3 { font-size: 20px; }
+  .route-keepsake-info p { -webkit-line-clamp: initial; }
+  .route-keepsake-info dl > div { grid-template-columns: 94px minmax(0, 1fr); }
+  .route-keepsake-info dt, .route-keepsake-info dd { padding-inline: 9px; }
+}
+
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+  .route-keepsake-panel { width: 96vw; max-height: 96dvh; padding: 16px 18px; }
+  .route-keepsake-heading { margin-bottom: 12px; font-size: 11px; }
+  .route-keepsake-card { min-height: 300px; grid-template-columns: 1fr; }
+  .route-keepsake-visual { order: 1 !important; }
+  .route-keepsake-info { order: 2 !important; }
+  .route-keepsake-visual { min-height: 300px; }
+  .route-keepsake-visual > img { height: 250px; }
+  .route-keepsake-info { padding: 20px 28px; }
+  .route-keepsake-info h4 { margin-bottom: 10px; font-size: 17px; }
+  .route-keepsake-info p { margin-bottom: 12px; font-size: 11px; line-height: 1.55; -webkit-line-clamp: 4; }
+  .route-keepsake-info dl { gap: 5px; }
+  .route-keepsake-info dl > div { min-height: 29px; grid-template-columns: 92px 1fr; }
+  .route-keepsake-info dt, .route-keepsake-info dd { padding-block: 3px; font-size: 10px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dream-city { animation-duration: 1.2s; }
   .dream-butterfly { animation-duration: 1.2s; animation-delay: 0s; }
@@ -847,10 +1140,14 @@ body.intro-active #game {
   letter-spacing: 0.28em;
 }
 
+.passcode-input-wrap {
+  position: relative;
+}
+
 #passcode-input {
   width: 100%;
   height: 52px;
-  padding: 4px 16px 9px;
+  padding: 4px 52px 9px 16px;
   border: 0;
   border-bottom: 1px solid #70442c;
   border-radius: 0;
@@ -861,6 +1158,64 @@ body.intro-active #game {
   font-size: 30px;
   letter-spacing: 0.55em;
   text-align: center;
+}
+
+.passcode-visibility {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(70, 42, 27, 0.66);
+  cursor: pointer;
+  transform: translateY(-50%);
+  place-items: center;
+}
+
+.passcode-visibility:hover,
+.passcode-visibility:focus-visible {
+  background: rgba(91, 54, 31, 0.1);
+  color: #4b2d1e;
+  outline: none;
+}
+
+.passcode-eye {
+  position: relative;
+  display: block;
+  width: 21px;
+  height: 14px;
+  border: 1.5px solid currentColor;
+  border-radius: 70% 20% 70% 20%;
+  transform: rotate(45deg);
+}
+
+.passcode-eye::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.passcode-visibility[aria-pressed="true"] .passcode-eye::after {
+  position: absolute;
+  top: 50%;
+  left: -3px;
+  width: 27px;
+  height: 1.5px;
+  background: currentColor;
+  content: "";
+  transform: rotate(-45deg);
+  transform-origin: center;
 }
 
 #nickname-input {
@@ -965,7 +1320,7 @@ body.intro-active #game {
   align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
-  padding-right: 64px;
+  /* padding-right: 64px; */
 }
 
 .profile-card,
@@ -1328,6 +1683,7 @@ body.intro-active #game {
 
 .home-modal-close {
   position: absolute;
+  z-index: 20;
   top: 16px;
   right: 16px;
   width: 36px;
@@ -1339,6 +1695,12 @@ body.intro-active #game {
   color: #f2d49b;
   font-size: 24px;
   line-height: 1;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+.story-map-card > #close-story-menu-button {
+  z-index: 30;
 }
 
 .login-calendar-card {
@@ -1839,6 +2201,7 @@ body.intro-active #game {
   83.33% { background-image: url("./assets/images/storyline/horse/run_06.webp"); }
 }
 .story-map-card .chapter-entry {
+  --chapter-offset-y: -42px;
   position: relative;
   align-self: center;
   min-width: 0;
@@ -1847,15 +2210,19 @@ body.intro-active #game {
   background: none;
   text-align: center;
   filter: none;
-  transform: translateY(-42px);
+  transform: translateY(var(--chapter-offset-y));
 }
-.story-map-card .chapter-entry:nth-of-type(2) { transform: translateY(68px); }
-.story-map-card .chapter-entry:nth-of-type(3) { transform: translateY(-76px); }
-.story-map-card .chapter-entry:nth-of-type(4) { transform: translateY(34px); }
-.story-map-card .chapter-entry:nth-of-type(5) { transform: translateY(-48px); }
-.story-map-card .chapter-entry:nth-of-type(6) { transform: translateY(62px); }
+.story-map-card .chapter-entry:nth-of-type(2) { --chapter-offset-y: 68px; }
+.story-map-card .chapter-entry:nth-of-type(3) { --chapter-offset-y: -76px; }
+.story-map-card .chapter-entry:nth-of-type(4) { --chapter-offset-y: 34px; }
+.story-map-card .chapter-entry:nth-of-type(5) { --chapter-offset-y: -48px; }
+.story-map-card .chapter-entry:nth-of-type(6) { --chapter-offset-y: 62px; }
 .story-map-card .chapter-entry:not(:disabled):hover,
-.story-map-card .chapter-entry:not(:disabled):focus-visible { border: 0; background: none; transform: translateY(-48px); }
+.story-map-card .chapter-entry:not(:disabled):focus-visible {
+  border: 0;
+  background: none;
+  transform: translateY(var(--chapter-offset-y));
+}
 .chapter-node {
   position: relative;
   display: grid !important;
@@ -1867,6 +2234,13 @@ body.intro-active #game {
   box-shadow: 0 0 0 6px rgba(24, 15, 8, .85), 0 0 0 7px rgba(208, 158, 78, .5), 0 0 22px rgba(229, 166, 65, .36);
   place-items: center;
   transform: rotate(45deg);
+  transition: filter .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.story-map-card .chapter-entry:not(:disabled):hover .chapter-node,
+.story-map-card .chapter-entry:not(:disabled):focus-visible .chapter-node {
+  filter: brightness(1.12);
+  box-shadow: 0 0 0 6px rgba(24, 15, 8, .85), 0 0 0 7px rgba(229, 177, 92, .72), 0 0 30px rgba(240, 180, 77, .58);
+  transform: rotate(45deg) scale(1.055);
 }
 .chapter-node::after { position: absolute; inset: 7px; content: ""; border: 1px solid rgba(245, 205, 132, .45); }
 .chapter-node i { color: #ffe0a1; font-family: Georgia, serif; font-size: 23px; font-style: normal; transform: rotate(-45deg); }
@@ -2708,7 +3082,7 @@ body.intro-active #game {
   position: fixed;
   z-index: 4;
   top: 0;
-  left: max(42px, env(safe-area-inset-left));
+  right: max(42px, env(safe-area-inset-left));
   display: grid;
   width: clamp(70px, 6.4vw, 94px);
   aspect-ratio: 250 / 455;
@@ -3015,14 +3389,17 @@ body.intro-active #game {
 
 .route-keepsake-panel {
   position: relative;
-  width: min(800px, 84vw);
-  height: 100%;
+  width: min(1120px, 92vw);
+  height: auto;
   max-height: calc(100dvh - clamp(32px, 5vh, 60px));
-  padding: 0;
+  padding: clamp(18px, 2.4vh, 28px);
+  overflow-y: auto;
+  border: 1px solid rgba(151, 118, 76, .65);
+  background:
+    linear-gradient(rgba(235, 225, 204, .8), rgba(220, 205, 177, .86)),
+    url("./assets/images/letter/paper.webp") center / cover;
   color: #493121;
-  display: grid;
-  grid-template-rows: auto auto;
-  align-content: center;
+  box-shadow: inset 0 0 58px rgba(91, 63, 35, .22), 0 18px 70px rgba(0, 0, 0, .62);
 }
 
 .route-keepsake-close {
@@ -3053,74 +3430,83 @@ body.intro-active #game {
 .route-keepsake-list {
   display: grid;
   width: 100%;
-  height: min(82dvh, 720px);
+  height: auto;
   min-height: 0;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: clamp(10px, 1.6vh, 18px);
+  grid-template-rows: none;
+  gap: clamp(18px, 2.4vh, 26px);
 }
 
 .route-keepsake-card {
   position: relative;
   display: grid;
   min-width: 0;
-  min-height: 0;
-  height: 100%;
-  padding: clamp(14px, 2.2vh, 26px) clamp(20px, 3.2vw, 38px);
+  min-height: clamp(390px, 46vh, 500px);
+  max-height: 100%;
+  height: auto;
+  padding: 14px;
   overflow: hidden;
-  cursor: pointer;
-  border: 3px double rgba(142, 97, 54, 0.66);
-  border-radius: 22px;
+  cursor: default;
+  border: 2px solid rgba(150, 115, 72, .56);
+  border-radius: 0;
   background:
-    radial-gradient(circle at 88% 24%, rgba(148, 105, 58, 0.12), transparent 22%),
-    repeating-linear-gradient(0deg, rgba(92, 61, 34, 0.025) 0 1px, transparent 1px 4px),
-    linear-gradient(135deg, rgba(242, 221, 180, 0.98), rgba(221, 190, 137, 0.98));
+    linear-gradient(90deg, rgba(247, 242, 227, .44), rgba(223, 208, 180, .2)),
+    url("./assets/images/letter/paper.webp") center / cover;
   color: #4b3424;
-  box-shadow: inset 0 0 0 6px rgba(255, 239, 204, 0.3), 0 14px 35px rgba(0, 0, 0, 0.48);
-  grid-template-columns: minmax(210px, 34%) 1fr;
+  box-shadow: inset 0 0 32px rgba(93, 65, 37, .14), 0 7px 18px rgba(72, 49, 29, .16);
+  grid-template-columns: minmax(0, 51%) minmax(0, 49%);
   align-items: center;
-  gap: clamp(28px, 5vw, 62px);
+  gap: 0;
   text-align: left;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  transform: none;
+}
+.route-keepsake-card:nth-of-type(1){
+  padding-left: 14px;
+}
+.route-keepsake-card:nth-of-type(2){
+  padding-right: 14px;
 }
 
 .route-keepsake-card::before,
 .route-keepsake-card::after {
   position: absolute;
-  width: 70px;
-  height: 70px;
+  z-index: 6;
   pointer-events: none;
   content: "";
-  opacity: 0.28;
 }
 
 .route-keepsake-card::before {
-  top: 18px;
-  right: 24px;
-  border-top: 1px solid #89633d;
-  border-right: 1px solid #89633d;
+  inset: 8px;
+  border: 1px solid rgba(154, 119, 75, .48);
+  box-shadow: inset 0 0 0 3px rgba(249, 243, 225, .32);
 }
 
 .route-keepsake-card::after {
-  bottom: 18px;
-  left: 24px;
-  border-bottom: 1px solid #89633d;
-  border-left: 1px solid #89633d;
+  top: 4px;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(155, 120, 76, .5);
+  background: rgba(226, 211, 181, .82);
+  transform: translateX(-50%) rotate(45deg);
 }
 
 .route-keepsake-card:hover,
 .route-keepsake-card:focus-visible,
 .route-keepsake-card[aria-expanded="true"] {
-  border-color: rgba(169, 113, 57, 0.88);
-  box-shadow: inset 0 0 0 6px rgba(255, 239, 204, 0.34), 0 16px 40px rgba(0, 0, 0, 0.58);
-  transform: translateY(-1px);
+  border-color: rgba(150, 115, 72, .56);
+  box-shadow: inset 0 0 32px rgba(93, 65, 37, .14), 0 7px 18px rgba(72, 49, 29, .16);
+  transform: none;
+}
+.route-keepsake-card,.route-keepsake-card::before{
+  border-radius: 13px;
 }
 
 .route-keepsake-card img {
-  width: 100%;
-  height: clamp(110px, 22vh, 190px);
-  margin: 0;
+  width: 72%;
+  height: clamp(300px, 40vh, 430px);
+  margin-left: 12%;
   object-fit: contain;
-  filter: drop-shadow(0 16px 14px rgba(50, 31, 20, 0.32));
+  filter: drop-shadow(0 18px 12px rgba(51, 36, 23, .3));
 }
 
 .route-keepsake-copy {
@@ -4281,11 +4667,11 @@ body.intro-active #game {
   }
 
   .scroll-close {
-    left: 24px;
+    right: 24px;
   }
 
   .ink-portrait {
-    min-height: 52vh;
+    min-height: 64vh;
     margin-top: 8px;
   }
 
@@ -4435,7 +4821,8 @@ body.intro-active #game {
     height: calc(100dvh - 24px);
     max-height: calc(100dvh - 24px);
     padding: 8px 4px 10px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .route-keepsake-close {
@@ -4451,6 +4838,7 @@ body.intro-active #game {
   }
 
   .route-keepsake-card img {
+    width: 68%;
     height: clamp(85px, 17vh, 135px);
   }
 
@@ -4615,6 +5003,13 @@ img.image-loaded:not(.route-portrait) {
   animation: image-loading-reveal .28s ease both;
 }
 
+/* 逐格動畫會持續替換 src，不可套用一般圖片的矩形載入骨架。 */
+.dream-butterfly img[data-frame-animation] {
+  background: transparent !important;
+  opacity: 1 !important;
+  animation: none !important;
+}
+
 img.image-load-error {
   min-width: 42px;
   min-height: 42px;
@@ -4689,6 +5084,27 @@ img.image-load-error {
     outline-offset: 2px;
     background: transparent;
     box-shadow: none;
+  }
+}
+
+/* Phone-only keepsake layout: artwork above, description below. */
+@media (max-width: 600px) and (orientation: portrait),
+       (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+  .route-keepsake-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .route-keepsake-visual,
+  .route-keepsake-card.is-ancient .route-keepsake-visual {
+    min-height: clamp(210px, 32vh, 300px);
+    order: 1;
+  }
+
+  .route-keepsake-info,
+  .route-keepsake-card.is-ancient .route-keepsake-info {
+    padding: 24px 16px;
+    order: 2;
   }
 }
 

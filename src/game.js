@@ -174,6 +174,7 @@ class OtomeGame {
       passcodeModal: document.querySelector("#passcode-modal"),
       passcodeForm: document.querySelector("#passcode-form"),
       passcodeInput: document.querySelector("#passcode-input"),
+      togglePasscodeVisibility: document.querySelector("#toggle-passcode-visibility"),
       passcodeError: document.querySelector("#passcode-error"),
       closePasscode: document.querySelector("#close-passcode-button"),
       nicknameModal: document.querySelector("#nickname-modal"),
@@ -608,7 +609,8 @@ class OtomeGame {
   }
 
   formatStoryContent(value = "") {
-    return String(value).replace(/\{username\}/g, this.getDisplayNickname());
+    const nickname = this.getDisplayNickname();
+    return String(value).replace(/\{username\}|淺野夏/g, nickname);
   }
 
   isChapterCleared(chapterId) {
@@ -648,8 +650,15 @@ class OtomeGame {
       if (event.target === this.el.passcodeModal) this.closePasscodeModal();
     });
     this.el.passcodeInput.addEventListener("input", () => {
-      this.el.passcodeInput.value = this.el.passcodeInput.value.replace(/\D/g, "").slice(0, 4);
+      this.el.passcodeInput.value = this.el.passcodeInput.value.replace(/[^a-zA-Z0-9]/g, "");
       this.clearPasscodeError();
+    });
+    this.el.togglePasscodeVisibility.addEventListener("click", () => {
+      const shouldShow = this.el.passcodeInput.type === "password";
+      this.el.passcodeInput.type = shouldShow ? "text" : "password";
+      this.el.togglePasscodeVisibility.setAttribute("aria-pressed", String(shouldShow));
+      this.el.togglePasscodeVisibility.setAttribute("aria-label", shouldShow ? "隱藏密碼" : "顯示密碼");
+      this.el.passcodeInput.focus();
     });
     this.el.passcodeForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -707,7 +716,14 @@ class OtomeGame {
     this.el.homeGallery.addEventListener("click", () => this.openWhenReady(
       this.el.homeGallery, "gallery", () => this.openGalleryShop(),
     ));
-    this.el.closeStoryMenu.addEventListener("click", () => this.closeStoryMenu());
+    this.el.closeStoryMenu.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.closeStoryMenu();
+    });
+    this.el.storyMenu.addEventListener("click", (event) => {
+      if (event.target === this.el.storyMenu) this.closeStoryMenu();
+    });
     this.el.closeGallery.addEventListener("click", () => this.closeGalleryShop());
     this.el.chapterList.addEventListener("click", (event) => {
       const button = event.target.closest("[data-chapter-id]");
@@ -757,6 +773,9 @@ class OtomeGame {
   openPasscodeModal() {
     this.clearPasscodeError();
     this.el.passcodeInput.value = "";
+    this.el.passcodeInput.type = "password";
+    this.el.togglePasscodeVisibility.setAttribute("aria-pressed", "false");
+    this.el.togglePasscodeVisibility.setAttribute("aria-label", "顯示密碼");
     this.el.passcodeModal.hidden = false;
     window.requestAnimationFrame(() => {
       this.el.passcodeModal.classList.add("is-open");

@@ -12,42 +12,73 @@
         "character": "mian",
         "position": "right",
         "scene": "shop",
-        "text": "故人，別來無恙？既然推開了不見書肆的門，便坐下聽一段大封舊事吧。"
+        "text": "門上的銅鈴分明沒有風，卻在妳踏進巷尾時輕輕響了。待妳回神，身後已不是來時的街道，只剩一扇自行闔上的舊木門。"
       },
       {
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
         "scene": "shop",
-        "text": "眠，別急。這五卷命書沉睡多年，總得讓{username}先認一認卷上的名字。"
+        "text": "別怕。這裡是不見書肆——無緣之人尋不到，有緣之人縱使走錯了路，也終究會推開這扇門。"
       },
       {
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
         "scene": "shop",
-        "text": "魏諍，字子羽；魏猙，字子貍；上官映雪；霍驍，字允執；還有那匹名為疾風的白金汗血寶馬。"
+        "text": "沐，她不是走錯了路。妳看，架上那卷《大封舊事》，從她進門起便一直在響。"
       },
       {
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
         "scene": "shop",
-        "text": "五段命途並非彼此無關。它們起於眠祈書院的一場相逢，終於大封二十年的一夜花燈。"
+        "effects": ["dust"],
+        "text": "那不是風聲，是書頁在等一雙願意翻開它的手。{username}，妳可曾聽過一個名為「大封」的王朝？"
       },
       {
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
         "scene": "shop",
-        "text": "有人為百姓弒帝，有人為所愛捨去自身，有人困於鳳印，有人把真心藏在玄甲之下。"
+        "text": "史書說它始於一位百年難遇的明君，終於一場吞沒王城的大火。可史書沒有寫，那火裡究竟埋了多少人的名字。"
       },
       {
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
         "scene": "shop",
-        "text": "翻頁吧，{username}。這一次，讓他們的名字留在故事裡。"
+        "text": "魏諍，字子羽；魏猙，字子貍；上官映雪；霍驍，字允執；還有一匹名為疾風的白金汗血寶馬。五段命途，都鎖在同一卷書裡。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "一旦翻開，妳不會只是讀者。妳會聞見旱土的塵、聽見婚轎外的馬蹄，也會親眼看著那些被盛世之名掩去的人，如何走到命定的盡頭。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "若途中覺得太沉，便記住我們的聲音。無論書頁把妳帶到多遠的年代，不見書肆都會替妳留一盞燈。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "effects": ["screen-vignette"],
+        "text": "來，把手放在封面上。不要移開目光——書頁要開了。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "city",
+        "effects": ["dust", "screen-vignette"],
+        "text": "聽，遠處的鐘聲正從大封元年傳來。這段舊事，要從湛廉王魏錫說起。"
       },
       {
         "speaker": "史書",

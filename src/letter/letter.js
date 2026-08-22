@@ -73,13 +73,6 @@ class LetterFeature {
       if (!this.el.keepsakeModal.hidden) this.closeKeepsakes();
       else if (!this.el.modal.hidden) this.close();
     });
-    this.el.keepsakeList.addEventListener("click", (event) => {
-      const card = event.target.closest(".route-keepsake-card");
-      if (!card) return;
-      const expanded = card.getAttribute("aria-expanded") === "true";
-      card.setAttribute("aria-expanded", String(!expanded));
-    });
-
     [this.el.modernPortrait, this.el.ancientPortrait].forEach((image) => {
       image.addEventListener("error", () => {
         image.classList.add("is-missing");
@@ -178,32 +171,48 @@ class LetterFeature {
   renderKeepsakes() {
     if (!this.route) return;
     const portraitName = `${this.route.role}(${this.route.name})`;
+    const rocYear = new Date().getFullYear() - 1911;
     const keepsakes = [
       {
-        era: "今生信物",
+        serial: "壹",
+        time: "今生",
+        period: `民國 ${rocYear} 年`,
         title: this.route.keepsakes?.modernTitle,
         image: `./assets/images/letter/信物-${encodeURIComponent(portraitName)}-現代信物.webp`,
-        meaning: this.route.keepsakes?.modern,
+        introduction: this.route.keepsakes?.modern,
+        size: this.route.keepsakes?.modernSize,
       },
       {
-        era: "前世信物",
+        serial: "貳",
+        time: "前世",
+        period: "大封十年",
         title: this.route.keepsakes?.ancientTitle,
         image: `./assets/images/letter/信物-${encodeURIComponent(portraitName)}-古代信物.webp`,
-        meaning: this.route.keepsakes?.ancient,
+        introduction: this.route.keepsakes?.ancient,
+        size: this.route.keepsakes?.ancientSize,
       },
     ];
 
-    this.el.keepsakeList.innerHTML = keepsakes.map((keepsake) => `
-      <button class="route-keepsake-card" type="button" aria-expanded="true">
-        <img src="${keepsake.image}" alt="${this.route.role}與${this.route.name}的${keepsake.era}" />
-        <span class="route-keepsake-copy">
-          <b class="route-keepsake-name">${keepsake.title || keepsake.era}</b>
-          <span class="route-keepsake-era">${keepsake.era}</span>
-          <i aria-hidden="true"></i>
-          <span class="route-keepsake-meaning">${keepsake.meaning || "這件信物承載著一段未斷的前世今生。"}</span>
-          <small>點擊收合／展開</small>
-        </span>
-      </button>
+    this.el.keepsakeList.innerHTML = keepsakes.map((keepsake, index) => `
+      <article class="route-keepsake-card ${index === 0 ? "is-modern" : "is-ancient"}">
+        <div class="route-keepsake-visual">
+          <img src="${keepsake.image}" alt="${this.route.role}與${this.route.name}的${keepsake.time}信物：${keepsake.title}" />
+          <div class="route-keepsake-vertical">
+            <span class="route-keepsake-serial">${keepsake.serial}</span>
+            <h3>${keepsake.title}</h3>
+          </div>
+        </div>
+        <div class="route-keepsake-info">
+          <h4><i aria-hidden="true"></i><span>文物簡介</span><i aria-hidden="true"></i></h4>
+          <p>${keepsake.introduction || "這件信物承載著一段未斷的前世今生。"}</p>
+          <dl>
+            <div><dt>類　別</dt><dd>${keepsake.time}信物</dd></div>
+            <div><dt>年　　代</dt><dd>${keepsake.period}</dd></div>
+            <div><dt>尺　　寸</dt><dd>${keepsake.size || "尺寸不詳"}</dd></div>
+            <div><dt>緣　分</dt><dd>${keepsake.time}</dd></div>
+          </dl>
+        </div>
+      </article>
     `).join("");
   }
 
@@ -216,9 +225,6 @@ class LetterFeature {
 
   closeKeepsakes() {
     this.el.keepsakeModal.hidden = true;
-    this.el.keepsakeList.querySelectorAll(".route-keepsake-card").forEach((card) => {
-      card.setAttribute("aria-expanded", "true");
-    });
   }
 }
 

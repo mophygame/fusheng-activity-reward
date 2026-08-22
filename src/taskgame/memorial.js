@@ -1022,12 +1022,32 @@ class MemorialGame {
     this.onReward(this.reward, this.score);
   }
 
+  getProgressReward() {
+    if (this.completed <= 0 && this.score <= 0) return 0;
+    const specialRate = this.specialTotal ? this.specialCompleted / this.specialTotal : 0;
+    const projectedScore = Math.max(0, Math.round(
+      this.score + this.completed * 30 + this.perfects * 20 + this.maxCombo * 15 + specialRate * 300
+    ));
+    if (projectedScore >= 4200) return 10;
+    if (projectedScore >= 2800) return 8;
+    if (projectedScore >= 1600) return 6;
+    if (projectedScore >= 700) return 4;
+    return projectedScore > 0 ? 2 : 0;
+  }
+
+  settleCurrentReward() {
+    if (this.rewardClaimed) return;
+    this.reward = Math.max(this.reward, this.getProgressReward());
+    this.claimReward();
+  }
+
   finish() {
     this.claimReward();
     this.close(this.onFinish);
   }
 
   close(onClosed = this.onClose) {
+    this.settleCurrentReward();
     this.running = false;
     cancelAnimationFrame(this.timerId);
     window.clearTimeout(this.nextTimer);

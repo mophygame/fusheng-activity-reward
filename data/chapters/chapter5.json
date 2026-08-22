@@ -11,6 +11,10 @@
     "cliffFall": { "background": "./assets/images/storyline/chapter5/bg_cliff_fall.webp" },
     "cliffBottom": { "background": "./assets/images/storyline/chapter5/bg_cliff_bottom.webp" },
     "forest": { "background": "./assets/images/storyline/chapter5/bg_forest_archers.webp" },
+    "yuxinHall": { "background": "./assets/images/storyline/chapter3/bg_yuxin_hall.webp" },
+    "executionCourt": { "background": "./assets/images/storyline/chapter1/bg_palace_gate_rebellion.webp" },
+    "palacePassage": { "background": "./assets/images/storyline/bg_palace_corridor.webp" },
+    "burningPalace": { "background": "./assets/images/storyline/chapter3/bg_wedding_battle.webp" },
     "shop": { "background": "./assets/images/storyline/bg_bookstore.webp" }
   },
   "scripts": {
@@ -20,7 +24,7 @@
         "character": "mu",
         "position": "left",
         "scene": "lanternMarket",
-        "text": "第五章，大封之末。大封二十年，一年一度的花燈節，魏諍帶著端淑妃微服出巡，像一對尋常夫妻般穿梭在熱鬧市集。"
+        "text": "第五章，大封之末。大封二十年，一年一度的花燈節，魏諍帶著端淑妃——{username}微服出巡，像一對尋常夫妻般穿梭在熱鬧市集。"
       },
       {
         "speaker": "書肆主人 · 眠",
@@ -269,43 +273,163 @@
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
-        "scene": "shop",
-        "text": "書頁闔上了。抬起頭吧，{username}，妳已經回到不見書肆。"
+        "scene": "yuxinHall",
+        "text": "魏猙回到王城，立即向上官映雪稟報魏諍與端淑妃已死。他以為自己帶回的是她等待已久的勝果，等來的卻只有一雙冷靜得近乎悲哀的眼睛。"
+      },
+      {
+        "speaker": "上官映雪",
+        "character": "shangguan-yingxue",
+        "scene": "yuxinHall",
+        "text": "阿貍，柳眠的行蹤，是不是你透露出去的？"
       },
       {
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
-        "scene": "shop",
-        "text": "妳方才看見的並非夢境，也不是後人杜撰的戲文。那就是大封曾經發生過的歷史。"
+        "scene": "yuxinHall",
+        "text": "魏猙第一次慌了。他矢口否認，直到映雪輕輕彈指，那名曾受他密令的上官氏親信從殿後走出。所有辯解，都在那一刻失去了意義。"
+      },
+      {
+        "speaker": "魏猙 · 字子貍",
+        "character": "weizeng",
+        "scene": "yuxinHall",
+        "camera": { "shake": "soft" },
+        "text": "是，是我！憑什麼？我陪著妳，自年少、自出嫁、自妳登臨鳳位，憑什麼妳從未看過我一眼？妳應該愛我，而不是魏諍，不是柳眠！"
+      },
+      {
+        "speaker": "上官映雪",
+        "character": "shangguan-yingxue",
+        "scene": "yuxinHall",
+        "text": "而今才道當時錯，心緒淒迷，步步錯。"
+      },
+      {
+        "speaker": "上官映雪",
+        "character": "shangguan-yingxue",
+        "scene": "yuxinHall",
+        "text": "來人。太監魏猙，為花燈謀反主謀者，帶下去，斬了。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "executionCourt",
+        "effects": ["screen-vignette"],
+        "text": "被拖出育心殿時，魏猙終於明白，他最珍惜的歲月不過是一場自欺的幻影。他毀掉魏諍的幸福、映雪的幸福，也毀掉了自己，只為從別人眼中證明自己曾被需要。"
+      },
+      {
+        "speaker": "魏猙 · 字子貍",
+        "character": "weizeng",
+        "scene": "executionCourt",
+        "text": "吾名姓魏，單字一猙，字子貍。若有來世，別像我這麼活著。願來世，能隨心所欲。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "executionCourt",
+        "effects": ["blood-splash"],
+        "text": "刀光落下。魏猙以謀反叛國之罪伏誅，那個曾在市集捧著糖炒栗子的少年，也終於隨阿貍之名一同死去。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "palacePassage",
+        "text": "上官映雪獨自站在穿堂，正要轉身回宮，卻看見滿天火星朝王城逼近。那是被霍驍鎮壓多年、如今循著血腥趁虛而入的邊境異族——藩籬。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "burningPalace",
+        "effects": ["fire-sparks", "smoke"],
+        "camera": { "shake": "medium" },
+        "text": "點點星火匯成滔天烈焰，迅速吞沒皇宮。上官氏的叛亂掏空了最後的城防，藩籬破城而入；被稱作盛世的大封，就此崩裂。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "burningPalace",
+        "effects": ["fire-sparks", "screen-vignette"],
+        "text": "上官映雪穿上最沉重的鳳袍，一步步走入燃燒的議政殿。她終於承認，自己的放任害死了無辜之人，也把天下百姓推進另一場亂世。"
+      },
+      {
+        "speaker": "上官映雪",
+        "character": "shangguan-yingxue",
+        "scene": "burningPalace",
+        "text": "心想事成……那是強者的妄想。本宮這一生，像極一葉扁舟，被浪、被風迫著向前，卻從來無人問過本宮所想。"
+      },
+      {
+        "speaker": "上官映雪",
+        "character": "shangguan-yingxue",
+        "scene": "burningPalace",
+        "effects": ["fire-sparks"],
+        "text": "若有來世，別成為像本宮這樣的人。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "burningPalace",
+        "effects": ["fire-sparks", "smoke", "screen-vignette"],
+        "text": "她握著柳眠留下的海棠花手絹，閉上雙眼，獨自葬身火海。盛世輓歌，萬劫不復——大封二十年，王朝至此而亡。"
       },
       {
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
         "scene": "shop",
-        "text": "史冊記下帝王更替，卻未必記得顧芨的飢餓、魏猙的執念、映雪的枷鎖，以及允執最後沒有說出口的心願。"
+        "text": "火光忽然被黑暗吞沒。{username}，聽見了嗎？那不是城樓倒塌，而是書頁正在闔上。"
       },
       {
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
         "scene": "shop",
-        "text": "魏諍以帝血換來的大雨，疾風縱身躍下的懸崖，還有所有被盛世之名掩埋的人，如今都由妳親眼見證。"
+        "text": "睜開眼吧。妳掌心下仍是那卷舊書，案上的茶也還溫著。妳已回到不見書肆。"
       },
       {
         "speaker": "書肆主人 · 眠",
         "character": "mian",
         "position": "right",
         "scene": "shop",
-        "text": "只要仍有人記得，他們便不算真正消失。這五卷命書，也終於可以安心歸架了。"
+        "text": "妳方才看見的不是夢。書肆只是借妳一雙能走入舊史的眼睛，讓那些被一行『王朝覆亡』草草帶過的人，再活一次。"
       },
       {
         "speaker": "書肆主人 · 沐",
         "character": "mu",
         "position": "left",
         "scene": "shop",
-        "text": "《大封舊事》，至此落卷。故事結束了。"
+        "text": "史冊記得帝王更替，卻未必記得顧芨的飢餓、魏猙捧過的栗子、映雪腕上的枷鎖，與允執藏在玄甲下沒能說出口的求娶。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "也不會記得魏諍以帝血換來的大雨，疾風縱身躍下的懸崖，或上官映雪握著海棠手絹走進火海時，心裡最後想起的是誰。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "可如今，妳記得了。只要尚有一人記得，他們便不算真正消失。"
+      },
+      {
+        "speaker": "書肆主人 · 眠",
+        "character": "mian",
+        "position": "right",
+        "scene": "shop",
+        "text": "門外的路已經回來了。離開前，再看一眼架上的五卷命書吧——它們安靜了許多，像是終於等到遲來多年的讀者。"
+      },
+      {
+        "speaker": "書肆主人 · 沐",
+        "character": "mu",
+        "position": "left",
+        "scene": "shop",
+        "text": "《大封舊事》，至此落卷。若有一日妳再次在陌生巷口聽見銅鈴，別忘了，不見書肆仍替故人留著燈。"
       }
     ]
   }

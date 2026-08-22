@@ -294,7 +294,7 @@ class SkyLanternGame {
     this.running = false;
     this.deactivateShield();
     cancelAnimationFrame(this.animationFrame);
-    this.reward = [...this.rewardTiers].reverse().find((tier) => this.distance >= tier.distance)?.reward || 0;
+    this.reward = this.getRewardForDistance();
     this.claimReward();
     this.root.querySelector(".skylantern-final-distance").textContent = Math.floor(this.distance);
     this.root.querySelector(".skylantern-final-reward").textContent = this.reward;
@@ -375,6 +375,10 @@ class SkyLanternGame {
     };
   }
 
+  getRewardForDistance(distance = this.distance) {
+    return [...this.rewardTiers].reverse().find((tier) => distance >= tier.distance)?.reward || 0;
+  }
+
   renderRewardTiers() {
     let reachedIndex = -1;
     for (let index = 0; index < this.rewardTiers.length; index += 1) {
@@ -419,12 +423,19 @@ class SkyLanternGame {
     this.onReward(this.reward, Math.floor(this.distance));
   }
 
+  settleCurrentReward() {
+    if (this.rewardClaimed) return;
+    this.reward = Math.max(this.reward, this.getRewardForDistance());
+    this.claimReward();
+  }
+
   finish() {
     this.claimReward();
     this.close();
   }
 
   close() {
+    this.settleCurrentReward();
     this.running = false;
     this.deactivateShield();
     cancelAnimationFrame(this.animationFrame);

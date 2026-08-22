@@ -92,6 +92,7 @@ class TouhuGame {
     this.guestWins = 0;
     this.hostWins = 0;
     this.roundOutcomes = [];
+    this.totalHits = 0;
     this.pointValues = [10, 5, 5, 20];
     this.inviteStep = 0;
     this.lastInviteLine = "";
@@ -324,6 +325,7 @@ class TouhuGame {
       outcome = "hit";
       points = this.pointValues[this.round];
       this.score += points;
+      this.totalHits += 1;
       this.playShotEffect("hit");
       this.arrow.classList.add("is-embedded");
       this.landedArrow.classList.add("is-visible");
@@ -488,6 +490,7 @@ class TouhuGame {
     this.guestWins = 0;
     this.hostWins = 0;
     this.roundOutcomes = [];
+    this.totalHits = 0;
     this.inviteStep = 0;
     this.lastInviteLine = "";
     this.host = this.pick(this.hosts);
@@ -532,12 +535,22 @@ class TouhuGame {
     this.onReward(this.reward, this.score);
   }
 
+  settleCurrentReward() {
+    if (this.rewardClaimed) return;
+    const progressReward = this.totalHits > 0 || this.guestWins > 0
+      ? Math.min(5, this.totalHits + this.guestWins)
+      : 0;
+    this.reward = Math.max(this.reward, progressReward);
+    this.claimReward();
+  }
+
   finish() {
     this.claimReward();
     this.close(this.onFinish);
   }
 
   close(onClosed = this.onClose) {
+    this.settleCurrentReward();
     cancelAnimationFrame(this.animationFrame);
     window.clearTimeout(this.nextTimer);
     window.removeEventListener("keydown", this.boundEscape);

@@ -5,6 +5,12 @@
   "description": "古風乙女遊戲《浮生卷》序章互動原型",
   "scripts": {
     "start": "node server.mjs",
-    "preview": "node server.mjs"
+    "preview": "node server.mjs",
+    "stills:hash": "node scripts/hash-cp-stills.mjs",
+    "images:webp": "node scripts/convert-images-to-webp.mjs",
+    "images:webp:skip": "node scripts/convert-images-to-webp.mjs --skip-webp"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }

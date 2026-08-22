@@ -31,7 +31,7 @@
       <div class="dream-city-glow" aria-hidden="true"></div>
       <div class="dream-butterfly-trail" aria-hidden="true"></div>
       <div class="dream-butterfly" aria-hidden="true">
-        <img src="./assets/images/enter/butterfly_01.webp" alt="" decoding="async" />
+        <img src="./assets/images/enter/butterfly_01.webp" alt="" decoding="async" data-frame-animation />
       </div>
       <div class="dream-wash" aria-hidden="true"></div>
       <p class="dream-whisper">循著微光，前塵入夢</p>
@@ -69,7 +69,12 @@
               <p id="passcode-instruction">密令既合，前塵方可重現。</p>
               <form id="passcode-form" novalidate>
                 <label for="passcode-input">於此落字</label>
-                <input id="passcode-input" name="passcode" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-describedby="passcode-error" />
+                <div class="passcode-input-wrap">
+                  <input id="passcode-input" name="passcode" type="password" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="passcode-error" />
+                  <button id="toggle-passcode-visibility" class="passcode-visibility" type="button" aria-label="顯示密碼" aria-pressed="false">
+                    <span class="passcode-eye" aria-hidden="true"></span>
+                  </button>
+                </div>
                 <p id="passcode-error" class="passcode-error" role="alert" aria-live="assertive"></p>
                 <button class="passcode-submit" type="submit">驗 令 啟 卷</button>
               </form>
@@ -358,8 +363,10 @@
             <div id="route-keepsake-modal" class="route-keepsake-modal" hidden>
               <section class="route-keepsake-panel" role="dialog" aria-modal="true" aria-label="命定信物">
                 <button id="close-route-keepsake-button" class="route-keepsake-close" type="button" aria-label="關閉命定信物">×</button>
+                <header class="route-keepsake-heading" aria-hidden="true">
+                  <i></i><span>兩件珍貴信物 · 同覽千年風華</span><i></i>
+                </header>
                 <div id="route-keepsake-list" class="route-keepsake-list"></div>
-                <footer>每一件信物，都承載著一段緣分與記憶。</footer>
               </section>
             </div>
             <div id="love-letter" class="love-letter" hidden>
