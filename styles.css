@@ -575,6 +575,27 @@ body.intro-active #game {
   transition: opacity 1.4s ease, transform 8s ease;
 }
 
+.dialogue-active .scene-bg.is-story-transitioning {
+  animation: story-background-arrive 1.15s ease-out both;
+}
+
+@keyframes story-background-arrive {
+  from {
+    opacity: .36;
+    filter: saturate(.55) contrast(1.12) brightness(.66);
+    transform: scale(1.035);
+  }
+  to {
+    opacity: 1;
+    filter: saturate(.72) contrast(1.08) brightness(1);
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialogue-active .scene-bg.is-story-transitioning { animation: none; }
+}
+
 .scene-title .scene-bg {
   background-image: url("./assets/images/enter/bg_loading.webp");
   background-position: center;

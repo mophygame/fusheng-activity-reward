@@ -1,0 +1,20 @@
+{
+  "name": "燈晝餘燼",
+  "short_name": "燈晝餘燼",
+  "description": "古風互動遊戲",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "portrait",
+  "background_color": "#030405",
+  "theme_color": "#07090d",
+  "icons": [
+    {
+      "src": "./assets/images/index/player_avatar.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

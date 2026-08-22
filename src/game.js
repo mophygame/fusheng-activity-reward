@@ -184,15 +184,19 @@ class OtomeGame {
       closeNickname: document.querySelector("#close-nickname-button"),
       music: document.querySelector("#music-toggle"),
       homeExit: document.querySelector("#home-exit-button"),
+      homeResourceMenu: document.querySelector(".home-resource-menu"),
+      homeResourceMenuToggle: document.querySelector("#home-resource-menu-toggle"),
       homeExitModal: document.querySelector("#home-exit-modal"),
       closeHomeExit: document.querySelector("#close-home-exit-button"),
       returnLogin: document.querySelector("#return-login-button"),
       closeWindow: document.querySelector("#close-window-button"),
       closeWindowStatus: document.querySelector("#close-window-status"),
       playerNickname: document.querySelector("#player-nickname"),
+      playerAvatar: document.querySelector("#player-avatar"),
       playerLevel: document.querySelector("#player-level"),
       playerProgress: document.querySelector("#player-progress"),
       lanternCount: document.querySelector("#lantern-count"),
+      mobileLanternCount: document.querySelector("#mobile-lantern-count"),
       galleryLanternCount: document.querySelector("#gallery-lantern-count"),
       loginReward: document.querySelector("#login-reward-button"),
       loginCalendar: document.querySelector("#login-reward-calendar"),
@@ -200,6 +204,8 @@ class OtomeGame {
       loginCalendarDays: document.querySelector("#login-calendar-days"),
       closeLoginCalendar: document.querySelector("#close-login-calendar-button"),
       claimCalendarReward: document.querySelector("#claim-calendar-reward-button"),
+      loginRewardToast: document.querySelector("#login-reward-toast"),
+      loginRewardToastCopy: document.querySelector("#login-reward-toast-copy"),
       homeActions: document.querySelector(".home-actions"),
       homeMinigame: document.querySelector("#home-minigame-button"),
       homeBooks: document.querySelector("#home-books-button"),
@@ -588,6 +594,7 @@ class OtomeGame {
   renderHome() {
     if (!this.el.home) return;
     this.el.playerNickname.textContent = this.getDisplayNickname();
+    this.renderPlayerAvatar();
     this.el.playerLevel.textContent = String(this.player.level);
     const requiredExperience = this.experienceRequired();
     const progress = this.player.level >= 99 ? 100 : (this.player.experience / requiredExperience) * 100;
@@ -596,12 +603,29 @@ class OtomeGame {
       ? "已達最高等級 99"
       : `升級進度 ${this.player.experience} / ${requiredExperience}`);
     this.el.lanternCount.textContent = String(this.player.lanterns);
+    this.el.mobileLanternCount.textContent = String(this.player.lanterns);
     this.el.galleryLanternCount.textContent = String(this.player.lanterns);
     const claimedToday = this.hasClaimedLoginReward(this.getTodayKey());
     this.el.loginReward.classList.toggle("is-claimed", claimedToday);
     this.el.loginReward.querySelector("span").textContent = "登入獎勵";
     this.el.loginReward.setAttribute("aria-label", claimedToday ? "登入獎勵，今日已領取" : "領取登入獎勵");
     this.renderStoryMenu();
+  }
+
+  renderPlayerAvatar() {
+    const fallback = new URL("./assets/images/users/其他.webp", window.location.href).href;
+    const configuredPhoto = this.activeAccess?.photo;
+    if (typeof configuredPhoto !== "string" || !configuredPhoto.trim()) {
+      this.el.playerAvatar.src = fallback;
+      return;
+    }
+
+    try {
+      this.el.playerAvatar.src = new URL(configuredPhoto, new URL("./data/access.json", window.location.href)).href;
+    } catch (error) {
+      console.warn("access.json 玩家照片路徑無效，已改用預設頭像。", error);
+      this.el.playerAvatar.src = fallback;
+    }
   }
 
   getDisplayNickname() {
@@ -669,6 +693,10 @@ class OtomeGame {
       if (event.target === this.el.nicknameModal) this.closeNicknameModal();
     });
     this.el.nicknameInput.addEventListener("input", () => this.clearNicknameError());
+    this.el.playerAvatar.addEventListener("error", () => {
+      const fallback = new URL("./assets/images/users/其他.webp", window.location.href).href;
+      if (this.el.playerAvatar.src !== fallback) this.el.playerAvatar.src = fallback;
+    });
     this.el.nicknameForm.addEventListener("submit", (event) => {
       event.preventDefault();
       this.confirmNickname();
@@ -690,6 +718,36 @@ class OtomeGame {
       this.el.music.querySelector(".music-label").textContent = muted ? "開啟音樂" : "關閉音樂";
     });
     this.el.homeExit.addEventListener("click", () => this.openHomeExitModal());
+    this.el.homeResourceMenuToggle.addEventListener("click", () => {
+      const isOpen = this.el.homeResourceMenu.classList.toggle("is-open");
+      this.el.homeResourceMenuToggle.setAttribute("aria-expanded", String(isOpen));
+      this.el.homeResourceMenuToggle.setAttribute("aria-label", isOpen ? "關閉首頁功能選單" : "開啟首頁功能選單");
+    });
+    this.el.homeResourceMenu.addEventListener("click", (event) => {
+      if (event.target === this.el.homeResourceMenu) {
+        this.el.homeResourceMenu.classList.remove("is-open");
+        this.el.homeResourceMenuToggle.setAttribute("aria-expanded", "false");
+        this.el.homeResourceMenuToggle.setAttribute("aria-label", "開啟首頁功能選單");
+        return;
+      }
+      if (!event.target.closest(".home-resources button")) return;
+      this.el.homeResourceMenu.classList.remove("is-open");
+      this.el.homeResourceMenuToggle.setAttribute("aria-expanded", "false");
+      this.el.homeResourceMenuToggle.setAttribute("aria-label", "開啟首頁功能選單");
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (this.el.homeResourceMenu.contains(event.target)) return;
+      this.el.homeResourceMenu.classList.remove("is-open");
+      this.el.homeResourceMenuToggle.setAttribute("aria-expanded", "false");
+      this.el.homeResourceMenuToggle.setAttribute("aria-label", "開啟首頁功能選單");
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || !this.el.homeResourceMenu.classList.contains("is-open")) return;
+      this.el.homeResourceMenu.classList.remove("is-open");
+      this.el.homeResourceMenuToggle.setAttribute("aria-expanded", "false");
+      this.el.homeResourceMenuToggle.setAttribute("aria-label", "開啟首頁功能選單");
+      this.el.homeResourceMenuToggle.focus();
+    });
     this.el.closeHomeExit.addEventListener("click", () => this.closeHomeExitModal());
     this.el.returnLogin.addEventListener("click", () => this.returnToLogin());
     this.el.closeWindow.addEventListener("click", () => this.closeGameWindow());
@@ -819,7 +877,8 @@ class OtomeGame {
     window.requestAnimationFrame(() => {
       this.el.nicknameModal.classList.add("is-open");
       this.el.nicknameInput.focus();
-      this.el.nicknameInput.select();
+      const caretPosition = this.el.nicknameInput.value.length;
+      this.el.nicknameInput.setSelectionRange(caretPosition, caretPosition);
     });
   }
 
@@ -1424,7 +1483,20 @@ class OtomeGame {
     this.player.loginRewardHistory[today] = reward.amount;
     this.grantRewards({ lanterns: reward.amount, experience: 10 });
     this.renderLoginRewardCalendar();
+    this.el.loginCalendar.hidden = true;
+    this.showLoginRewardToast(reward.amount);
     this.audio.reveal();
+  }
+
+  showLoginRewardToast(amount) {
+    window.clearTimeout(this.loginRewardToastTimer);
+    this.el.loginRewardToastCopy.textContent = `已獲得 ${amount} 盞燈`;
+    this.el.loginRewardToast.hidden = false;
+    requestAnimationFrame(() => this.el.loginRewardToast.classList.add("is-visible"));
+    this.loginRewardToastTimer = window.setTimeout(() => {
+      this.el.loginRewardToast.classList.remove("is-visible");
+      window.setTimeout(() => { this.el.loginRewardToast.hidden = true; }, 260);
+    }, 2200);
   }
 
   openLoginRewardCalendar() {
@@ -1537,8 +1609,8 @@ class OtomeGame {
       || (this.chapterInProgress === "chapter5" && line.scene === "shop");
     this.el.askHistory.hidden = true;
     this.el.next.hidden = false;
+    this.applyDialogueScene(line.scene, Boolean(line.background));
     this.applyLineDirectives(line);
-    this.applyDialogueScene(line.scene);
     if (line.character) this.lastSpeaker = line.character;
     this.el.scene.classList.toggle("speaker-mu", line.character === "mu");
     this.el.scene.classList.toggle("speaker-mian", line.character === "mian");
@@ -1622,22 +1694,33 @@ class OtomeGame {
     this.showDialogue();
   }
 
-  applyDialogueScene(scene) {
+  applyDialogueScene(scene, preserveCurrentBackground = false) {
     if (!scene) return;
     this.el.scene.classList.toggle("scene-chapter-city", scene === "city");
     this.el.scene.classList.toggle("scene-chapter-shop", scene === "shop");
 
     const sceneData = this.currentChapter?.scenes?.[scene];
-    if (sceneData?.background) {
-      this.el.sceneBg.style.backgroundImage = `url("${sceneData.background}")`;
+    if (sceneData?.background && !preserveCurrentBackground) {
+      this.setStoryBackground(sceneData.background);
     }
+  }
+
+  setStoryBackground(background) {
+    if (!background) return;
+    const nextBackground = `url("${background}")`;
+    const hasChanged = this.el.sceneBg.style.backgroundImage !== nextBackground;
+    this.el.sceneBg.style.backgroundImage = nextBackground;
+    if (!hasChanged) return;
+    this.el.sceneBg.classList.remove("is-story-transitioning");
+    void this.el.sceneBg.offsetWidth;
+    this.el.sceneBg.classList.add("is-story-transitioning");
   }
 
   applyLineDirectives(line) {
     this.clearMomentEffects();
 
     if (line.background) {
-      this.el.sceneBg.style.backgroundImage = `url("${line.background}")`;
+      this.setStoryBackground(line.background);
     }
 
     (line.effects || []).forEach((effect) => {
@@ -1758,7 +1841,15 @@ class OtomeGame {
     this.audio.reveal();
     this.el.reader.hidden = false;
     this.letter.close();
-    this.el.readerBookTitle.textContent = `${route.glyph}${route.title} • ${route.era} [${route.role}] `;
+    const eraParts = route.era.split(" · ");
+    const readerTitleFirstLine = `${route.glyph}${route.title} • ${eraParts[0]}${eraParts.length > 1 ? " ·" : ` [${route.role}]`}`;
+    const readerTitleSecondLine = ` ${eraParts.slice(1).join(" · ")}${eraParts.length > 1 ? " " : ""}[${route.role}]`;
+    this.el.readerBookTitle.replaceChildren(document.createTextNode(readerTitleFirstLine));
+    if (eraParts.length > 1) {
+      const mobileBreak = document.createElement("br");
+      mobileBreak.className = "reader-era-mobile-break";
+      this.el.readerBookTitle.append(mobileBreak, document.createTextNode(readerTitleSecondLine));
+    }
     this.el.readerName.textContent = route.name;
     const sealImagePath = `./assets/images/用印-${encodeURIComponent(route.name)}.webp`;
     this.el.readerSeal.src = sealImagePath;

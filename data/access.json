@@ -4,19 +4,22 @@
       "passcode": "07080",
       "role": "full",
       "nickname": "淺野夏",
-      "features": ["minigames", "books", "story", "gallery"]
+      "features": ["minigames", "books", "story", "gallery"],
+      "photo":"../assets/images/users/淺野夏.webp"
     },
     {
       "passcode": "flower1211",
       "role": "full",
       "nickname": "飛花花",
-      "features": ["minigames", "books", "story", "gallery"]
+      "features": ["minigames", "books", "story", "gallery"],
+      "photo":"../assets/images/users/飛花花.webp"
     },
     {
       "passcode": "0805",
       "role": "limited",
       "nickname": "",
-      "features": ["minigames", "story"]
+      "features": ["minigames", "story"],
+      "photo":"../assets/images/users/其他.webp"
     }
   ]
 }

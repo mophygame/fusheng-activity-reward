@@ -138,7 +138,9 @@
             <button class="still-prompt-confirm" type="button"></button>
           </div>
         </section>`;
-      this.root.appendChild(prompt);
+      /* Keep fixed overlays outside the transformed/scrolling gallery so mobile
+         browsers center them against the viewport instead of the gallery box. */
+      document.body.appendChild(prompt);
       return prompt;
     }
 
@@ -185,7 +187,7 @@
         </a>`;
       viewer.querySelector(".still-viewer-close").addEventListener("click", () => { viewer.hidden = true; });
       viewer.addEventListener("click", (event) => { if (event.target === viewer) viewer.hidden = true; });
-      this.root.appendChild(viewer);
+      document.body.appendChild(viewer);
       return viewer;
     }
 

@@ -1,0 +1,1498 @@
+/*
+ * Mobile-only layout corrections.
+ * Keep these overrides separate from the desktop theme styles so the
+ * full-size experience remains unchanged.
+ */
+
+.route-keepsake-tabs { display: none; }
+.reader-era-mobile-break { display: none; }
+.home-resource-menu { display: contents; }
+.home-player-cluster { display: contents; }
+.home-resource-menu-toggle { display: none; }
+.mobile-profile-lantern { display: none; }
+
+.profile-avatar {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.profile-avatar::after { content: none; }
+
+.mobile-profile-lantern span {
+  display: flex;
+  align-items: center;
+  color: #d8c19a;
+  white-space: nowrap;
+}
+
+.mobile-profile-lantern span::after {
+  width: 1px;
+  height: 1.15em;
+  margin-left: .75em;
+  background: linear-gradient(transparent, rgba(225, 193, 137, .72), transparent);
+  content: "";
+}
+
+/* 登入獎勵：月曆內容獨立捲動，領取區始終停在彈窗底部。 */
+.login-calendar-card {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.login-calendar-days {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.login-calendar-footer {
+  position: relative;
+  z-index: 3;
+  margin: 0 -8px -8px;
+  padding: 14px 12px 8px;
+  border-top: 1px solid rgba(215, 170, 94, .34);
+  background: linear-gradient(180deg, rgba(16, 12, 9, .96), rgba(6, 7, 8, .99));
+  box-shadow: 0 -12px 24px rgba(0, 0, 0, .42);
+}
+
+.login-calendar-footer button { justify-self: center; }
+
+.login-reward-toast {
+  position: fixed;
+  z-index: 220;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  min-width: min(290px, calc(100vw - 40px));
+  padding: 18px 28px;
+  border: 1px solid rgba(226, 181, 101, .72);
+  background: radial-gradient(circle at 50% 0, rgba(167, 99, 38, .28), transparent 62%), rgba(12, 9, 7, .97);
+  box-shadow: inset 0 0 0 3px rgba(229, 187, 112, .08), 0 18px 48px rgba(0, 0, 0, .72);
+  color: #f2d49b;
+  opacity: 0;
+  text-align: center;
+  pointer-events: none;
+  transform: translate(-50%, calc(-50% + 10px)) scale(.96);
+  transition: opacity .24s ease, transform .24s ease;
+  gap: 7px;
+}
+
+.login-reward-toast::before,
+.login-reward-toast::after { color: #ad7842; content: "── ◆ ──"; font-size: 9px; letter-spacing: .12em; }
+.login-reward-toast span { font-size: 12px; letter-spacing: .38em; text-indent: .38em; }
+.login-reward-toast strong { color: #ffe3ad; font-size: 17px; font-weight: 500; letter-spacing: .12em; }
+.login-reward-toast.is-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.login-reward-toast[hidden] { display: none; }
+
+/* Desktop keepsake viewer uses the same full-screen, single-card tab model. */
+@media (min-width: 901px) {
+  .reader-era { text-align: left; }
+
+  .profile-card {
+    min-width: min(238px, 36vw);
+    padding: 3px 10px 3px 3px;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .profile-avatar {
+    width: 62px;
+    height: 62px;
+    flex-basis: 62px;
+  }
+
+  .profile-info { width: 145px; }
+
+  .profile-card strong {
+    margin-bottom: 2px;
+    font-size: clamp(15px, 1.3vw, 19px);
+  }
+
+  .profile-card p {
+    font-size: 10px;
+  }
+
+  .profile-progress {
+    height: 3px;
+    margin-top: 4px;
+  }
+
+  .mobile-profile-lantern {
+    display: flex;
+    min-width: 125px;
+    height: 21px;
+    margin-top: 4px;
+    padding-top: 2px;
+    align-items: center;
+    border-top: 1px solid rgba(211, 167, 92, .34);
+    color: #d8c19a;
+    font-size: 9px;
+    letter-spacing: .14em;
+    gap: 5px;
+  }
+
+  .mobile-profile-lantern img {
+    width: 17px;
+    height: 17px;
+    object-fit: contain;
+  }
+
+  .mobile-profile-lantern strong {
+    margin-left: 10px;
+    color: #e8b968;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+
+  .home-resources > .lantern-pill { display: none; }
+
+  .route-keepsake-modal {
+    height: 100dvh;
+    padding: 0;
+  }
+
+  .route-keepsake-panel {
+    display: grid;
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    padding: 20px clamp(28px, 5vw, 76px) 26px;
+    overflow: hidden;
+    border: 0;
+  }
+
+  .route-keepsake-heading {
+    min-height: 34px;
+    margin: 0 70px 5px;
+    padding: 0;
+  }
+
+  .route-keepsake-tabs {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    width: min(560px, 56vw);
+    min-height: 58px;
+    margin: 0 auto 14px;
+    padding: 0 8px 8px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 34px;
+  }
+
+  .route-keepsake-tabs::after {
+    position: absolute;
+    right: 8px;
+    bottom: 4px;
+    left: 8px;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(91, 61, 35, .24);
+    box-shadow: inset 0 1px 2px rgba(45, 27, 14, .2);
+    content: "";
+  }
+
+  .route-keepsake-tabs button {
+    position: relative;
+    z-index: 1;
+    padding: 10px 8px 13px;
+    border: 0;
+    background: transparent;
+    color: rgba(91, 61, 39, .64);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .24em;
+    text-indent: .24em;
+    text-shadow: 0 1px rgba(255, 244, 215, .45);
+    transition: color .22s ease, text-shadow .22s ease;
+  }
+
+  .route-keepsake-tabs button::after {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: -3px;
+    left: 0;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #8a552b, #d1a15b 48%, #8a552b);
+    box-shadow: 0 0 7px rgba(169, 105, 43, .34);
+    content: "";
+    opacity: 0;
+    transform: scaleX(.35);
+    transition: opacity .22s ease, transform .26s ease;
+  }
+
+  .route-keepsake-tabs button[aria-selected="true"] {
+    color: #76451f;
+    text-shadow: 0 1px rgba(255, 241, 205, .62), 0 0 10px rgba(177, 112, 47, .2);
+  }
+
+  .route-keepsake-tabs button[aria-selected="true"]::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .route-keepsake-tabs button:focus-visible {
+    outline: 1px solid rgba(132, 83, 40, .62);
+    outline-offset: 3px;
+  }
+
+  .route-keepsake-list {
+    display: block;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .route-keepsake-card {
+    display: none;
+    width: min(1180px, 100%);
+    height: 100%;
+    min-height: 0;
+    margin: auto;
+    padding: clamp(14px, 2vh, 24px);
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 52%) minmax(0, 48%);
+  }
+
+  .route-keepsake-card.is-tab-active { display: grid; }
+
+  .route-keepsake-visual,
+  .route-keepsake-card.is-ancient .route-keepsake-visual {
+    min-height: 0;
+    height: 100%;
+    order: 1;
+  }
+
+  .route-keepsake-visual > img,
+  .route-keepsake-card.is-ancient .route-keepsake-visual > img {
+    width: 82%;
+    height: 94%;
+    margin: auto;
+    object-fit: contain;
+  }
+
+  .route-keepsake-info,
+  .route-keepsake-card.is-ancient .route-keepsake-info {
+    min-height: 0;
+    padding: clamp(24px, 4vw, 58px);
+    overflow-y: auto;
+    order: 2;
+  }
+
+  .route-keepsake-close {
+    top: 18px;
+    right: 22px;
+  }
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  /* 首頁右上功能列：改為手機可單手操作的古風卷簽選單。 */
+  .home-topbar {
+    z-index: 3;
+    overflow: visible;
+  }
+
+  .home-player-cluster {
+    position: relative;
+    display: flex;
+    width: min(250px, 76vw);
+    min-height: 70px;
+    align-items: stretch;
+    border: 0;
+    border-radius: 30px 6px 6px 30px;
+    background: linear-gradient(90deg, rgba(5, 5, 5, .76), rgba(13, 10, 8, .6) 78%, rgba(5, 5, 5, .42));
+    box-shadow: 0 7px 18px rgba(0, 0, 0, .3);
+  }
+
+  .home-player-cluster::after {
+    position: absolute;
+    right: 8px;
+    bottom: -3px;
+    left: 62px;
+    height: 4px;
+    border-right: 1px solid rgba(205, 157, 82, .42);
+    border-bottom: 1px solid rgba(205, 157, 82, .42);
+    border-left: 1px solid rgba(205, 157, 82, .42);
+    content: none;
+    pointer-events: none;
+  }
+
+  .home-player-cluster .profile-card {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+    padding: 4px 5px 4px 3px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    gap: 5px;
+  }
+
+  .home-player-cluster .profile-avatar {
+    width: 56px;
+    height: 56px;
+    flex-basis: 56px;
+  }
+
+  .home-player-cluster .profile-info {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .home-topbar:has(.home-resource-menu.is-open) { z-index: 100; }
+
+  .home-screen:has(.home-resource-menu.is-open) .home-actions,
+  .home-screen:has(.home-resource-menu.is-open) .home-swipe-hint {
+    pointer-events: none;
+  }
+
+  .home-resource-menu {
+    position: relative;
+    z-index: 32;
+    display: flex;
+    margin: 0;
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+
+  .home-resource-menu::before {
+    position: fixed;
+    z-index: 39;
+    inset: 0;
+    display: none;
+    background: rgba(2, 3, 4, .72);
+    backdrop-filter: blur(4px);
+    content: "";
+  }
+
+  .home-resource-menu.is-open::before { display: block; }
+
+  .mobile-profile-lantern {
+    display: flex;
+    min-width: 0;
+    height: 20px;
+    margin-top: 4px;
+    padding-top: 3px;
+    align-items: center;
+    border-top: 0;
+    color: #d8c19a;
+    font-size: 9px;
+    letter-spacing: .1em;
+    gap: 3px;
+  }
+
+  .mobile-profile-lantern img { width: 17px; height: 17px; object-fit: contain; }
+  .mobile-profile-lantern strong {
+    margin-left: 8px;
+    color: #e8b968;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+
+  .home-resource-menu-toggle {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    width: 68px;
+    min-width: 68px;
+    height: 100%;
+    min-height: 64px;
+    padding: 0;
+    cursor: pointer;
+    border: 0;
+    border-left: 0;
+    border-radius: 0 6px 6px 0;
+    background: url("./assets/images/index/btn_menu.webp") center / contain no-repeat;
+    box-shadow: none;
+    color: transparent;
+    font-family: inherit;
+    font-size: 9px;
+    letter-spacing: .18em;
+    text-indent: .18em;
+    place-items: center;
+    touch-action: manipulation;
+  }
+
+  .home-resource-menu-toggle::after {
+    content: none;
+  }
+
+  .home-resource-menu-toggle > span { visibility: hidden; }
+  .home-resource-menu-toggle:active { filter: brightness(1.16); transform: scale(.96); }
+
+  .home-resource-menu-icon { display: grid; width: 23px; gap: 4px; }
+  .home-resource-menu-icon i {
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #f3d499 18% 82%, transparent);
+    box-shadow: 0 0 5px rgba(235, 184, 93, .42);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .home-resource-menu.is-open .home-resource-menu-icon i:first-child { transform: translateY(5px) rotate(45deg); }
+  .home-resource-menu.is-open .home-resource-menu-icon i:nth-child(2) { opacity: 0; }
+  .home-resource-menu.is-open .home-resource-menu-icon i:last-child { transform: translateY(-5px) rotate(-45deg); }
+
+  .home-resource-menu .home-resources {
+    position: fixed;
+    z-index: 40;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: min(310px, calc(100vw - 40px));
+    padding: 48px 18px 16px;
+    grid-template-columns: 1fr;
+    gap: 7px;
+    border: 1px solid rgba(211, 164, 88, .62);
+    background: radial-gradient(circle at 82% 0, rgba(194, 124, 48, .2), transparent 42%), linear-gradient(145deg, rgba(35, 24, 15, .98), rgba(5, 7, 9, .98));
+    box-shadow: inset 0 0 34px rgba(197, 125, 45, .1), 0 18px 42px rgba(0, 0, 0, .68);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, calc(-50% - 8px)) scale(.97);
+    transform-origin: center;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+
+  .home-resource-menu .home-resources::before {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    left: 18px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid rgba(218, 174, 99, .34);
+    color: #ebcc92;
+    content: "行 囊 選 單";
+    font-size: 12px;
+    letter-spacing: .34em;
+    text-align: center;
+    text-indent: .34em;
+  }
+
+  .home-resource-menu.is-open .home-resources { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+
+  .home-resource-menu .home-resources .lantern-pill { display: none; }
+
+  .home-resource-menu .home-resources .reward-button,
+  .home-resource-menu .home-resources .music-toggle,
+  .home-resource-menu .home-resources .home-exit-button {
+    width: 100%;
+    height: 46px;
+    min-height: 46px;
+    padding: 4px 10px;
+    justify-content: flex-start;
+    border: 0;
+    border-bottom: 1px solid rgba(210, 164, 91, .2);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    gap: 9px;
+  }
+
+  .home-resource-menu .home-resources .home-exit-button { border-bottom: 0; }
+
+  .home-resource-menu .home-resources .reward-button img,
+  .home-resource-menu .home-resources .music-toggle img,
+  .home-resource-menu .home-resources .home-exit-button img { width: 31px; height: 31px; flex: 0 0 31px; }
+
+  .home-resource-menu .home-resources .reward-button span,
+  .home-resource-menu .home-resources .music-label,
+  .home-resource-menu .home-resources .home-exit-label { font-size: 12px; letter-spacing: .13em; }
+
+  /* 大封舊事：收緊彈窗邊界，並讓內框包住最後一列狀態與提示。 */
+  #story-menu.home-modal {
+    padding: max(4px, env(safe-area-inset-top)) max(4px, env(safe-area-inset-right)) max(4px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
+    place-items: stretch;
+  }
+
+  #story-menu .story-map-card {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    padding: 16px 13px 14px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  #story-menu .story-map-card::before {
+    inset: 5px;
+  }
+
+  #story-menu .story-map-heading {
+    padding-inline: 3px 38px;
+  }
+
+  #story-menu .story-map-heading h2 { margin-bottom: 3px; }
+
+  #story-menu .story-map-progress {
+    margin-top: 9px;
+  }
+
+  #story-menu .story-map-card .chapter-list {
+    margin: 12vh 2px 9px;
+    gap: 20px 6px;
+  }
+
+  #story-menu .chapter-node {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 10px;
+  }
+
+  #story-menu .story-map-card .chapter-entry {
+    padding: 0 3px 2px;
+  }
+
+  #story-menu .story-map-card .chapter-entry b {
+    margin-top: 3px;
+    font-size: clamp(14px, 4vw, 17px);
+  }
+
+  #story-menu .story-map-card .chapter-entry small {
+    margin-top: 2px;
+    line-height: 1.45;
+  }
+
+  #story-menu .chapter-status {
+    min-height: 15px;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  #story-menu .story-map-hint {
+    margin: 0 10px 5px;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  /* 百藝一覽：標題、卡片與底部提示共用一個視窗高度，不再上下浪費空間。 */
+  .taskgame-modal {
+    padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+    place-items: stretch;
+  }
+
+  .taskgame-panel {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    padding: 18px 10px 10px;
+    overflow: hidden;
+  }
+
+  .taskgame-panel::before { inset: 6px; }
+
+  .taskgame-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    float: none;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+  }
+
+  .taskgame-header {
+    margin: 0 48px 4px;
+  }
+
+  .taskgame-kicker {
+    margin-bottom: 2px;
+    font-size: 10px;
+  }
+
+  .taskgame-title { font-size: clamp(30px, 9vw, 42px); }
+
+  .taskgame-rule {
+    width: min(260px, 66vw);
+    margin-top: 4px;
+    font-size: 11px;
+  }
+
+  .taskgame-list {
+    align-items: center;
+    min-height: 0;
+    margin-inline: -10px;
+    padding: 4px calc((100% - min(320px, 78vw)) / 2) 8px;
+    scroll-padding-inline: calc((100% - min(320px, 78vw)) / 2);
+  }
+
+  .taskgame-card {
+    width: min(320px, 78vw);
+    min-width: min(320px, 78vw);
+    height: min(100%, 590px);
+    min-height: 0;
+    padding: 12px;
+  }
+
+  .taskgame-card-content {
+    min-height: 100%;
+    padding-bottom: 8px;
+  }
+
+  .taskgame-start {
+    width: min(220px, 88%);
+    min-height: 48px;
+  }
+
+  .taskgame-footer {
+    min-height: 22px;
+    margin-top: 0;
+    font-size: 10px;
+  }
+
+  /* 投壺：縮短外框與戰況列，把高度還給遊戲場。 */
+  .touhu-modal {
+    padding: max(4px, env(safe-area-inset-top)) max(4px, env(safe-area-inset-right)) max(4px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
+  }
+
+  .touhu-game {
+    width: 100%;
+    height: 100%;
+    border-width: 1px;
+  }
+
+  .touhu-game::before { inset: 5px; }
+
+  .touhu-close {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 34px;
+    height: 34px;
+    font-size: 21px;
+  }
+
+  .touhu-header {
+    top: 7px;
+    left: 14px;
+    text-align: left;
+  }
+
+  .touhu-header p { font-size: 9px; }
+
+  .touhu-header h2 {
+    margin-top: 0;
+    font-size: 25px;
+  }
+
+  .touhu-status {
+    top: 54px;
+    right: 8px;
+    left: 8px;
+    width: auto;
+    min-height: 28px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    padding: 4px 48px 4px 8px;
+    border-block: 1px solid rgba(157, 116, 63, .32);
+    background: rgba(8, 8, 7, .72);
+    gap: 8px;
+    font-size: clamp(9px, 2.7vw, 12px);
+    letter-spacing: .03em;
+    white-space: nowrap;
+  }
+
+  .touhu-status b { font-size: 14px; }
+
+  .touhu-status span:last-child {
+    position: absolute;
+    right: 8px;
+  }
+
+  .touhu-field {
+    top: 88px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+  }
+
+  .touhu-wind {
+    top: 10px;
+    left: 8px;
+    transform: scale(.8);
+    transform-origin: left top;
+  }
+
+  .touhu-bottle-stage { top: 12%; }
+  .touhu-arrow { top: 70%; }
+
+  .touhu-arrow-stock {
+    right: 2%;
+    bottom: 54px;
+    left: 2%;
+    height: 58px;
+    gap: clamp(5px, 3vw, 14px);
+    padding-block: 4px;
+  }
+
+  .touhu-arrow-stock i { height: 49px; }
+
+  .touhu-rule-note {
+    display: none;
+  }
+
+  .touhu-hint {
+    bottom: 18px;
+    padding: 4px;
+    background: rgba(8, 7, 6, .58);
+    font-size: 10px;
+  }
+
+  /* 辭禮：人物與對話各自擁有明確區域，文字與按鈕維持觸控可用尺寸。 */
+  .touhu-ritual,
+  .touhu-round-result,
+  .touhu-result {
+    display: grid;
+    grid-template: minmax(0, 45%) minmax(0, 55%) / 1fr;
+    gap: 0;
+    padding: 6px 6px 8px;
+    background: linear-gradient(#030405c9, #050403e8), url("./assets/images/taskgame/touhu/background.webp") center / cover;
+  }
+
+  .touhu-ritual[hidden],
+  .touhu-round-result[hidden],
+  .touhu-result[hidden] { display: none; }
+
+  .touhu-host-figure {
+    position: relative;
+    inset: auto;
+    width: min(72vw, 300px);
+    height: 100%;
+    aspect-ratio: auto;
+    justify-self: center;
+    opacity: 1;
+  }
+
+  .touhu-host-image {
+    inset: 3% 7% 1%;
+    width: 86%;
+    height: 96%;
+    object-position: center top;
+    transform: scale(1.24);
+  }
+
+  .touhu-host-figure figcaption {
+    top: auto;
+    right: 5%;
+    bottom: 5%;
+    left: auto;
+    display: grid;
+    width: auto;
+    height: auto;
+    min-width: 112px;
+    padding: 6px 10px;
+    border: 1px solid #9d7448;
+    background: rgba(9, 10, 11, .9);
+    writing-mode: horizontal-tb;
+  }
+
+  .touhu-host-figure figcaption b { font-size: 17px; }
+  .touhu-host-figure figcaption span { font-size: 10px; }
+
+  .touhu-dialogue-panel {
+    width: min(100%, 430px);
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 9% 10% 10%;
+    background: url("./assets/images/taskgame/touhu/dialog_mobile.webp") center / 100% 100% no-repeat;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .touhu-ritual-role,
+  .touhu-round-result p,
+  .touhu-result p { font-size: 13px; }
+
+  .touhu-ritual h3,
+  .touhu-round-result h3 {
+    margin: 6px 0 9px;
+    font-size: clamp(16px, 4.5vw, 20px);
+    line-height: 1.45;
+  }
+
+  .touhu-host-line {
+    margin-bottom: 8px;
+    padding: 6px;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .touhu-ritual button,
+  .touhu-round-result button,
+  .touhu-result button {
+    min-width: min(220px, 82vw);
+    min-height: 44px;
+    padding: 9px 16px;
+    font-size: 16px;
+  }
+
+  .touhu-ritual small {
+    margin-top: 6px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  /* 所有一般彈窗都以可視視窗為基準水平、垂直置中。 */
+  :is(.passcode-modal, .home-modal, .still-prompt, .love-letter) {
+    align-items: center;
+    justify-items: center;
+    place-items: center;
+  }
+
+  :is(.passcode-scroll, .home-modal-card, .login-calendar-card, .home-exit-card, .still-prompt-panel, .letter-sheet) {
+    margin: auto;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .still-prompt {
+    position: fixed;
+    z-index: 200;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+
+  .still-prompt-panel {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: min(470px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    transform: none;
+  }
+
+  .still-viewer {
+    position: fixed;
+    z-index: 190;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+  }
+
+  /* 所有行動版捲軸共用同一套古風配色與寬度。 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #9b7040 rgba(34, 22, 13, .28);
+  }
+
+  *::-webkit-scrollbar { width: 7px; height: 7px; }
+  *::-webkit-scrollbar-track {
+    border-left: 1px solid rgba(164, 119, 65, .16);
+    background: rgba(34, 22, 13, .28);
+  }
+  *::-webkit-scrollbar-thumb {
+    border: 1px solid rgba(239, 205, 142, .34);
+    border-radius: 999px;
+    background: linear-gradient(#bb8b4d, #76502d);
+    box-shadow: inset 0 0 3px rgba(255, 225, 167, .25);
+  }
+
+  /* 命書返回鈕維持在所有內容與卷軸裝飾之上。 */
+  .scroll-close {
+    z-index: 80;
+    pointer-events: auto;
+    isolation: isolate;
+    touch-action: manipulation;
+  }
+
+  .scroll-page::before,
+  .scroll-page::after { pointer-events: none; }
+
+  /* 照片標題以「前世 ·」為換行點，兩行置中。 */
+  .reader-era {
+    min-height: 2.8em;
+    letter-spacing: .16em;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .reader-era-mobile-break { display: initial; }
+
+  /* 信物改為滿版雙頁籤卡片，一次只顯示一張。 */
+  .route-keepsake-modal {
+    height: 100dvh;
+    padding: 0;
+  }
+
+  .route-keepsake-panel {
+    display: grid;
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    padding: max(12px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
+    overflow: hidden;
+    border: 0;
+  }
+
+  .route-keepsake-heading {
+    min-height: 28px;
+    margin: 0 42px 5px;
+    padding: 0;
+  }
+
+  .route-keepsake-close {
+    position: fixed;
+    z-index: 10;
+    top: max(7px, env(safe-area-inset-top));
+    right: max(7px, env(safe-area-inset-right));
+    width: 34px;
+    height: 34px;
+    font-size: 21px;
+  }
+
+  .route-keepsake-tabs {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    width: min(430px, 92vw);
+    min-height: 52px;
+    margin: 0 auto 10px;
+    padding: 0 6px 7px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .route-keepsake-tabs::after {
+    position: absolute;
+    right: 6px;
+    bottom: 4px;
+    left: 6px;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(91, 61, 35, .24);
+    box-shadow: inset 0 1px 2px rgba(45, 27, 14, .2);
+    content: "";
+  }
+
+  .route-keepsake-tabs button {
+    position: relative;
+    z-index: 1;
+    padding: 9px 4px 11px;
+    border: 0;
+    background: transparent;
+    color: rgba(91, 61, 39, .66);
+    font-family: inherit;
+    font-size: clamp(12px, 3.6vw, 15px);
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-indent: .2em;
+    text-shadow: 0 1px rgba(255, 244, 215, .45);
+    transition: color .22s ease, text-shadow .22s ease;
+  }
+
+  .route-keepsake-tabs button::after {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: -3px;
+    left: 0;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #8a552b, #d1a15b 48%, #8a552b);
+    box-shadow: 0 0 7px rgba(169, 105, 43, .34);
+    content: "";
+    opacity: 0;
+    transform: scaleX(.35);
+    transition: opacity .22s ease, transform .26s ease;
+  }
+
+  .route-keepsake-tabs button[aria-selected="true"] {
+    color: #76451f;
+    text-shadow: 0 1px rgba(255, 241, 205, .62), 0 0 10px rgba(177, 112, 47, .2);
+  }
+
+  .route-keepsake-tabs button[aria-selected="true"]::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .route-keepsake-tabs button:focus-visible {
+    outline: 1px solid rgba(132, 83, 40, .62);
+    outline-offset: 3px;
+  }
+
+  .route-keepsake-list {
+    display: block;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .route-keepsake-card {
+    display: none;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 8px;
+    border-radius: 0;
+    grid-template: minmax(0, 58%) minmax(0, 42%) / 1fr;
+    gap: 0;
+  }
+
+  .route-keepsake-card.is-tab-active { display: grid; }
+
+  .route-keepsake-visual,
+  .route-keepsake-card.is-ancient .route-keepsake-visual {
+    min-height: 0;
+    height: 100%;
+    order: 1 !important;
+  }
+
+  .route-keepsake-visual > img,
+  .route-keepsake-card.is-ancient .route-keepsake-visual > img {
+    width: 76%;
+    height: 94%;
+    margin: auto;
+    object-fit: contain;
+  }
+
+  .route-keepsake-info,
+  .route-keepsake-card.is-ancient .route-keepsake-info {
+    min-height: 0;
+    padding: 9px 14px;
+    overflow: hidden;
+    order: 2 !important;
+  }
+
+  .route-keepsake-info h4 { margin-bottom: 4px; font-size: 14px; }
+  .route-keepsake-info p { margin-bottom: 6px; font-size: 10px; line-height: 1.45; -webkit-line-clamp: 3; }
+  .route-keepsake-info dl { grid-template-columns: repeat(2, 1fr); gap: 3px; }
+  .route-keepsake-info dl > div { min-height: 25px; grid-template-columns: 56px 1fr; }
+  .route-keepsake-info dt, .route-keepsake-info dd { padding: 2px 4px; font-size: 9px; }
+
+  /* 情書以手機視窗置中，壓縮上下空白。 */
+  .love-letter {
+    padding: max(7px, env(safe-area-inset-top)) max(7px, env(safe-area-inset-right)) max(7px, env(safe-area-inset-bottom)) max(7px, env(safe-area-inset-left));
+    place-items: center;
+  }
+
+  .letter-sheet {
+    width: min(590px, 96vw);
+    height: min(94dvh, 760px);
+    min-height: 0;
+    margin: auto;
+    padding: 38px 18px 58px;
+  }
+
+  .letter-close { top: 10px; right: 10px; }
+  .letter-kicker { top: 36px; right: 18px; }
+  .letter-sheet h3 { top: 36px; right: 45px; }
+
+  #letter-text {
+    width: max-content;
+    min-width: 100%;
+    height: calc(100% - 8px);
+    padding-right: 70px;
+    font-size: clamp(14px, 4vw, 16px);
+    line-height: 1.72;
+  }
+
+  .letter-closing { bottom: 16px; left: 22px; }
+  .letter-pagination { bottom: 8px; }
+
+  /* 故事畫面與對話區共用同一條固定分界線。 */
+  .scene.dialogue-active { --mobile-dialogue-height: 40dvh; }
+
+  .dialogue-active .scene-bg,
+  .dialogue-active .story-items,
+  .dialogue-active .character-stage {
+    bottom: var(--mobile-dialogue-height);
+    overflow: hidden;
+  }
+
+  .dialogue-active .scene-bg {
+    background-size: contain;
+    transform: none;
+  }
+
+  .story-items:not(:empty)::before { inset: 5% 3%; }
+
+  .story-item,
+  .story-item.is-small,
+  .story-item.is-medium,
+  .story-item.is-wide,
+  .story-item.is-tall {
+    top: 50%;
+    width: min(88vw, 460px);
+    max-width: 88vw;
+    max-height: calc(60dvh - 34px);
+    object-fit: contain;
+  }
+
+  .story-character {
+    top: max(28px, 4dvh);
+    bottom: auto;
+    width: min(92vw, 430px);
+    height: calc(60dvh - max(36px, 5dvh));
+    max-height: none;
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+  .dialogue-panel {
+    box-sizing: border-box;
+    height: var(--mobile-dialogue-height);
+    min-height: var(--mobile-dialogue-height);
+    max-height: var(--mobile-dialogue-height);
+    padding: 14px 58px max(22px, calc(12px + var(--safe-bottom))) 16px;
+    overflow: hidden;
+  }
+
+  .speaker-row { margin-bottom: 4px; }
+  #dialogue-text {
+    min-height: 0;
+    max-height: calc(var(--mobile-dialogue-height) - 82px);
+    overflow-y: auto;
+    font-size: clamp(15px, 4vw, 17px);
+    line-height: 1.62;
+    overscroll-behavior: contain;
+  }
+  .dialogue-actions {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(8px, var(--safe-bottom));
+  }
+
+  .dialogue-next {
+    padding: 5px 3px;
+    white-space: nowrap;
+  }
+
+  /* 投壺場台陰影貼齊台邊。 */
+  .touhu-field::after {
+    bottom: 0;
+    height: min(34%, 250px);
+    background-position: center bottom;
+    background-size: 100% 100%;
+  }
+
+  /* 辭禮：全景人物大景＋底部電影字幕帶。 */
+  .touhu-ritual,
+  .touhu-round-result,
+  .touhu-result {
+    grid-template: minmax(0, 56%) minmax(0, 44%) / 1fr;
+    background: linear-gradient(180deg, rgba(3, 4, 5, .16), rgba(3, 3, 3, .42) 48%, #030303 100%), url("./assets/images/taskgame/touhu/background.webp") center / cover;
+  }
+
+  .touhu-host-figure {
+    width: min(86vw, 360px);
+    overflow: visible;
+    background: none;
+    filter: none;
+  }
+
+  .touhu-host-image {
+    inset: -2% 0 0;
+    width: 100%;
+    height: 105%;
+    clip-path: none;
+    object-position: center top;
+    transform: scale(1.12);
+    transform-origin: center top;
+  }
+
+  .touhu-host-figure figcaption {
+    right: 4%;
+    bottom: 2%;
+    padding: 6px 10px;
+    border: 0;
+    border-left: 2px solid #bd8e4e;
+    background: linear-gradient(90deg, rgba(5, 5, 5, .92), rgba(5, 5, 5, .52));
+    box-shadow: 0 8px 28px #000;
+  }
+
+  .touhu-dialogue-panel {
+    width: 100%;
+    padding: 16px 18px max(14px, env(safe-area-inset-bottom));
+    border: 0;
+    border-top: 1px solid rgba(199, 155, 94, .72);
+    background: linear-gradient(180deg, rgba(5, 5, 5, .72), rgba(3, 3, 3, .97) 28%);
+    box-shadow: 0 -18px 45px rgba(0, 0, 0, .7), inset 0 1px rgba(255, 222, 159, .1);
+  }
+
+  /* 天燈：壓縮高度 HUD 與獎勵列，將點燃操作放在獎勵列上方。 */
+  .skylantern-modal {
+    padding: max(4px, env(safe-area-inset-top)) max(4px, env(safe-area-inset-right)) max(4px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
+  }
+
+  .skylantern-game { width: 100%; height: 100%; }
+  .skylantern-game::before { inset: 5px; }
+  .skylantern-game::after { inset: 8px; }
+
+  .skylantern-close {
+    top: 7px;
+    right: 7px;
+    width: 34px;
+    height: 34px;
+    font-size: 21px;
+  }
+
+  .skylantern-hud {
+    top: 7px;
+    width: 132px;
+    min-height: 36px;
+    padding: 3px 12px 5px;
+  }
+
+  .skylantern-hud span { font-size: 9px; }
+  .skylantern-hud strong { font-size: 19px; }
+  .skylantern-sky { bottom: 78px; }
+  .skylantern-moon { top: 42px; right: 24px; width: 58px; }
+  .skylantern-altimeter { top: 58px; bottom: 46px; }
+  .skylantern-shield-status { top: 50px; }
+
+  .skylantern-rewards {
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    height: 64px;
+    padding: 4px 3px;
+  }
+
+  .skylantern-rewards span { min-width: 30px; gap: 0; font-size: 8px; }
+  .skylantern-rewards i { width: 28px; }
+  .skylantern-rewards small { font-size: 8px; }
+
+  .skylantern-intro {
+    justify-content: flex-end;
+    padding: 0 8px 6px;
+    background: linear-gradient(transparent 54%, rgba(2, 5, 9, .72));
+  }
+
+  .skylantern-intro p { margin-bottom: 2px; }
+  .skylantern-intro small { display: none; }
+  .skylantern-light { width: min(300px, 76vw); margin-bottom: 0; }
+
+  /* 批奏摺：薄型 HUD，情報、奏摺、印匣各佔固定可用區。 */
+  .memorial-modal { padding: 0; }
+  .memorial-game { width: 100%; height: 100%; border: 0; }
+
+  .memorial-close {
+    top: 7px;
+    right: 7px;
+    width: 34px;
+    height: 34px;
+    font-size: 21px;
+  }
+
+  .memorial-header {
+    height: 58px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    padding: 5px 46px 5px 10px;
+    gap: 8px;
+  }
+
+  .memorial-header > div:first-child { min-width: 64px; }
+  .memorial-header p { display: none; }
+  .memorial-header h2 { margin: 0; font-size: 20px; letter-spacing: .14em; text-align: left; }
+
+  .memorial-hud {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0;
+    gap: 2px;
+  }
+
+  .memorial-hud span { font-size: 9px; }
+  .memorial-hud b { font-size: 15px; }
+
+  .memorial-desk {
+    inset: 58px 0 0;
+    display: block;
+    padding: 102px 4px 104px;
+  }
+
+  .memorial-rules {
+    position: absolute;
+    z-index: 13;
+    top: 4px;
+    right: 5px;
+    bottom: auto;
+    left: 5px;
+    display: grid;
+    width: auto;
+    height: 94px;
+    grid-template-columns: minmax(0, 1.45fr) minmax(126px, .8fr);
+    align-items: center;
+    padding: 7px 8px;
+    gap: 7px;
+    overflow: visible;
+  }
+
+  .memorial-rules::before { inset: 3px; }
+  .memorial-rules h3, .memorial-era-date { display: none; }
+
+  .memorial-intel {
+    height: 100%;
+    margin: 0;
+    padding: 5px 7px;
+    overflow-y: auto;
+  }
+
+  .memorial-intel span { font-size: 11px; }
+  .memorial-intel p { display: block; overflow: visible; font-size: 11px; line-height: 1.35; -webkit-line-clamp: unset; }
+
+  .memorial-rules dl { display: grid; grid-template-columns: 1fr; gap: 1px; }
+  .memorial-rules dl div { display: grid; grid-template-columns: 36px 1fr; padding: 1px 0; border: 0; }
+  .memorial-rules dt { font-size: 10px; text-align: left; }
+  .memorial-rules dd { display: block; margin: 0; font-size: 8px; line-height: 1.25; }
+  .memorial-level { display: none; }
+
+  .memorial-paper-wrap { width: 100%; height: 100%; padding: 0; align-items: center; }
+  .memorial-conveyor { inset: 0 2px; }
+  .memorial-conveyor::before { left: 0; }
+  .memorial-conveyor::after { right: 0; }
+
+  .memorial-paper {
+    width: auto;
+    height: min(55dvh, 480px);
+    max-width: 92vw;
+    padding: 55px 24px 24px;
+  }
+
+  .memorial-paper-top { margin-top: 2px; }
+  .memorial-number { margin: 5px 0 1px; }
+  .memorial-case-title { margin-bottom: 6px; padding-bottom: 5px; font-size: 20px; }
+  .memorial-case-content { min-height: 44px; font-size: 14px; line-height: 1.42; }
+  .memorial-request { margin-top: 5px; padding: 5px 7px; }
+  .memorial-target { width: 118px; }
+  .memorial-case-clock { right: 5%; bottom: 1%; left: 5%; }
+
+  .memorial-stamp-rack {
+    position: absolute;
+    z-index: 14;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    display: block;
+    width: auto;
+    height: 96px;
+    padding: 5px 7px;
+    background: linear-gradient(180deg, rgba(15, 12, 8, .95), rgba(5, 6, 5, .99));
+  }
+
+  .memorial-stamp-rack h3, .memorial-stamp-rack > p { display: none; }
+  .memorial-stamps { width: 100%; height: 100%; align-items: center; justify-content: space-around; gap: 8px; }
+  .memorial-stamp { width: 76px; height: 82px; }
+  .memorial-stamp b { padding: 5px 1px; font-size: 13px; }
+
+  /* 批奏摺開場：人物大景＋下方電影式對話。 */
+  .memorial-intro {
+    display: grid;
+    grid-template: minmax(0, 54%) minmax(0, 46%) / 1fr;
+    gap: 0;
+    padding: 0;
+    background: linear-gradient(180deg, rgba(3, 4, 5, .1), rgba(3, 3, 3, .48) 52%, #020202), url("./assets/images/taskgame/memorial/background.webp") center / cover;
+  }
+
+  .memorial-intro::before { display: none; }
+
+  .memorial-host {
+    width: min(90vw, 380px);
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+    justify-self: center;
+    overflow: visible;
+    background: none;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .memorial-host::before { display: none; }
+
+  .memorial-host img {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 105%;
+    object-position: center top;
+    transform: scale(1.08);
+    transform-origin: center top;
+  }
+
+  .memorial-host figcaption {
+    right: 4%;
+    bottom: 2%;
+    left: auto;
+    min-width: 118px;
+    padding: 6px 10px;
+    border: 0;
+    border-left: 2px solid #bd8e4e;
+    background: linear-gradient(90deg, rgba(5, 5, 5, .92), rgba(5, 5, 5, .5));
+  }
+
+  .memorial-dialogue {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    justify-content: center;
+    padding: 14px 16px max(12px, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    border-top: 1px solid rgba(198, 154, 86, .72);
+    background: linear-gradient(180deg, rgba(4, 4, 4, .72), rgba(2, 2, 2, .98) 26%);
+    box-shadow: 0 -18px 45px rgba(0, 0, 0, .75);
+    filter: none;
+  }
+
+  .memorial-dialogue blockquote { margin: 5px 0 8px; font-size: 16px; line-height: 1.45; }
+  .memorial-brief { grid-template-columns: repeat(3, 1fr); width: 100%; margin-bottom: 8px; gap: 3px; }
+  .memorial-brief span { padding: 5px 2px; font-size: 10px; }
+  .memorial-dialogue button { min-height: 44px; padding: 9px 18px; font-size: 15px; }
+  .memorial-dialogue small { margin-top: 5px; font-size: 9px; }
+}
+
+@media (max-width: 900px) and (orientation: portrait) and (max-height: 700px) {
+  .taskgame-header { margin-bottom: 0; }
+  .taskgame-rule, .taskgame-footer { display: none; }
+  .taskgame-panel { grid-template-rows: auto minmax(0, 1fr); }
+  .taskgame-card { width: min(280px, 72vw); min-width: min(280px, 72vw); }
+  .taskgame-list { padding-inline: calc((100% - min(280px, 72vw)) / 2); }
+
+  .touhu-status { top: 48px; }
+  .touhu-field { top: 79px; }
+  .touhu-ritual, .touhu-round-result, .touhu-result {
+    grid-template-rows: minmax(0, 40%) minmax(0, 60%);
+  }
+
+  .skylantern-sky { bottom: 68px; }
+  .skylantern-rewards { height: 56px; }
+  .memorial-intro { grid-template-rows: minmax(0, 46%) minmax(0, 54%); }
+  .memorial-paper { height: min(52dvh, 400px); }
+}
+
+/* 百藝一覽的關閉鈕與其他彈窗共用同一規格。 */
+.taskgame-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  border-radius: 50%;
+  clip-path: none;
+  font-size: 24px;
+}

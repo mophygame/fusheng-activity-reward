@@ -4,8 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#07090d" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="燈晝餘燼" />
     <meta name="description" content="沐眠之地恭喜你破關《燈晝餘燼》" />
     <title>燈晝餘燼</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
     <!-- Only the first-screen artwork is render-critical. Preloading later scenes here
          competes with it on slower GitHub Pages connections. -->
     <link rel="preload" href="./assets/images/enter/bg_loading.webp" as="image" type="image/webp" fetchpriority="high" />
@@ -18,6 +23,7 @@
     <link rel="stylesheet" href="./style/taskgame/touhu.css" />
     <link rel="stylesheet" href="./style/taskgame/memorial.css" />
     <link rel="stylesheet" href="./style/still/still.css" />
+    <link rel="stylesheet" href="./mobile_style.css" />
   </head>
   <body class="intro-active">
     <div id="site-loading" class="site-loading is-visible" role="status" aria-live="polite" aria-busy="true">
@@ -99,17 +105,27 @@
 
         <section id="home-screen" class="screen home-screen" hidden>
           <div class="home-topbar">
+            <div class="home-player-cluster">
             <div class="profile-card">
               <div class="profile-avatar" aria-hidden="true">
-                <img src="./assets/images/index/player_avatar.png" alt="" />
+                <img id="player-avatar" src="./assets/images/users/其他.webp" alt="" />
               </div>
               <div class="profile-info">
                 <strong id="player-nickname">破關者暱稱</strong>
                 <p>等級 <span id="player-level">1</span></p>
                 <i id="player-progress" class="profile-progress" aria-label="升級進度"><b></b></i>
+                <div class="mobile-profile-lantern" aria-label="燈盞數量">
+                  <img src="./assets/images/index/icon_light.webp" alt="" aria-hidden="true" />
+                  <span>燈盞</span><strong id="mobile-lantern-count">0</strong>
+                </div>
               </div>
             </div>
-            <div class="home-resources">
+            <div class="home-resource-menu">
+              <button id="home-resource-menu-toggle" class="home-resource-menu-toggle" type="button" aria-label="開啟首頁功能選單" aria-expanded="false" aria-controls="home-resources">
+                <span class="home-resource-menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span>選單</span>
+              </button>
+            <div id="home-resources" class="home-resources">
               <div class="lantern-pill" aria-label="燈盞數量">
                 <img class="lantern-hud-icon" src="./assets/images/index/icon_light.webp" alt="" aria-hidden="true" />
                 <strong id="lantern-count">0</strong>
@@ -126,6 +142,8 @@
                 <img src="./assets/images/index/icon_signout.webp" alt="" aria-hidden="true" />
                 <span class="home-exit-label">退出遊戲</span>
               </button>
+            </div>
+            </div>
             </div>
           </div>
 
@@ -171,6 +189,9 @@
                 <button id="claim-calendar-reward-button" type="button">領取今日獎勵</button>
               </footer>
             </section>
+          </div>
+          <div id="login-reward-toast" class="login-reward-toast" role="status" aria-live="polite" hidden>
+            <span>領 燈 已 成</span><strong id="login-reward-toast-copy"></strong>
           </div>
 
           <div id="home-exit-modal" class="home-modal home-exit-modal" hidden>
@@ -301,10 +322,9 @@
             <p id="dialogue-text"></p>
             <button id="exit-story-button" class="exit-story-button" type="button">離開故事</button>
             <div class="dialogue-actions">
-              <button id="dialogue-next" class="dialogue-next" type="button" aria-label="繼續對話">
-                <span>繼續</span><i></i>
+              <button id="dialogue-next" class="dialogue-next" type="button" aria-label="繼續對話，也可按 Space">
+                <span>繼續(space)</span><i></i>
               </button>
-              <span class="dialogue-shortcut" aria-hidden="true"><kbd>Space</kbd><b>或</b><kbd>Enter</kbd></span>
             </div>
             <button id="ask-history-button" class="ask-history-button" type="button" hidden>詢問大封舊史</button>
           </div>
@@ -366,6 +386,10 @@
                 <header class="route-keepsake-heading" aria-hidden="true">
                   <i></i><span>兩件珍貴信物 · 同覽千年風華</span><i></i>
                 </header>
+                <div class="route-keepsake-tabs" role="tablist" aria-label="信物年代">
+                  <button type="button" role="tab" aria-selected="true" data-keepsake-tab="0">今生信物</button>
+                  <button type="button" role="tab" aria-selected="false" data-keepsake-tab="1" tabindex="-1">前世信物</button>
+                </div>
                 <div id="route-keepsake-list" class="route-keepsake-list"></div>
               </section>
             </div>
@@ -414,6 +438,7 @@
       </div>
     </main>
     <script defer src="./src/feature-preloader.js"></script>
+    <script defer src="./src/mobile-fullscreen.js"></script>
     <script defer src="./src/taskgame/taskgame.js"></script>
     <script defer src="./src/taskgame/skylantern.js"></script>
     <script defer src="./src/taskgame/touhu.js"></script>

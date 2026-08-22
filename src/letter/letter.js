@@ -28,6 +28,7 @@ class LetterFeature {
       keepsakeModal: document.querySelector("#route-keepsake-modal"),
       keepsakeClose: document.querySelector("#close-route-keepsake-button"),
       keepsakeList: document.querySelector("#route-keepsake-list"),
+      keepsakeTabs: [...document.querySelectorAll("[data-keepsake-tab]")],
     };
     this.portraitPointerType = "";
 
@@ -62,6 +63,16 @@ class LetterFeature {
     this.el.keepsakeClose.addEventListener("click", () => this.closeKeepsakes());
     this.el.keepsakeModal.addEventListener("click", (event) => {
       if (event.target === this.el.keepsakeModal) this.closeKeepsakes();
+    });
+    this.el.keepsakeTabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => this.selectKeepsake(index));
+      tab.addEventListener("keydown", (event) => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' ? 1 : -1;
+        const nextIndex = (index + direction + this.el.keepsakeTabs.length) % this.el.keepsakeTabs.length;
+        this.selectKeepsake(nextIndex, true);
+      });
     });
     window.addEventListener("keydown", (event) => {
       if (!this.el.modal.hidden && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
@@ -218,6 +229,7 @@ class LetterFeature {
 
   openKeepsakes() {
     if (!this.route) return;
+    this.selectKeepsake(0);
     this.el.keepsakeModal.hidden = false;
     this.onReveal();
     this.el.keepsakeClose.focus({ preventScroll: true });
@@ -225,6 +237,20 @@ class LetterFeature {
 
   closeKeepsakes() {
     this.el.keepsakeModal.hidden = true;
+  }
+
+  selectKeepsake(index, focus = false) {
+    const cards = [...this.el.keepsakeList.querySelectorAll('.route-keepsake-card')];
+    this.el.keepsakeTabs.forEach((tab, tabIndex) => {
+      const selected = tabIndex === index;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      if (focus && selected) tab.focus({ preventScroll: true });
+    });
+    cards.forEach((card, cardIndex) => {
+      card.classList.toggle('is-tab-active', cardIndex === index);
+      card.setAttribute('aria-hidden', String(cardIndex !== index));
+    });
   }
 }
 
